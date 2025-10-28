@@ -13,8 +13,10 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://patrikluks.github.io/network-services/">
     <title>Síťové služby v počítačových sítích</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;600&display=swap');
 
         * {
             margin: 0;
@@ -41,13 +43,6 @@
             height: 200%;
             background: radial-gradient(circle at 20% 50%, rgba(106, 90, 205, 0.05) 0%, transparent 50%),
                         radial-gradient(circle at 80% 80%, rgba(147, 112, 219, 0.05) 0%, transparent 50%);
-            animation: subtle-move 20s ease-in-out infinite;
-            will-change: transform;
-        }
-
-        @keyframes subtle-move {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(-50px, -50px); }
         }
 
         .presentation-container {
@@ -78,7 +73,6 @@
                 #6a5acd 100%);
             background-size: 200% 100%;
             animation: shimmer 3s linear infinite;
-            will-change: background-position;
         }
 
         @keyframes shimmer {
@@ -219,7 +213,7 @@
             padding: 24px;
             border-radius: 0;
             border-left: 3px solid #6a5acd;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
             position: relative;
             overflow: hidden;
@@ -234,7 +228,7 @@
             height: 100%;
             background: linear-gradient(135deg, rgba(106, 90, 205, 0.03) 0%, transparent 100%);
             opacity: 0;
-            transition: opacity 0.4s;
+            transition: opacity 0.3s;
         }
 
         .service-card:hover {
@@ -271,7 +265,7 @@
             border-radius: 0;
             cursor: pointer;
             font-size: 0.95em;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-weight: 600;
             letter-spacing: 0.5px;
             text-transform: uppercase;
@@ -421,7 +415,7 @@
             border-radius: 0;
             font-weight: 600;
             text-align: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             letter-spacing: 0.3px;
         }
 
@@ -455,7 +449,7 @@
             border: 2px solid #6a5acd;
             font-weight: 600;
             color: #6a5acd;
-            transition: all 0.3s;
+            transition: background 0.3s, color 0.3s, transform 0.3s;
             letter-spacing: 0.3px;
         }
 
@@ -483,7 +477,7 @@
             padding: 24px;
             border-radius: 0;
             border: 2px solid #e9ecef;
-            transition: all 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
             background: white;
         }
 
@@ -554,7 +548,7 @@
             border-left: 4px solid #6a5acd;
             background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-            transition: all 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
         .dns-level:hover {
@@ -577,7 +571,7 @@
             border-radius: 0;
             border-left: 3px solid #6a5acd;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-            transition: all 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
         .dependency-item:hover {
@@ -791,20 +785,6 @@
             box-shadow: -6px 0 24px rgba(106, 90, 205, 0.15);
         }
 
-        /* Refined gradient backgrounds for specific cards */
-        .comparison-card.winner h4 {
-            color: #2d7a52;
-        }
-
-        .comparison-card.legacy h4 {
-            color: #b91c1c;
-        }
-
-        /* Elegant separator */
-        .slide-content > *:not(:last-child) {
-            margin-bottom: 0;
-        }
-
         /* Status indicators */
         .status-indicator {
             display: inline-block;
@@ -960,39 +940,6 @@
             color: #1a1a2e;
             margin-bottom: 20px;
             font-family: 'Playfair Display', serif;
-        }
-
-        .help-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #e9ecef;
-        }
-
-        .close-modal-btn {
-            background: none;
-            border: none;
-            font-size: 28px;
-            color: #6a5acd;
-            cursor: pointer;
-            padding: 0;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            border-radius: 4px;
-        }
-
-        .close-modal-btn:hover {
-            background: #f8f9fa;
-            color: #5a4cbd;
-        }
-
-        .help-content h2 {
             margin: 0;
             padding: 0;
         }
@@ -1066,6 +1013,8 @@
             box-shadow: none;
             max-width: 100%;
             overflow: hidden;
+            margin: 0;
+            padding: 0;
         }
 
         .fullscreen-mode .slide {
@@ -2225,16 +2174,23 @@
     </div>
 
     <script>
-        let currentSlide = 1;
+        // Cache DOM elements
         const slides = document.querySelectorAll('.slide');
         const totalSlides = slides.length;
+        const currentSlideEl = document.getElementById('currentSlide');
+        const totalSlidesEl = document.getElementById('totalSlides');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const helpModal = document.getElementById('helpModal');
+        const helpHint = document.getElementById('helpHint');
+
+        let currentSlide = 1;
         let inputBuffer = '';
         let inputTimeout;
         let isFullscreen = false;
-
         const STORAGE_KEY = 'presentation_last_slide';
 
-        document.getElementById('totalSlides').textContent = totalSlides;
+        totalSlidesEl.textContent = totalSlides;
 
         function showSlide(n) {
             if (n > totalSlides) { n = totalSlides; }
@@ -2251,9 +2207,9 @@
             // Ulož pozici do localStorage
             localStorage.setItem(STORAGE_KEY, currentSlide);
             
-            document.getElementById('currentSlide').textContent = currentSlide;
-            document.getElementById('prevBtn').disabled = currentSlide === 1;
-            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+            currentSlideEl.textContent = currentSlide;
+            prevBtn.disabled = currentSlide === 1;
+            nextBtn.disabled = currentSlide === totalSlides;
 
             // Focus management - nastav focus na slide
             slides[currentSlide - 1].focus();
@@ -2282,21 +2238,10 @@
         function toggleFullscreen() {
             isFullscreen = !isFullscreen;
             document.body.classList.toggle('fullscreen-mode', isFullscreen);
-            
-            // Adjust presentation container
-            const container = document.querySelector('.presentation-container');
-            if (isFullscreen) {
-                container.style.margin = '0';
-                container.style.padding = '0';
-            } else {
-                container.style.margin = '';
-                container.style.padding = '';
-            }
         }
 
         function toggleHelp() {
-            const modal = document.getElementById('helpModal');
-            modal.classList.toggle('active');
+            helpModal.classList.toggle('active');
         }
 
         // Restore last slide from localStorage
@@ -2354,32 +2299,33 @@
             }
 
             // Klávesové zkratky pro navigaci
-            if (e.key === 'ArrowLeft') {
-                changeSlide(-1);
-            }
-            if (e.key === 'ArrowRight') {
-                changeSlide(1);
-            }
-            if (e.key === 'Home') {
-                showSlide(1);
-                showKeyboardFeedback('⏮ Počátek');
-            }
-            if (e.key === 'End') {
-                showSlide(totalSlides);
-                showKeyboardFeedback('⏭ Konec');
-            }
-            if (e.key === 'PageDown') {
-                changeSlide(1);
-            }
-            if (e.key === 'PageUp') {
-                changeSlide(-1);
+            switch(e.key) {
+                case 'ArrowLeft':
+                    changeSlide(-1);
+                    break;
+                case 'ArrowRight':
+                    changeSlide(1);
+                    break;
+                case 'Home':
+                    showSlide(1);
+                    showKeyboardFeedback('⏮ Počátek');
+                    break;
+                case 'End':
+                    showSlide(totalSlides);
+                    showKeyboardFeedback('⏭ Konec');
+                    break;
+                case 'PageDown':
+                    changeSlide(1);
+                    break;
+                case 'PageUp':
+                    changeSlide(-1);
+                    break;
             }
         });
 
         // Close help modal when clicking outside
         document.addEventListener('click', (e) => {
-            const modal = document.getElementById('helpModal');
-            if (e.target === modal) {
+            if (e.target === helpModal) {
                 toggleHelp();
             }
         });
