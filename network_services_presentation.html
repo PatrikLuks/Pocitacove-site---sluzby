@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Komplexní analýza síťových služeb v počítačových sítích. Zahrnuje DNS, DHCP, HTTP/HTTPS, FTP, Email, VoIP, VPN a weitere. Maturitní otázka č. 5 - IT obor.">
+    <meta name="description" content="Komplexní analýza síťových služeb v počítačových sítích. Zahrnuje DNS, DHCP, HTTP/HTTPS, FTP, Email, VoIP, VPN a dalších. Maturitní otázka č. 5 - IT obor.">
     <meta name="keywords" content="síťové služby, DNS, DHCP, HTTP, FTP, VoIP, VPN, firewall, počítačové sítě">
     <meta name="author" content="Patrik Luks">
     <meta name="robots" content="index, follow">
@@ -59,7 +59,7 @@
             overflow: auto;
             position: relative;
             z-index: 1;
-            max-height: 85vh;
+            max-height: 90vh;
         }
 
         .presentation-container::before {
@@ -89,7 +89,7 @@
             display: none;
             padding: 60px 80px;
             min-height: 750px;
-            max-height: 85vh;
+            max-height: 80vh;
             overflow-y: auto;
             animation: elegant-fade 0.35s ease-out;
             background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
@@ -700,11 +700,14 @@
         @media print {
             body {
                 background: white;
+                min-height: auto;
             }
 
             .presentation-container {
                 box-shadow: none;
                 max-width: 100%;
+                max-height: none;
+                overflow: visible;
             }
 
             .navigation {
@@ -715,6 +718,15 @@
                 page-break-after: always;
                 display: block !important;
                 min-height: auto;
+                max-height: none;
+                overflow: visible;
+                padding: 40px;
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+
+            .slide::before {
+                display: none;
             }
         }
 
@@ -895,7 +907,7 @@
         </div>
 
         <!-- Slide 2: Základy a architektura -->
-        <div class="slide">
+        <div class="slide" role="region" aria-label="Snímek 2: Architektura síťových služeb">
             <h2 class="slide-title">Architektura síťových služeb</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -941,7 +953,7 @@
         </div>
 
         <!-- Slide 3: RFC a standardizace -->
-        <div class="slide">
+        <div class="slide" role="region" aria-label="Snímek 3: RFC a standardizace - páteř Internetu">
             <h2 class="slide-title">RFC a Standardizace – Páteř Internetu</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -1006,7 +1018,7 @@
         </div>
 
         <!-- Slide 4: DNS -->
-        <div class="slide">
+        <div class="slide" role="region" aria-label="Snímek 4: DNS - Domain Name System">
             <h2 class="slide-title">DNS – Domain Name System</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -1070,7 +1082,7 @@
         </div>
 
         <!-- Slide 5: DHCP -->
-        <div class="slide">
+        <div class="slide" role="region" aria-label="Snímek 5: DHCP - Dynamic Host Configuration Protocol">
             <h2 class="slide-title">DHCP – Dynamic Host Configuration Protocol</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -1134,7 +1146,7 @@
         </div>
 
         <!-- Slide 6: HTTP/HTTPS -->
-        <div class="slide">
+        <div class="slide" role="region" aria-label="Snímek 6: HTTP/HTTPS - páteř World Wide Web">
             <h2 class="slide-title">HTTP/HTTPS – Páteř World Wide Web</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -1210,7 +1222,7 @@
         </div>
 
         <!-- Slide 7: FTP vs SFTP -->
-        <div class="slide">
+        <div class="slide" role="region" aria-label="Snímek 7: Přenos souborů - FTP vs SFTP">
             <h2 class="slide-title">Přenos souborů: FTP vs SFTP</h2>
             <div class="slide-content">
                 <h3>Komparace protokolů</h3>
@@ -1270,7 +1282,7 @@
         </div>
 
         <!-- Slide 7: Emailové protokoly -->
-        <div class="slide">
+        <div class="slide" role="region" aria-label="Snímek 8: E-mailová infrastruktura - SMTP, POP3, IMAP">
             <h2 class="slide-title">E-mailová infrastruktura: SMTP, POP3, IMAP</h2>
             <div class="slide-content">
                 <h3>SMTP – Simple Mail Transfer Protocol</h3>
@@ -1330,7 +1342,7 @@
         </div>
 
         <!-- Slide 8: Instant Messaging -->
-        <div class="slide">
+        <div class="slide" role="region" aria-label="Snímek 9: Instant Messaging - okamžitá komunikace">
             <h2 class="slide-title">Instant Messaging – Okamžitá komunikace</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -1364,7 +1376,7 @@
         </div>
 
         <!-- Slide 9: VoIP -->
-        <div class="slide">
+        <div class="slide" role="region" aria-label="Snímek 10: VoIP - Voice over Internet Protocol">
             <h2 class="slide-title">VoIP – Voice over Internet Protocol</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -1436,7 +1448,7 @@
         </div>
 
         <!-- Slide 10: SNMP -->
-        <div class="slide">
+        <div class="slide" role="region" aria-label="Snímek 11: SNMP - monitoring a správa sítě">
             <h2 class="slide-title">SNMP – Monitoring a správa sítě</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -1506,7 +1518,7 @@
         </div>
 
         <!-- Slide 11: VPN -->
-        <div class="slide">
+        <div class="slide" role="region" aria-label="Snímek 12: VPN - Virtual Private Network">
             <h2 class="slide-title">VPN – Virtual Private Network</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -1586,7 +1598,7 @@
         </div>
 
         <!-- Slide 12: Proxy, Firewall a síťová bezpečnost -->
-        <div class="slide">
+        <div class="slide" role="region" aria-label="Snímek 13: Síťová bezpečnost - Proxy a Firewall">
             <h2 class="slide-title">Síťová bezpečnost – Proxy & Firewall</h2>
             <div class="slide-content">
                 <h3>Proxy servery – přehledy a filtrování</h3>
@@ -1643,7 +1655,7 @@
         </div>
 
         <!-- Slide 13: Závislosti a interoperabilita -->
-        <div class="slide">
+        <div class="slide" role="region" aria-label="Snímek 14: Závislosti mezi síťovými službami">
             <h2 class="slide-title">Závislosti mezi síťovými službami</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -1704,7 +1716,7 @@
         </div>
 
         <!-- Slide 14: Cloudové služby a moderní trendy -->
-        <div class="slide">
+        <div class="slide" role="region" aria-label="Snímek 15: Cloudové služby a budoucnost">
             <h2 class="slide-title">Cloudové služby a budoucnost</h2>
             <div class="slide-content">
                 <h3>Cloud computing modely</h3>
@@ -1862,6 +1874,8 @@
         let currentSlide = 1;
         const slides = document.querySelectorAll('.slide');
         const totalSlides = slides.length;
+        let inputBuffer = '';
+        let inputTimeout;
 
         document.getElementById('totalSlides').textContent = totalSlides;
 
@@ -1874,6 +1888,9 @@
             slides.forEach(slide => slide.classList.remove('active'));
             slides[currentSlide - 1].classList.add('active');
             
+            // Scroll slide na začátek
+            slides[currentSlide - 1].scrollTop = 0;
+            
             document.getElementById('currentSlide').textContent = currentSlide;
             document.getElementById('prevBtn').disabled = currentSlide === 1;
             document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
@@ -1884,8 +1901,27 @@
         }
 
         document.addEventListener('keydown', (e) => {
+            // Numerické klávesy pro přímý skok (0-9)
+            if (e.key >= '0' && e.key <= '9') {
+                inputBuffer += e.key;
+                clearTimeout(inputTimeout);
+                inputTimeout = setTimeout(() => {
+                    const slideNum = parseInt(inputBuffer);
+                    if (slideNum >= 1 && slideNum <= totalSlides) {
+                        showSlide(slideNum);
+                    }
+                    inputBuffer = '';
+                }, 500);
+                return;
+            }
+
+            // Klávesové zkratky
             if (e.key === 'ArrowLeft') changeSlide(-1);
             if (e.key === 'ArrowRight') changeSlide(1);
+            if (e.key === 'Home') showSlide(1);
+            if (e.key === 'End') showSlide(totalSlides);
+            if (e.key === 'PageDown') changeSlide(1);
+            if (e.key === 'PageUp') changeSlide(-1);
         });
 
         // Touch support for mobile
