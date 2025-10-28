@@ -937,36 +937,92 @@
             </div>
         </div>
 
-        <!-- Slide 3: DNS -->
+        <!-- Slide 3: RFC a standardizace -->
+        <div class="slide">
+            <h2 class="slide-title">RFC a Standardizace – Páteř Internetu</h2>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    <p><strong>RFC (Request for Comments):</strong> Otevřené dokumenty definující standardy a protokoly internetu. Nejsou mandatorní, ale dodržování RFC zajišťuje interoperabilitu mezi různými systémy a výrobci. Bez standardizace by internet nemohl existovat.</p>
+                </div>
+
+                <h3>Příklady klíčových RFC dokumentů</h3>
+                <table>
+                    <tr>
+                        <th>RFC číslo</th>
+                        <th>Protokol</th>
+                        <th>Obsah</th>
+                    </tr>
+                    <tr>
+                        <td><strong>RFC 1918</strong></td>
+                        <td>IP adresace</td>
+                        <td>Privátní IP rozsahy (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>RFC 2616</strong></td>
+                        <td>HTTP/1.1</td>
+                        <td>Definice webového protokolu, status kódy, hlavičky</td>
+                    </tr>
+                    <tr>
+                        <td><strong>RFC 1035</strong></td>
+                        <td>DNS</td>
+                        <td>Specifikace Domain Name System a protokolu</td>
+                    </tr>
+                    <tr>
+                        <td><strong>RFC 5321</strong></td>
+                        <td>SMTP</td>
+                        <td>Simple Mail Transfer Protocol pro přenos emailů</td>
+                    </tr>
+                    <tr>
+                        <td><strong>RFC 3501</strong></td>
+                        <td>IMAP4</td>
+                        <td>Internet Message Access Protocol pro čtení emailů</td>
+                    </tr>
+                    <tr>
+                        <td><strong>RFC 2818</strong></td>
+                        <td>HTTPS</td>
+                        <td>HTTP over TLS – šifrování webového provozu</td>
+                    </tr>
+                </table>
+
+                <h3>Správa internetu – IANA a ICANN</h3>
+                <div class="service-grid">
+                    <div class="service-card">
+                        <h4>IANA – Internet Assigned Numbers Authority</h4>
+                        <p>Spravuje IP adresy, AS čísla, porty, TLD domény. Uděluje bloky adres regionálním registrům (RIPE, ARIN, APNIC).</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>ICANN – Interned Corporation for Assigned Names</h4>
+                        <p>Spravuje globální DNS kořenové servery, koordinuje doménové jméno a politiku internetu. Zajišťuje stabilitu a bezpečnost Internetu.</p>
+                    </div>
+                </div>
+
+                <div class="protocol-box">
+                    <p><strong>Příklad standardizace v praxi:</strong> Pokud se výrobce routeru rozhodne ignorovat RFC a implementovat vlastní DNS protokol, jeho zařízení nebude kompatibilní se zbytkem Internetu. Proto všechny moderní systémy RFC dodržují – je to jediná cesta k bezproblémové interoperabilitě.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: DNS -->
         <div class="slide">
             <h2 class="slide-title">DNS – Domain Name System</h2>
             <div class="slide-content">
                 <div class="highlight-box">
-                    <p><strong>Funkce:</strong> "Telefonní seznam internetu" – hierarchický distribuovaný systém pro překlad doménových jmen na IP adresy. <span class="port-badge">Port 53 UDP/TCP</span></p>
+                    <p><strong>Funkce:</strong> "Telefonní seznam internetu" – hierarchický distribuovaný systém pro překlad doménových jmen na IP adresy. <span class="port-badge">Port 53 UDP/TCP</span> <strong>RFC 1035</strong> – oficiální specifikace.</p>
                 </div>
 
-                <h3>Hierarchie DNS dotazu</h3>
-                <div class="flow-diagram">
-                    <div class="flow-step">Klient</div>
-                    <div class="flow-arrow">→</div>
-                    <div class="flow-step">Resolver</div>
-                    <div class="flow-arrow">→</div>
-                    <div class="flow-step">Root</div>
-                    <div class="flow-arrow">→</div>
-                    <div class="flow-step">TLD</div>
-                    <div class="flow-arrow">→</div>
-                    <div class="flow-step">Autoritativní</div>
-                </div>
-
+                <h3>DNS hierarchie – klíčová architektura</h3>
                 <div class="dns-hierarchy">
                     <div class="dns-level">
-                        <strong>Root servery (.)</strong> – 13 logických serverů znající TLD servery
+                        <strong>🌍 Root nameservers (.)</strong> – 13 logických globalních serverů znalých TLD serverů. Výchozí bod každého DNS dotazu.
                     </div>
                     <div class="dns-level">
-                        <strong>TLD servery (.com, .cz, .org)</strong> – spravují domény nejvyšší úrovně
+                        <strong>.TLD servery (.com, .cz, .org)</strong> – Top Level Domain servery spravující všechny domény daného TLD a ukázující na autoritativní servery.
                     </div>
                     <div class="dns-level">
-                        <strong>Autoritativní servery</strong> – konečná odpověď pro konkrétní doménu (example.com)
+                        <strong>⚙️ Autoritativní servery</strong> – Finální zdroj odpovědí pro konkrétní doménu (example.com). Vlastník domény je spravuje.
+                    </div>
+                    <div class="dns-level">
+                        <strong>💻 Resolver</strong> – Obvykle na klientovi (OS) nebo u ISP. Posílá dotazy a cachuje odpovědi pro zrychlení.
                     </div>
                 </div>
 
@@ -993,24 +1049,24 @@
                         <td>mail.example.com (priorita 10)</td>
                     </tr>
                     <tr>
-                        <td><strong>PTR</strong></td>
-                        <td>Reverzní překlad IP→jméno</td>
-                        <td>93.184.216.34 → example.com</td>
+                        <td><strong>SRV</strong></td>
+                        <td>Služby (VoIP, XMPP, Kerberos)</td>
+                        <td>_sip._tcp.example.com → server:5060</td>
                     </tr>
                     <tr>
                         <td><strong>TXT</strong></td>
-                        <td>Textové info, SPF, DKIM</td>
-                        <td>Verifikace, antispam záznamy</td>
+                        <td>Bezpečnost: SPF, DKIM, DMARC</td>
+                        <td>v=spf1 include:_spf.google.com ~all</td>
                     </tr>
                 </table>
 
                 <div class="security-box">
-                    <strong>⚠️ Bezpečnostní rizika:</strong> DNS Spoofing (cache poisoning), DDoS útoky na DNS servery, DNS tunneling pro exfiltraci dat. <strong>Obrana:</strong> DNSSEC (kryptografická ochrana), redundantní servery, rate limiting.
+                    <strong>⚠️ Bezpečnostní rizika:</strong> DNS Spoofing (cache poisoning), DDoS na root servery. <strong>Obrana:</strong> DNSSEC (kryptografická podepisování), DoH/DoT (šifrování DNS).
                 </div>
             </div>
         </div>
 
-        <!-- Slide 4: DHCP -->
+        <!-- Slide 5: DHCP -->
         <div class="slide">
             <h2 class="slide-title">DHCP – Dynamic Host Configuration Protocol</h2>
             <div class="slide-content">
@@ -1074,7 +1130,7 @@
             </div>
         </div>
 
-        <!-- Slide 5: HTTP/HTTPS -->
+        <!-- Slide 6: HTTP/HTTPS -->
         <div class="slide">
             <h2 class="slide-title">HTTP/HTTPS – Páteř World Wide Web</h2>
             <div class="slide-content">
@@ -1082,42 +1138,47 @@
                     <p><strong>HTTP</strong> <span class="port-badge">Port 80</span> – textový protokol požadavek-odpověď, bezstavový. <strong>HTTPS</strong> <span class="success-badge">Port 443</span> – šifrovaný pomocí TLS/SSL.</p>
                 </div>
 
-                <h3>HTTP metody a stavové kódy</h3>
+                <h3>HTTP metody a stavové kódy (RFC 2616)</h3>
                 <table>
                     <tr>
                         <th>Metoda/Kód</th>
+                        <th>Kategorie</th>
                         <th>Popis</th>
-                        <th>Použití</th>
                     </tr>
                     <tr>
                         <td><strong>GET</strong></td>
-                        <td>Získání zdroje</td>
-                        <td>Načtení webové stránky, API dotaz</td>
+                        <td>Metoda</td>
+                        <td>Získání zdroje (bezpečná, idempotentní)</td>
                     </tr>
                     <tr>
-                        <td><strong>POST</strong></td>
-                        <td>Odeslání dat</td>
-                        <td>Odeslání formuláře, vytvoření záznamu</td>
+                        <td><strong>POST / PUT / DELETE</strong></td>
+                        <td>Metody</td>
+                        <td>Manipulace s daty – RESTful API operace</td>
                     </tr>
                     <tr>
-                        <td><strong>PUT / DELETE</strong></td>
-                        <td>Aktualizace / Smazání</td>
-                        <td>RESTful API operace</td>
+                        <td><strong>1xx Informační</strong></td>
+                        <td>Status kódy</td>
+                        <td>100 Continue, 101 Switching Protocols</td>
                     </tr>
                     <tr>
-                        <td><strong>200 OK</strong></td>
-                        <td>Úspěch</td>
-                        <td>Požadavek zpracován správně</td>
+                        <td><strong>2xx Úspěch</strong></td>
+                        <td>Status kódy</td>
+                        <td>200 OK, 201 Created, 204 No Content</td>
                     </tr>
                     <tr>
-                        <td><strong>404 Not Found</strong></td>
-                        <td>Zdroj neexistuje</td>
-                        <td>Chybná URL nebo smazaný obsah</td>
+                        <td><strong>3xx Přesměrování</strong></td>
+                        <td>Status kódy</td>
+                        <td>301 Moved Permanently, 302 Found, 304 Not Modified</td>
                     </tr>
                     <tr>
-                        <td><strong>500 Internal Error</strong></td>
-                        <td>Chyba serveru</td>
-                        <td>Problém na straně serveru</td>
+                        <td><strong>4xx Chyba klienta</strong></td>
+                        <td>Status kódy</td>
+                        <td>400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found</td>
+                    </tr>
+                    <tr>
+                        <td><strong>5xx Chyba serveru</strong></td>
+                        <td>Status kódy</td>
+                        <td>500 Internal Error, 502 Bad Gateway, 503 Service Unavailable</td>
                     </tr>
                 </table>
 
@@ -1145,7 +1206,7 @@
             </div>
         </div>
 
-        <!-- Slide 6: FTP vs SFTP -->
+        <!-- Slide 7: FTP vs SFTP -->
         <div class="slide">
             <h2 class="slide-title">Přenos souborů: FTP vs SFTP</h2>
             <div class="slide-content">
@@ -1252,13 +1313,54 @@
                     <div class="flow-step">Přijmout</div>
                 </div>
 
+                <h3>Email bezpečnost – autentizace a ochrana</h3>
+                <div class="protocol-box">
+                    <p><strong>SPF (Sender Policy Framework):</strong> DNS TXT záznam definující, které IP adresy smí odesílat emaily za doménu. Zabraňuje email spoofingu. Příklad: <code>v=spf1 include:_spf.google.com ~all</code></p>
+                    <p><strong>DKIM (DomainKeys Identified Mail):</strong> Kryptografický podpis emailu. Server podepíše email privátním klíčem, příjemce ověří veřejným klíčem v DNS. Detekuje modifikaci emailu při přenosu.</p>
+                    <p><strong>DMARC (Domain-based Message Authentication):</strong> Politika definující, co udělat s emaily, které selžou SPF/DKIM (quarantine, reject, monitor). Příklad: <code>v=DMARC1; p=reject; rua=mailto:admin@example.com</code></p>
+                </div>
+
                 <div class="security-box">
-                    <strong>⚠️ Bezpečnostní výzvy:</strong> Spam (SPF, DKIM, DMARC záznamy v DNS), Phishing útoky, Email spoofing. <strong>Moderní ochrana:</strong> TLS šifrování přenosu, S/MIME nebo PGP pro end-to-end šifrování obsahu, AI-based spam filtering.
+                    <strong>⚠️ Bezpečnostní výzvy:</strong> Spam, phishing, email spoofing. <strong>Moderní ochrana:</strong> SPF/DKIM/DMARC, TLS šifrování přenosu, S/MIME nebo PGP pro end-to-end šifrování, AI filtrování.
                 </div>
             </div>
         </div>
 
-        <!-- Slide 8: VoIP -->
+        <!-- Slide 8: Instant Messaging -->
+        <div class="slide">
+            <h2 class="slide-title">Instant Messaging – Okamžitá komunikace</h2>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    <p><strong>IM služby:</strong> Real-time textová komunikace na rozdíl od asynchronního emailu. Historie: IRC (70s), AIM/Jabber (90s), moderně: Slack, Teams, Discord, WhatsApp. Kombinují chat s notifikacemi, media sharingem, video callsy.</p>
+                </div>
+
+                <h3>Evoluce IM protokolů</h3>
+                <div class="service-grid">
+                    <div class="service-card" style="border-left-color: #f39c12; background: #fffaf0;">
+                        <h4>🗣️ IRC (Internet Relay Chat)</h4>
+                        <p><span class="port-badge">Port 194 TCP/UDP</span> Otevřený protokol z roku 1988. Kanály, nickname systém, základní příkazy. Stále oblíbený v open-source komunitách.</p>
+                    </div>
+                    <div class="service-card" style="border-left-color: #9370db; background: #e8daef;">
+                        <h4>📨 Jabber/XMPP</h4>
+                        <p><span class="port-badge">Port 5222 TCP</span> Otevřený standard (RFC 6120). Federovaný – různí poskytovatelé mohou komunikovat. Server-to-server architektura. Používán v Enterprise prostředích.</p>
+                    </div>
+                    <div class="service-card" style="border-left-color: #4299e1; background: #ebf5fb;">
+                        <h4>💬 Moderní IM (Slack, Teams, Discord)</h4>
+                        <p>Proprietární protokoly (často HTTPS/WebSocket). Centralizované. Fokus na: threads, emoji reactions, bot integrace, video/screen sharing, enterprise compliance.</p>
+                    </div>
+                    <div class="service-card" style="border-left-color: #48bb78; background: #f0fff4;">
+                        <h4>🔐 Signal, Telegram, WhatsApp</h4>
+                        <p>Mobilní fokus. Signal & WhatsApp: end-to-end enkrypce (Signal Protocol). Telegram: cloud-based, optional encryption. Dnes IM = primární komunikační kanál.</p>
+                    </div>
+                </div>
+
+                <div class="protocol-box">
+                    <p><strong>Technické rozdíly:</strong> IRC je stateless (peer), XMPP je server-based (federation), moderní IM jsou SaaS cloudy. Latence: IRC~0ms (UDP), XMPP~100ms, moderní IM~200-500ms (ale s reliability). Real-time = vyšší nároky na QoS než email.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: VoIP -->
         <div class="slide">
             <h2 class="slide-title">VoIP – Voice over Internet Protocol</h2>
             <div class="slide-content">
@@ -1330,7 +1432,7 @@
             </div>
         </div>
 
-        <!-- Slide 9: SNMP -->
+        <!-- Slide 10: SNMP -->
         <div class="slide">
             <h2 class="slide-title">SNMP – Monitoring a správa sítě</h2>
             <div class="slide-content">
@@ -1400,7 +1502,7 @@
             </div>
         </div>
 
-        <!-- Slide 10: VPN -->
+        <!-- Slide 11: VPN -->
         <div class="slide">
             <h2 class="slide-title">VPN – Virtual Private Network</h2>
             <div class="slide-content">
@@ -1480,155 +1582,59 @@
             </div>
         </div>
 
-        <!-- Slide 11: Proxy a Load Balancing -->
+        <!-- Slide 12: Proxy, Firewall a síťová bezpečnost -->
         <div class="slide">
-            <h2 class="slide-title">Proxy servery a Load Balancing</h2>
+            <h2 class="slide-title">Síťová bezpečnost – Proxy & Firewall</h2>
             <div class="slide-content">
-                <h3>Typologie proxy serverů</h3>
+                <h3>Proxy servery – přehledy a filtrování</h3>
                 <div class="service-grid">
                     <div class="service-card">
                         <h4>Forward Proxy</h4>
-                        <p><strong>Zastupuje:</strong> Klienty</p>
-                        <p><strong>Funkce:</strong> Kontrola přístupu k internetu, content filtering (blokace stránek), caching pro úsporu bandwidth, anonymizace IP adres uživatelů</p>
-                        <p><strong>Use case:</strong> Korporátní sítě, školy – kontrola a optimalizace přístupu zaměstnanců/studentů na internet</p>
+                        <p>Zastupuje klienty. Kontrola internetu, content filtering, caching, anonymizace. Typické: korporátní sítě, ISP caching.</p>
                     </div>
                     <div class="service-card">
                         <h4>Reverse Proxy</h4>
-                        <p><strong>Zastupuje:</strong> Servery</p>
-                        <p><strong>Funkce:</strong> Load balancing, SSL termination (dešifrování na proxy), caching statického obsahu, ochrana před DDoS, skrytí reálných serverů</p>
-                        <p><strong>Use case:</strong> Webové aplikace, API gateway, CDN edge servery</p>
+                        <p>Zastupuje servery. Load balancing, SSL termination, caching, DDoS ochrana. Typické: Nginx, HAProxy pro webové aplikace.</p>
                     </div>
                 </div>
 
-                <h3>Load Balancing algoritmy</h3>
-                <div class="protocol-box">
-                    <p><strong>Round Robin:</strong> Rotace mezi servery (server1 → server2 → server3 → server1...)</p>
-                    <p><strong>Least Connections:</strong> Požadavek na server s nejméně aktivními spojeními</p>
-                    <p><strong>IP Hash:</strong> Konzistentní směrování podle IP adresy klienta (stejný klient → stejný server)</p>
-                    <p><strong>Weighted Distribution:</strong> Přidělení podle kapacity serveru (výkonnější server dostane více požadavků)</p>
-                    <p><strong>Least Response Time:</strong> Server s nejrychlejší odezvou dostane požadavek</p>
-                </div>
-
-                <h3>Praktické implementace</h3>
+                <h3>Firewall – evoluce a funkce</h3>
                 <table>
                     <tr>
-                        <th>Technologie</th>
-                        <th>Typ</th>
-                        <th>Charakteristika</th>
-                        <th>Použití</th>
+                        <th>Generace</th>
+                        <th>Vrstva</th>
+                        <th>Funkce</th>
+                        <th>Příklad</th>
                     </tr>
                     <tr>
-                        <td><strong>Nginx</strong></td>
-                        <td>Reverse proxy</td>
-                        <td>Vysoký výkon, malá paměťová stopa</td>
-                        <td>Webové servery, API gateway, static content</td>
+                        <td><strong>1. Packet Filtering</strong></td>
+                        <td>L3/L4</td>
+                        <td>IP, porty, protokol (TCP/UDP)</td>
+                        <td>Staré routery, ACL</td>
                     </tr>
                     <tr>
-                        <td><strong>HAProxy</strong></td>
-                        <td>Load balancer</td>
-                        <td>Enterprise funkce, TCP/HTTP L4/L7</td>
-                        <td>Kritické aplikace, high availability setup</td>
+                        <td><strong>2. Stateful Inspection</strong></td>
+                        <td>L3/L4 + stav</td>
+                        <td>Connection tracking</td>
+                        <td>Cisco PIX, Windows Firewall</td>
                     </tr>
                     <tr>
-                        <td><strong>Squid</strong></td>
-                        <td>Forward proxy</td>
-                        <td>Caching, access control</td>
-                        <td>Korporátní sítě, ISP caching</td>
+                        <td><strong>3. Application Layer (L7)</strong></td>
+                        <td>L7</td>
+                        <td>DPI, malware detekce, HTTP/DNS inspekce</td>
+                        <td>ModSecurity WAF</td>
                     </tr>
                     <tr>
-                        <td><strong>Cloudflare</strong></td>
-                        <td>Cloud CDN/proxy</td>
-                        <td>Global edge network, DDoS ochrana</td>
-                        <td>Globální weby, ochrana proti útokům</td>
+                        <td><strong>4. Next-Gen (NGFW)</strong></td>
+                        <td>L3-L7 + AI</td>
+                        <td>IPS, antimalware, aplikační kontrola, threat intel, ML anomálie</td>
+                        <td>Palo Alto Networks, Fortinet FortiGate</td>
                     </tr>
                 </table>
 
-                <div class="highlight-box">
-                    <strong>💡 SSL Termination:</strong> Reverse proxy dešifruje HTTPS provoz a komunikuje s backend servery přes HTTP. Výhoda: backend servery nejsou zatíženy šifrováním, centralizovaná správa certifikátů. Nevýhoda: interní síť musí být důvěryhodná.
-                </div>
-
-                <div class="trend-box">
-                    <strong>🚀 Moderní evoluce:</strong> Service Mesh (Istio, Linkerd) pro mikroservisy – každý service má vlastní proxy (sidecar pattern). API Gateway jako single entry point pro všechny mikroservisy. Edge computing – load balancing na geograficky distribuovaných edge serverech.
-                </div>
-            </div>
-        </div>
-
-        <!-- Slide 12: Firewall -->
-        <div class="slide">
-            <h2 class="slide-title">Firewall – Síťová bezpečnost</h2>
-            <div class="slide-content">
-                <div class="highlight-box">
-                    <p><strong>Definice:</strong> Bezpečnostní systém monitorující a řídící síťový provoz na základě předem definovaných pravidel. Bariéra mezi důvěryhodnou interní sítí a nedůvěryhodným externím prostředím.</p>
-                </div>
-
-                <h3>Evoluce firewall technologií</h3>
-                <div class="diagram">
-                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
-                        <div style="background: #fef5e7; padding: 18px; border-radius: 8px; border-left: 4px solid #f39c12;">
-                            <h4 style="color: #f39c12; margin-top: 0;">1. generace: Packet Filtering</h4>
-                            <p><strong>Kontrola:</strong> IP adresy, porty, protokol (TCP/UDP)</p>
-                            <p><strong>Vrstva:</strong> L3/L4 (síťová/transportní)</p>
-                            <p><strong>Limit:</strong> Bez kontextu, může propustit škodlivý obsah v povoleném spojení</p>
-                        </div>
-                        <div style="background: #ebf5fb; padding: 18px; border-radius: 8px; border-left: 4px solid #3498db;">
-                            <h4 style="color: #3498db; margin-top: 0;">2. generace: Stateful Inspection</h4>
-                            <p><strong>Kontrola:</strong> Stav spojení (connection tracking)</p>
-                            <p><strong>Vrstva:</strong> L3/L4 + stav</p>
-                            <p><strong>Výhoda:</strong> Rozumí kontextu komunikace, bezpečnější než packet filtering</p>
-                        </div>
-                        <div style="background: #d5f4e6; padding: 18px; border-radius: 8px; border-left: 4px solid #27ae60;">
-                            <h4 style="color: #27ae60; margin-top: 0;">3. generace: Application Layer</h4>
-                            <p><strong>Kontrola:</strong> Obsah aplikačních dat (DPI - Deep Packet Inspection)</p>
-                            <p><strong>Vrstva:</strong> L7 (aplikační)</p>
-                            <p><strong>Výhoda:</strong> Detekce malwaru v přenosech, kontrola HTTP hlaviček, SQL injection prevence</p>
-                        </div>
-                        <div style="background: #e8daef; padding: 18px; border-radius: 8px; border-left: 4px solid #8e44ad;">
-                            <h4 style="color: #8e44ad; margin-top: 0;">4. generace: Next-Gen Firewall (NGFW)</h4>
-                            <p><strong>Funkce:</strong> Vše výše + IPS, antimalware, aplikační kontrola, user identity, threat intelligence</p>
-                            <p><strong>Technologie:</strong> ML/AI pro detekci anomálií, sandboxing pro analýzu neznámých souborů</p>
-                        </div>
-                    </div>
-                </div>
-
-                <h3>Implementační modely</h3>
-                <table>
-                    <tr>
-                        <th>Model</th>
-                        <th>Umístění</th>
-                        <th>Ochrana</th>
-                        <th>Use Case</th>
-                    </tr>
-                    <tr>
-                        <td><strong>Host-based</strong></td>
-                        <td>Na koncovém zařízení</td>
-                        <td>Jednotlivý PC/server</td>
-                        <td>Windows Defender, iptables/nftables v Linux</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Network-based</strong></td>
-                        <td>Perimetr sítě</td>
-                        <td>Celá síť</td>
-                        <td>Firewall na routeru, dedicated appliance (Cisco ASA, Palo Alto)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Cloud FWaaS</strong></td>
-                        <td>Cloud infrastruktura</td>
-                        <td>Cloudové zdroje</td>
-                        <td>AWS Security Groups, Azure Firewall, Cloudflare WAF</td>
-                    </tr>
-                </table>
-
-                <h3>DMZ (Demilitarized Zone) architektura</h3>
                 <div class="protocol-box">
-                    <p><strong>Koncept:</strong> Izolovaný síťový segment mezi interní sítí a internetem</p>
-                    <p><strong>Umístění:</strong> Veřejně přístupné servery (web, email, DNS) v DMZ</p>
-                    <p><strong>Ochrana:</strong> Firewall#1 (internet ↔ DMZ) + Firewall#2 (DMZ ↔ internal network)</p>
-                    <p><strong>Benefit:</strong> Pokud je DMZ server kompromitován, útočník nemá přímý přístup do interní sítě</p>
-                    <p><strong>Pravidla:</strong> Internet → DMZ (povoleno pro služby), DMZ → Internal (striktně omezeno), Internal → DMZ (admin přístup)</p>
-                </div>
-
-                <div class="security-box">
-                    <strong>⚠️ Zero Trust model:</strong> Moderní přístup – "nikdy nedůvěřuj, vždy ověřuj". Tradiční perimetrová ochrana selhává při cloud a remote work. Zero Trust vyžaduje ověření každého přístupu bez ohledu na lokaci (micro-segmentation, identity-based access).
+                    <p><strong>DMZ (Demilitarized Zone):</strong> Izolovaný segment mezi internetem a interní sítí. Veřejné servery (web, mail) v DMZ. Při kompromitaci serveru útočník nemá přístup do vnitřní sítě. Dvoj-firewall architektura: Firewall#1 (internet↔DMZ) + Firewall#2 (DMZ↔internal).</p>
+                    <p><strong>Zero Trust:</strong> Moderní model – "nikdy nedůvěřuj, vždy ověřuj". Ověření každého přístupu bez ohledu na lokaci. Micro-segmentation, identity-based access control.</p>
                 </div>
             </div>
         </div>
