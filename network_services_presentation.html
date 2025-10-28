@@ -1530,7 +1530,7 @@
         </div>
 
         <!-- Slide 7.5: SSH a Telnet -->
-        <div class="slide" role="region" aria-label="Snímek 7.5: SSH vs Telnet - vzdálený přístup">
+        <div class="slide" role="region" aria-label="Snímek 8: SSH vs Telnet - vzdálený přístup">
             <h2 class="slide-title">SSH vs Telnet – Vzdálený přístup</h2>
             <div class="slide-content">
                 <h3>Komparace protokolů</h3>
@@ -1825,7 +1825,7 @@
         </div>
 
         <!-- Slide 11.5: NTP -->
-        <div class="slide" role="region" aria-label="Snímek 11.5: NTP - Network Time Protocol">
+        <div class="slide" role="region" aria-label="Snímek 13: NTP - Network Time Protocol">
             <h2 class="slide-title">NTP – Network Time Protocol</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -1962,8 +1962,66 @@
             </div>
         </div>
 
-        <!-- Slide 12.5: ICMP/Diagnostika -->
-        <div class="slide" role="region" aria-label="Snímek 12.5: ICMP - Network diagnostika">
+        <!-- Slide 15: RADIUS/AAA -->
+        <div class="slide" role="region" aria-label="Snímek 15: RADIUS - Remote Authentication">
+            <h2 class="slide-title">RADIUS – Remote Authentication Dial-In User Service</h2>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    <p><strong>AAA Framework:</strong> Remote <strong>Authentication, Authorization, Accounting</strong>. Centralizované ověřování a správa přístupu pro VPN, Wi-Fi, PPP, dialup. Standard RFC 2865.</p>
+                </div>
+
+                <h3>RADIUS architektura – Client-Server model</h3>
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <h4>🖥️ RADIUS Server</h4>
+                        <p><strong>Běží na:</strong> Port 1812 (authentication), 1813 (accounting)</p>
+                        <p><strong>Úkol:</strong> Ověřuje přihlašovací údaje, vrací Access-Accept/Access-Reject</p>
+                        <p><strong>Backend:</strong> Připojuje se k Active Directory, LDAP, SQL DB, NIS</p>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>📱 RADIUS Klient</h4>
+                        <p><strong>Role:</strong> NAS (Network Access Server) – VPN gateway, Wi-Fi access point, dialup server</p>
+                        <p><strong>Funkce:</strong> Přihlašovací dialog s uživatelem, forward na RADIUS server, vynucení policy</p>
+                        <p><strong>Příklad:</strong> FreeRADIUS, Cisco ASA, Aruba IAP</p>
+                    </div>
+                </div>
+
+                <h3>AAA modely – co se dělá v RADIUS?</h3>
+                <table>
+                    <tr>
+                        <th>Komponenta</th>
+                        <th>Funkce</th>
+                        <th>Data</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Authentication</strong></td>
+                        <td>Ověření totožnosti (login/heslo, certificate, TOTP)</td>
+                        <td>User-Name, User-Password, Reply-Message</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Authorization</strong></td>
+                        <td>Určení práv a omezení (VLAN, bandwidth, ACL)</td>
+                        <td>Tunnel-Type, Tunnel-Medium-Type, Service-Type</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Accounting</strong></td>
+                        <td>Zaznamenání používání (login/logout, data transfer, čas)</td>
+                        <td>Acct-Status-Type, Acct-Input-Octets, Session-Time</td>
+                    </tr>
+                </table>
+
+                <div class="security-box">
+                    <strong>🔐 Bezpečnost:</strong> Komunikace RADIUS šifrovaná shared secret (UDP 1812/1813). <strong>Zlepšení:</strong> RADIUS over TLS (RadSec, RFC 6614) pro vyšší bezpečnost. <strong>Integruje se s:</strong> LDAP, Active Directory, TACACS+ (Cisco alternativa).
+                </div>
+
+                <div class="protocol-box">
+                    <strong>Enterprise aplikace:</strong> 802.1X (port-based network access), WPA2-Enterprise Wi-Fi, VPN remote access, ISP PPP dialup, NAC (Network Access Control).
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: ICMP/Diagnostika -->
+        <div class="slide" role="region" aria-label="Snímek 16: ICMP - Network diagnostika">
             <h2 class="slide-title">ICMP – Síťová diagnostika</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -2021,7 +2079,7 @@
         </div>
 
         <!-- Slide 13: Proxy, Firewall a síťová bezpečnost -->
-        <div class="slide" role="region" aria-label="Snímek 15: Síťová bezpečnost - Proxy a Firewall">
+        <div class="slide" role="region" aria-label="Snímek 17: Síťová bezpečnost - Proxy a Firewall">
             <h2 class="slide-title">Síťová bezpečnost – Proxy & Firewall</h2>
             <div class="slide-content">
                 <h3>Proxy servery – přehledy a filtrování</h3>
@@ -2078,7 +2136,7 @@
         </div>
 
         <!-- Slide 13.5: LDAP -->
-        <div class="slide" role="region" aria-label="Snímek 13.5: LDAP - centrální autentizace">
+        <div class="slide" role="region" aria-label="Snímek 18: LDAP - centrální autentizace">
             <h2 class="slide-title">LDAP – Centrální adresář a autentizace</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -2134,11 +2192,110 @@
                         <p><strong>Typická architektura:</strong> 2-3 Domain Controllers pro redundanci, všechny počítače/servery připojeny k doméně</p>
                     </div>
                 </div>
+
+                <h3>Kerberos – Bezpečná autentizace v Active Directory</h3>
+                <div class="highlight-box">
+                    <p><strong>Kerberos (RFC 1510):</strong> Tick-based network authentication protokol. Alternativa k LDAP pro autentizaci. <strong>Klíčová idea:</strong> Namísto zasílání hesel po síti se používají šifrované tikety (credentials).</p>
+                </div>
+                <table>
+                    <tr>
+                        <th>Komponenta</th>
+                        <th>Role</th>
+                    </tr>
+                    <tr>
+                        <td><strong>KDC (Key Distribution Center)</strong></td>
+                        <td>Třídí tikety. V AD = Domain Controller. Port 88 TCP/UDP</td>
+                    </tr>
+                    <tr>
+                        <td><strong>TGT (Ticket Granting Ticket)</strong></td>
+                        <td>Vystavuji při login. Platnost: 10 hodin (Windows)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Service Ticket</strong></td>
+                        <td>Specifický tiket pro službu (file share, printer). Krátká platnost</td>
+                    </tr>
+                </table>
+                <div class="security-box">
+                    <strong>🔐 Výhody:</strong> Hesla se nikdy neposílají po síti, povinný mutual authentication, krátký TTL tikety. <strong>Windows enterprise:</strong> Kerberos je default pro domainové počítače (port 88). <strong>Unix/Linux:</strong> MIT Kerberos, CIFS/SMB s Kerberos.
+                </div>
             </div>
         </div>
 
-        <!-- Slide 14: Závislosti a interoperabilita -->
-        <div class="slide" role="region" aria-label="Snímek 16: Závislosti mezi síťovými službami">
+        <!-- Slide 19: Syslog -->
+        <div class="slide" role="region" aria-label="Snímek 19: Syslog - centralizované logování">
+            <h2 class="slide-title">Syslog – Centralizované logování a monitorování</h2>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    <p><strong>Syslog (RFC 3164, RFC 5424):</strong> Standard pro logow ání a zasílání záznamů z síťových zařízení (routery, switche, servery) do centrálního syslog serveru. Kritické pro security audity a troubleshooting.</p>
+                </div>
+
+                <h3>Syslog architektura – Producer → Broker → Consumer</h3>
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <h4>📤 Syslog Producer</h4>
+                        <p><strong>Zdroje:</strong> Linux kernel, aplikace, síťové zařízení</p>
+                        <p><strong>Posílá na:</strong> Syslog server (port 514 UDP, TLS varianta port 6514 TCP)</p>
+                        <p><strong>Priority:</strong> facility.severity (facility=0-23, severity=0-7)</p>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>🖥️ Syslog Server</h4>
+                        <p><strong>Software:</strong> rsyslog, syslog-ng, Splunk, ELK Stack</p>
+                        <p><strong>Úkol:</strong> Sbírá, parsuje, filtruje, archivuje logy</p>
+                        <p><strong>Use case:</strong> Centrální monitoring, compliance (GDPR), forensics</p>
+                    </div>
+                </div>
+
+                <h3>Syslog severity levels – Co si pamatovat?</h3>
+                <table>
+                    <tr>
+                        <th>Úroveň</th>
+                        <th>Příklad</th>
+                        <th>Akce</th>
+                    </tr>
+                    <tr>
+                        <td><strong>EMERG (0)</strong></td>
+                        <td>Kernel panic, napájení vyplo</td>
+                        <td>Okamžitá eskalace</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ALERT (1)</strong></td>
+                        <td>Databáze nefunguje</td>
+                        <td>Eskalace nyní</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CRIT (2)</strong></td>
+                        <td>Disk plný, síť dole</td>
+                        <td>Urgentní</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ERR (3)</strong></td>
+                        <td>File not found, timeout</td>
+                        <td>Musí se vyřešit</td>
+                    </tr>
+                    <tr>
+                        <td><strong>WARN (4)</strong></td>
+                        <td>Nízká RAM, disk 80%</td>
+                        <td>Sledovat</td>
+                    </tr>
+                    <tr>
+                        <td><strong>INFO (6)</strong></td>
+                        <td>Služba spuštěna, login OK</td>
+                        <td>Info pro audity</td>
+                    </tr>
+                </table>
+
+                <div class="security-box">
+                    <strong>⚠️ Compliance a Security:</strong> PCI-DSS, HIPAA vyžadují centralizované logy. <strong>Syslog over TLS</strong> (RFC 5425) - šifrovaný přenos. <strong>Log retention:</strong> Obvykle 90-365 dní. <strong>CEF (Common Event Format):</strong> Standardní formát pro security eventy od různých zařízení.
+                </div>
+
+                <div class="protocol-box">
+                    <strong>Prakticky:</strong> Malá síť = rsyslog na Linux serveru. Velká firma = Splunk, ELK (Elasticsearch-Logstash-Kibana), nebo Datadog pro agregaci a real-time alerting.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 20: Závislosti a interoperabilita -->
+        <div class="slide" role="region" aria-label="Snímek 20: Závislosti mezi síťovými službami">
             <h2 class="slide-title">Závislosti mezi síťovými službami</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -2199,7 +2356,7 @@
         </div>
 
         <!-- Slide 14: Cloudové služby a moderní trendy -->
-        <div class="slide" role="region" aria-label="Snímek 17: Cloudové služby a budoucnost">
+        <div class="slide" role="region" aria-label="Snímek 21: Cloudové služby a budoucnost">
             <h2 class="slide-title">Cloudové služby a budoucnost</h2>
             <div class="slide-content">
                 <h3>Cloud computing modely</h3>
@@ -2268,7 +2425,7 @@
         </div>
 
         <!-- Slide 15: Závěr a shrnutí -->
-        <div class="slide" role="region" aria-label="Snímek 18: Závěr - Síťové služby jako základ digitální civilizace">
+        <div class="slide" role="region" aria-label="Snímek 22: Závěr - Síťové služby jako základ digitální civilizace">
             <h2 class="slide-title">Závěr – Síťové služby jako základ digitální civilizace</h2>
             <div class="slide-content">
                 <div class="highlight-box" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;">
