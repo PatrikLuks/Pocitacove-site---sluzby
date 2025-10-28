@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Síťové služby v počítačových sítích</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .presentation-container {
+            max-width: 1200px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            padding: 60px 80px;
+            min-height: 700px;
+            animation: fadeIn 0.5s;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-title {
+            font-size: 2.5em;
+            color: #2d3748;
+            margin-bottom: 30px;
+            border-bottom: 4px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        .slide-content {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #4a5568;
+        }
+
+        .slide-content h3 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .slide-content ul {
+            margin-left: 30px;
+            margin-top: 15px;
+        }
+
+        .slide-content li {
+            margin-bottom: 12px;
+        }
+
+        .highlight-box {
+            background: #f7fafc;
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 5px;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .service-card {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .service-card h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 80px;
+            background: #f7fafc;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .nav-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        .nav-button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .nav-button:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .title-slide {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .title-slide .slide-title {
+            font-size: 3.5em;
+            border: none;
+            margin-bottom: 20px;
+        }
+
+        .subtitle {
+            font-size: 1.5em;
+            color: #718096;
+            margin-bottom: 40px;
+        }
+
+        .author-info {
+            margin-top: 60px;
+            font-size: 1.2em;
+            color: #4a5568;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #f7fafc;
+        }
+
+        .protocol-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .layer-diagram {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .layer-item {
+            padding: 10px;
+            margin: 5px 0;
+            border-left: 4px solid #667eea;
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active title-slide">
+            <h1 class="slide-title">Služby v počítačových sítích</h1>
+            <p class="subtitle">Maturitní otázka č. 5 | Školní rok 2025/2026</p>
+            <div class="author-info">
+                <p><strong>Autor:</strong> Patrik Luks</p>
+                <p><strong>Obor:</strong> Informační technologie</p>
+            </div>
+        </div>
+
+        <!-- Slide 2: Obsah -->
+        <div class="slide">
+            <h2 class="slide-title">Obsah prezentace</h2>
+            <div class="slide-content">
+                <div class="service-grid">
+                    <div class="service-card">
+                        <h4>1. Základy síťových služeb</h4>
+                        <p>Definice, TCP/IP vs OSI, klient-server</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>2. DNS – Domain Name System</h4>
+                        <p>Hierarchický systém překladu jmen</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>3. DHCP</h4>
+                        <p>Dynamická konfigurace hostitelů</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>4. HTTP/HTTPS</h4>
+                        <p>Webové služby a zabezpečení</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>5. FTP/SFTP</h4>
+                        <p>Přenos souborů</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>6. Emailové protokoly</h4>
+                        <p>SMTP, POP3, IMAP</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>7. VoIP</h4>
+                        <p>Hlasová komunikace po IP</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>8. SNMP</h4>
+                        <p>Správa a monitoring sítě</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>9. Bezpečnostní služby</h4>
+                        <p>VPN, Proxy, Firewall</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>10. Závěr</h4>
+                        <p>Shrnutí a význam</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Základy -->
+        <div class="slide">
+            <h2 class="slide-title">Úvod do síťových služeb</h2>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    <p><strong>Definice:</strong> Síťové služby představují funkce a protokoly v počítačových sítích, které zajišťují různé druhy komunikace a poskytování údajů mezi zařízeními. Umožňují překlad doménových jmen, automatickou konfiguraci sítě, přenos dat, hlasovou komunikaci a správu síťové infrastruktury.</p>
+                </div>
+
+                <h3>Vrstvený model sítí</h3>
+                <div class="layer-diagram">
+                    <div class="layer-item"><strong>Aplikační vrstva</strong> – zde operují síťové služby (HTTP, FTP, DNS, SMTP...)</div>
+                    <div class="layer-item"><strong>Transportní vrstva</strong> – spolehlivý přenos dat (TCP, UDP)</div>
+                    <div class="layer-item"><strong>Síťová vrstva</strong> – směrování paketů (IP protokol)</div>
+                    <div class="layer-item"><strong>Vrstva síťového rozhraní</strong> – fyzický přenos dat</div>
+                </div>
+
+                <h3>Klient-server architektura</h3>
+                <p>Většina síťových služeb funguje na principu klient-server, kde server je program trvale běžící na určitém počítači, který nabízí ostatním uzlům v síti specifickou službu nebo zdroj. Server naslouchá příchozím požadavkům na stanoveném portu a odpovídá klientům. Klient je aplikace, která se k serveru připojuje, posílá požadavky a přijímá odpovědi. Tento model umožňuje centralizované poskytování služeb a efektivní škálovatelnost pro velké množství současně připojených uživatelů.</p>
+            </div>
+        </div>
+
+        <!-- Slide 4: DNS -->
+        <div class="slide">
+            <h2 class="slide-title">DNS – Domain Name System</h2>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    <p><strong>Účel:</strong> Hierarchický distribuovaný systém pro převod mezi snadno zapamatovatelnými názvy domén a číselnými IP adresami zařízení v síti. DNS zajišťuje, že uživatelé mohou používat jména namísto obtížně zapamatovatelných číselných adres.</p>
+                </div>
+
+                <h3>Fungování DNS dotazů</h3>
+                <p>DNS funguje jako "telefonní seznam internetu". Dotazy probíhají rekurzivně – klient (resolver) se dotáže nejprve místního DNS serveru, který případně postupuje ke kořenovým DNS serverům, poté k serverům pro domény nejvyšší úrovně (TLD) a nakonec k autoritativním serverům pro konkrétní doménu. DNS protokol využívá UDP port 53 pro rychlé dotazy, případně TCP pro větší odpovědi.</p>
+
+                <h3>Typy DNS záznamů</h3>
+                <table>
+                    <tr>
+                        <th>Typ</th>
+                        <th>Význam</th>
+                        <th>Příklad použití</th>
+                    </tr>
+                    <tr>
+                        <td><strong>A</strong></td>
+                        <td>IPv4 adresa</td>
+                        <td>example.com → 192.0.2.1</td>
+                    </tr>
+                    <tr>
+                        <td><strong>AAAA</strong></td>
+                        <td>IPv6 adresa</td>
+                        <td>example.com → 2001:db8::1</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CNAME</strong></td>
+                        <td>Alias (kanonické jméno)</td>
+                        <td>www → example.com</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MX</strong></td>
+                        <td>Mail server</td>
+                        <td>Směrování emailů na mailový server</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PTR</strong></td>
+                        <td>Reverzní překlad</td>
+                        <td>IP adresa → doménové jméno</td>
+                    </tr>
+                </table>
+
+                <h3>Význam pro Internet</h3>
+                <p>DNS je základní služba internetu, která funguje jako decentralizovaná databáze zajišťující jedinečnost a globální dostupnost doménových jmen. Bez DNS by internet v dnešní podobě nemohl fungovat – uživatelé by museli pamatovat číselné IP adresy všech navštěvovaných serverů.</p>
+            </div>
+        </div>
+
+        <!-- Slide 5: DHCP -->
+        <div class="slide">
+            <h2 class="slide-title">DHCP – Dynamic Host Configuration Protocol</h2>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    <p><strong>Účel:</strong> Automatická konfigurace síťových parametrů koncových zařízení. DHCP server přiděluje počítači připojenému do sítě IP adresu, masku sítě, výchozí bránu a adresu DNS serveru bez zásahu uživatele.</p>
+                </div>
+
+                <h3>DHCP proces – DORA</h3>
+                <div class="protocol-box">
+                    <p><strong>Discover</strong> – Klient vysílá broadcast žádost o konfiguraci do sítě</p>
+                    <p><strong>Offer</strong> – DHCP server odpovídá nabídkou volné IP adresy a konfigurace</p>
+                    <p><strong>Request</strong> – Klient žádá o nabízenou konfiguraci (potvrzení výběru serveru)</p>
+                    <p><strong>Acknowledge</strong> – Server potvrzuje přidělení a klient může začít používat síť</p>
+                </div>
+
+                <h3>Poskytované parametry</h3>
+                <div class="service-grid">
+                    <div class="service-card">
+                        <h4>IP adresa</h4>
+                        <p>Jedinečná adresa v dané síti přidělená na dobu pronájmu (lease time)</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>Maska podsítě</h4>
+                        <p>Definuje rozsah lokální sítě a určuje síťovou a hostitelskou část adresy</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>Výchozí brána (Gateway)</h4>
+                        <p>IP adresa routeru pro komunikaci mimo lokální síť</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>DNS servery</h4>
+                        <p>Adresy serverů pro překlad doménových jmen</p>
+                    </div>
+                </div>
+
+                <h3>Praktický význam</h3>
+                <p>DHCP výrazně zjednodušuje správu sítě centralizací konfigurace z jednoho místa. Eliminuje nutnost manuálního nastavování každého zařízení, což je náchylné k chybám a časově náročné. Umožňuje efektivní využití omezeného adresního prostoru, protože adresy jsou přiděleny pouze aktivním zařízením. V podnikových sítích DHCP servery spravují tisíce zařízení automaticky.</p>
+            </div>
+        </div>
+
+        <!-- Slide 6: HTTP/HTTPS -->
+        <div class="slide">
+            <h2 class="slide-title">HTTP/HTTPS – Webové služby</h2>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    <p><strong>HTTP</strong> (HyperText Transfer Protocol) je aplikační protokol pro přenos hypertextových dokumentů a dalších zdrojů na webu. Je základem služeb World Wide Web. <strong>HTTPS</strong> je zabezpečená varianta využívající šifrování pomocí TLS/SSL.</p>
+                </div>
+
+                <h3>Charakteristika HTTP</h3>
+                <p>HTTP je textový protokol typu požadavek-odpověď (request-response), který je bezstavový – každý požadavek je samostatný a protokol neudržuje informace o předchozích komunikacích. Klient otevírá TCP spojení na server (port 80 pro HTTP, port 443 pro HTTPS) a posílá požadavek obsahující metodu a URL požadovaného zdroje. Server zpracuje požadavek a vrací odpověď se stavovým kódem a požadovanými daty.</p>
+
+                <h3>HTTP metody a stavové kódy</h3>
+                <table>
+                    <tr>
+                        <th>Metoda / Kód</th>
+                        <th>Popis</th>
+                        <th>Použití</th>
+                    </tr>
+                    <tr>
+                        <td><strong>GET</strong></td>
+                        <td>Získání dat</td>
+                        <td>Načtení webové stránky</td>
+                    </tr>
+                    <tr>
+                        <td><strong>POST</strong></td>
+                        <td>Odeslání dat</td>
+                        <td>Odeslání formuláře</td>
+                    </tr>
+                    <tr>
+                        <td><strong>200 OK</strong></td>
+                        <td>Úspěch</td>
+                        <td>Požadavek byl úspěšně zpracován</td>
+                    </tr>
+                    <tr>
+                        <td><strong>404 Not Found</strong></td>
+                        <td>Chyba klienta</td>
+                        <td>Požadovaný zdroj neexistuje</td>
+                    </tr>
+                    <tr>
+                        <td><strong>500 Internal Error</strong></td>
+                        <td>Chyba serveru</td>
+                        <td>Server nemůže zpracovat požadavek</td>
+                    </tr>
+                </table>
+
+                <h3>HTTPS a zabezpečení</h3>
+                <p>HTTPS využívá TLS/SSL pro šifrování veškeré komunikace mezi klientem a serverem, což zajišťuje důvěrnost a integritu přenášených dat. Autentizace serveru probíhá pomocí digitálních certifikátů. HTTPS je dnes standardem pro všechny moderní webové aplikace, zejména pro e-commerce, bankovnictví a jakékoliv zpracování citlivých dat.</p>
+            </div>
+        </div>
+
+        <!-- Slide 7: FTP/SFTP -->
+        <div class="slide">
+            <h2 class="slide-title">FTP a SFTP – Přenos souborů</h2>
+            <div class="slide-content">
+                <h3>FTP – File Transfer Protocol</h3>
+                <div class="protocol-box">
+                    <p><strong>Porty:</strong> 21 (řídicí spojení), 20 (datové spojení)</p>
+                    <p><strong>Funkce:</strong> Přenos souborů mezi klientem a vzdáleným FTP serverem, umožňuje upload, download a správu souborů</p>
+                    <p><strong>Nevýhoda:</strong> Přenáší data včetně hesel nešifrovaně v čistém textu, což představuje bezpečnostní riziko</p>
+                </div>
+
+                <h3>SFTP – SSH File Transfer Protocol</h3>
+                <div class="highlight-box">
+                    <p><strong>Port:</strong> 22 (využívá SSH infrastrukturu)</p>
+                    <p>SFTP řeší bezpečnostní nedostatky FTP využitím šifrovaného kanálu SSH. Veškerá komunikace je zabezpečená – data jsou šifrována a chráněna proti odposlechu či změně. SFTP má obdobné možnosti jako FTP (přenos a správa souborů), ale s důrazem na bezpečnost. Je dnes preferovanou metodou pro vzdálený přenos souborů v produkčních prostředích.</p>
+                </div>
+
+                <h3>Další alternativy</h3>
+                <p><strong>FTPS</strong> (FTP over TLS/SSL) přidává šifrování k tradičnímu FTP. <strong>SCP</strong> (Secure Copy Protocol) je jednoduchý protokol pro kopírování souborů přes SSH, rychlý pro jednoduché přenosy. Moderní cloudové služby často využívají <strong>WebDAV</strong> nebo RESTful API pro správu souborů přes HTTP/HTTPS.</p>
+
+                <h3>Praktické využití</h3>
+                <p>Administrátoři webů používají SFTP k nahrávání aktualizací na servery. Firmy využívají SFTP pro bezpečné zálohování dat na vzdálené lokace. Webhostingové služby standardně nabízejí SFTP přístup k webovým souborům jako součást správy serveru. V podnikové sféře je SFTP klíčovým nástrojem pro automatizované přenosy dat mezi systémy.</p>
+            </div>
+        </div>
+
+        <!-- Slide 8: Email protokoly -->
+        <div class="slide">
+            <h2 class="slide-title">E-mailové protokoly</h2>
+            <div class="slide-content">
+                <h3>SMTP – Simple Mail Transfer Protocol</h3>
+                <div class="protocol-box">
+                    <p><strong>Porty:</strong> 25 (server-server), 587 (klient-server s autentizací), 465 (SMTPS)</p>
+                    <p><strong>Funkce:</strong> Protokol pro odesílání a přenos e-mailů mezi servery. Když odešlete e-mail, váš klient naváže SMTP spojení na výchozí server a předá mu zprávu k doručení. SMTP servery pak zprávu přeposílají směrem k serveru příjemce, kde se uloží do poštovní schránky.</p>
+                </div>
+
+                <h3>POP3 – Post Office Protocol v3</h3>
+                <div class="protocol-box">
+                    <p><strong>Port:</strong> 110 (nešifrovaný), 995 (SSL)</p>
+                    <p><strong>Princip:</strong> Stahování e-mailů ze schránky na serveru do klientského počítače. POP3 typicky stáhne všechny zprávy a smaže je ze serveru (pokud není nastaveno jinak). Je vhodný pro přístup k poště z jednoho zařízení bez trvalého připojení. Nevýhodou je, že zprávy stažené na jedno zařízení nejsou dostupné na dalších zařízeních.</p>
+                </div>
+
+                <h3>IMAP – Internet Message Access Protocol</h3>
+                <div class="highlight-box">
+                    <p><strong>Port:</strong> 143 (nešifrovaný), 993 (SSL)</p>
+                    <p>IMAP umožňuje práci s e-maily přímo na serveru a synchronizaci mezi více zařízeními. Na rozdíl od POP3 zprávy zůstávají na serveru a klient s nimi manipuluje vzdáleně. Označení zprávy jako přečtené, přesunutí do složky nebo smazání se projeví na serveru a tím pádem i na všech připojených zařízeních. IMAP podporuje více současných klientů a odpovídá moderním potřebám mobility – můžete přistupovat k e-mailu z telefonu, tabletu i počítače se zachováním konzistentního stavu.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: VoIP -->
+        <div class="slide">
+            <h2 class="slide-title">VoIP – Voice over Internet Protocol</h2>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    <p><strong>Definice:</strong> VoIP označuje přenos hlasové telefonie přes datové sítě (Internet či LAN/WAN) místo tradiční telefonní sítě PSTN. Jde o technologii IP telefonie, která digitalizuje hlas a posílá ho v podobě paketů přes síť.</p>
+                </div>
+
+                <h3>Fungování VoIP</h3>
+                <p>Hlas je při VoIP digitalizován pomocí audio kodeků (například G.711 nebo G.729), rozdělen do malých IP paketů a přenesen přes síť podobně jako jiná data. Pro samotný přenos audio streamu se používá protokol RTP (Real-time Transport Protocol) nad UDP kvůli minimální latenci. K navazování a řízení hovorů slouží signální protokoly, z nichž nejrozšířenější je SIP (Session Initiation Protocol), dále H.323 nebo proprietární protokoly specifické pro určité systémy.</p>
+
+                <h3>Protokoly a infrastruktura</h3>
+                <div class="service-grid">
+                    <div class="service-card">
+                        <h4>SIP (Session Initiation Protocol)</h4>
+                        <p>Nejrozšířenější signální protokol pro navazování, modifikaci a ukončení hovorů</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>RTP (Real-time Transport Protocol)</h4>
+                        <p>Přenos audio/video streamu v reálném čase s minimální latencí</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>Audio kodeky</h4>
+                        <p>G.711 (nekomprimovaný), G.729 (komprimovaný), Opus (moderní)</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>QoS (Quality of Service)</h4>
+                        <p>Prioritizace VoIP provozu pro zajištění kvality hovoru</p>
+                    </div>
+                </div>
+
+                <h3>Výhody a využití</h3>
+                <p>VoIP přináší významnou úsporu nákladů zejména u dálkových a mezinárodních hovorů, umožňuje sjednocení infrastruktury (jedna datová síť pro vše) a nabízí pokročilé funkce nad rámec klasické telefonie – konferenční hovory, přesměrování na e-mail, integrace s business aplikacemi. Dnes je VoIP standardem v podnikové sféře (IP PBX systémy) i pro spotřebitelské služby (Skype, WhatsApp, Zoom). Operátoři postupně migrují z analogových sítí na VoIP infrastrukturu.</p>
+            </div>
+        </div>
+
+        <!-- Slide 10: SNMP -->
+        <div class="slide">
+            <h2 class="slide-title">SNMP – Simple Network Management Protocol</h2>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    <p><strong>Účel:</strong> SNMP je protokol aplikační vrstvy určený pro dohled a správu síťových zařízení. Umožňuje centrálně monitorovat stav různých prvků sítě (routerů, switchů, serverů, tiskáren) a vzdáleně z nich získávat informace o provozu či je konfigurovat.</p>
+                </div>
+
+                <h3>Architektura SNMP</h3>
+                <p>SNMP rozlišuje monitorovací stanici NMS (Network Management Station, tzv. manager) a spravované zařízení s běžícím SNMP agentem. Agent je software na zařízení, který sbírá definované informace a čeká na dotazy. Manager periodicky nebo na vyžádání zasílá dotazy (Get, GetNext) agentovi přes UDP port 161, agent odpovídá s aktuálními hodnotami. Kromě dotazování umožňuje SNMP i aktivní notifikace – agent může zaslat TRAP zprávu managerovi na UDP port 162 v případě kritické události (výpadek, překročení prahové hodnoty).</p>
+
+                <h3>MIB – Management Information Base</h3>
+                <div class="protocol-box">
+                    <p>MIB je strukturovaná databáze definující, jaké informace lze od zařízení získat. Standardizuje položky jako vytížení CPU, využití paměti, stav síťových rozhraní, počet přenesených paketů, teplota systému, atd. Každá hodnota v MIB má jedinečný identifikátor (OID). MIB umožňuje jednotný způsob práce s heterogenními zařízeními různých výrobců.</p>
+                </div>
+
+                <h3>Verze SNMP</h3>
+                <table>
+                    <tr>
+                        <th>Verze</th>
+                        <th>Zabezpečení</th>
+                        <th>Charakteristika</th>
+                    </tr>
+                    <tr>
+                        <td><strong>SNMPv1</strong></td>
+                        <td>Community strings</td>
+                        <td>Původní verze, minimální zabezpečení</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SNMPv2c</strong></td>
+                        <td>Community strings</td>
+                        <td>Vylepšené operace, stále bez šifrování</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SNMPv3</strong></td>
+                        <td>Autentizace + šifrování</td>
+                        <td>Moderní standard s důrazem na bezpečnost</td>
+                    </tr>
+                </table>
+
+                <h3>Praktické využití</h3>
+                <p>Ve větších sítích je SNMP základem monitorovacích systémů (Zabbix, Nagios, PRTG), které průběžně sledují všechny důležité síťové prvky. Administrátoři dostávají v reálném čase grafy vytížení, alerty při problémech a mohou proaktivně řešit problémy před výpadkem služeb. SNMP umožňuje spravovat rozsáhlé sítě s tisíci zařízení centralizovaně, což by manuálně nebylo možné.</p>
+            </div>
+        </div>
+
+        <!-- Slide 11: VPN -->
+        <div class="slide">
+            <h2 class="slide-title">VPN – Virtual Private Network</h2>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    <p><strong>Funkce:</strong> Vytvoření šifrovaného tunelu přes veřejnou síť (internet) pro bezpečnou komunikaci jako v privátní síti. VPN umožňuje vzdáleným uživatelům nebo pobočkám připojit se k firemní síti bezpečně přes internet.</p>
+                </div>
+
+                <h3>Typy VPN</h3>
+                <div class="service-grid">
+                    <div class="service-card">
+                        <h4>Site-to-Site VPN</h4>
+                        <p>Propojení dvou fyzických lokalit (např. poboček firmy) přes internet jako jedna logická síť. Využívá se pro propojení kanceláří bez nákladných pronajatých linek.</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>Remote Access VPN</h4>
+                        <p>Připojení jednotlivých uživatelů do firemní sítě z libovolného místa. Zaměstnanci pracující z domova se připojí k firemním zdrojům bezpečně.</p>
+                    </div>
+                </div>
+
+                <h3>VPN protokoly</h3>
+                <table>
+                    <tr>
+                        <th>Protokol</th>
+                        <th>Charakteristika</th>
+                        <th>Použití</th>
+                    </tr>
+                    <tr>
+                        <td><strong>OpenVPN</strong></td>
+                        <td>Open-source, velmi bezpečný, flexibilní</td>
+                        <td>Univerzální použití, podnikové VPN</td>
+                    </tr>
+                    <tr>
+                        <td><strong>IPsec</strong></td>
+                        <td>Šifrování na síťové vrstvě</td>
+                        <td>Site-to-Site VPN, HW podpora</td>
+                    </tr>
+                    <tr>
+                        <td><strong>WireGuard</strong></td>
+                        <td>Moderní, rychlý, jednoduchý kód</td>
+                        <td>Nová generace VPN</td>
+                    </tr>
+                    <tr>
+                        <td><strong>L2TP/IPsec</strong></td>
+                        <td>Kombinace tunelování a šifrování</td>
+                        <td>Remote access, mobilní zařízení</td>
+                    </tr>
+                </table>
+
+                <h3>Využití VPN</h3>
+                <p>VPN zabezpečuje komunikaci ve veřejných Wi-Fi sítích, umožňuje přístup k firemním zdrojům z domova, ochraňuje soukromí šifrováním internetového provozu a může obcházet geografická omezení. Pro podniky je VPN kritická technologie umožňující práci na dálku bez kompromisu v bezpečnosti.</p>
+            </div>
+        </div>
+
+        <!-- Slide 12: Proxy a Load Balancing -->
+        <div class="slide">
+            <h2 class="slide-title">Proxy servery a Load Balancing</h2>
+            <div class="slide-content">
+                <h3>Proxy server</h3>
+                <div class="highlight-box">
+                    <p>Zprostředkovatel komunikace mezi klientem a cílovým serverem. Přijímá požadavky od klientů a předává je dalším serverům svým jménem, což umožňuje filtrování, caching, anonymizaci a optimalizaci síťového provozu.</p>
+                </div>
+
+                <h3>Typy proxy</h3>
+                <div class="protocol-box">
+                    <p><strong>Forward Proxy</strong> – zastupuje klienty, používá se pro kontrolu přístupu k internetu, caching webových stránek a anonymizaci uživatelů v organizaci</p>
+                    <p><strong>Reverse Proxy</strong> – zastupuje servery, používá se pro load balancing, SSL termination (dešifrování HTTPS na proxy místo na backendu) a ochranu serverů před útoky</p>
+                    <p><strong>Transparent Proxy</strong> – klient neví o existenci proxy, používá se pro monitoring a filtrování na úrovni sítě bez konfigurace klientů</p>
+                </div>
+
+                <h3>Load Balancer</h3>
+                <p>Specializovaný typ reverse proxy, který distribuuje provoz mezi více serverů pro zajištění vysoké dostupnosti a výkonu. Algoritmy zahrnují Round Robin (rotace serverů), Least Connections (nejméně vytížený server), IP Hash (konzistentní směrování podle IP adresy) a Weighted Distribution (prioritizace výkonnějších serverů).</p>
+
+                <h3>Praktické implementace</h3>
+                <p><strong>Nginx</strong> – vysokovýkonný web server a reverse proxy s minimal resource footprint. <strong>HAProxy</strong> – specializovaný load balancer s pokročilými funkcemi pro enterprise použití. <strong>Squid</strong> – tradiční forward proxy s caching pro optimalizaci šířky pásma. <strong>Cloudflare</strong> – cloudová CDN a reverse proxy služba s ochranou proti DDoS útokům.</p>
+            </div>
+        </div>
+
+        <!-- Slide 13: Firewall -->
+        <div class="slide">
+            <h2 class="slide-title">Firewall a bezpečnostní služby</h2>
+            <div class="slide-content">
+                <h3>Firewall</h3>
+                <div class="highlight-box">
+                    <p>Bezpečnostní systém, který monitoruje a řídí síťový provoz na základě předem definovaných bezpečnostních pravidel. Funguje jako bariéra mezi důvěryhodnou interní sítí a nedůvěryhodným externím prostředím (typicky internetem).</p>
+                </div>
+
+                <h3>Typy firewallů podle funkce</h3>
+                <div class="service-grid">
+                    <div class="service-card">
+                        <h4>Packet Filtering Firewall</h4>
+                        <p>Kontrola hlaviček paketů (zdrojová/cílová IP, porty, protokol) bez sledování kontextu</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>Stateful Inspection Firewall</h4>
+                        <p>Sledování stavu spojení, rozhoduje na základě kontextu komunikace</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>Application Layer Firewall</h4>
+                        <p>Hloubková inspekce obsahu na vrstvě 7, rozumí aplikačním protokolům</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>Next-Generation Firewall</h4>
+                        <p>Integruje IPS, DPI, antimalware, kontrolu aplikací a pokročilou detekci hrozeb</p>
+                    </div>
+                </div>
+
+                <h3>Implementace</h3>
+                <p><strong>Host-based firewall</strong> – softwarový firewall na koncovém zařízení (Windows Defender Firewall, iptables/nftables v Linuxu). <strong>Network-based firewall</strong> – hardwarové nebo virtuální zařízení chránící celou síť na perimetru. <strong>Cloud firewall (FWaaS)</strong> – firewall jako služba v cloudu pro ochranu cloudové infrastruktury.</p>
+
+                <h3>DMZ – Demilitarized Zone</h3>
+                <div class="protocol-box">
+                    <p>Izolovaný síťový segment mezi interní sítí a internetem pro veřejně přístupné servery (webové servery, emailové servery, DNS). DMZ poskytuje dodatečnou vrstvu zabezpečení – pokud dojde ke kompromitaci serveru v DMZ, útočník nemá přímý přístup do interní sítě.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Cloudové služby -->
+        <div class="slide">
+            <h2 class="slide-title">Cloudové služby a moderní trendy</h2>
+            <div class="slide-content">
+                <h3>Modely cloudových služeb</h3>
+                
+                <div class="service-card" style="margin-bottom: 20px;">
+                    <h4>IaaS – Infrastructure as a Service</h4>
+                    <p>Poskytování virtualizované výpočetní infrastruktury (servery, storage, síť). Uživatel spravuje operační systém, middleware a aplikace, poskytovatel spravuje fyzickou infrastrukturu. Příklady: Amazon EC2, Microsoft Azure Virtual Machines, Google Compute Engine.</p>
+                </div>
+
+                <div class="service-card" style="margin-bottom: 20px;">
+                    <h4>PaaS – Platform as a Service</h4>
+                    <p>Platforma pro vývoj a nasazení aplikací bez správy infrastruktury. Poskytovatel spravuje operační systém, runtime environment, middleware. Vývojář se soustředí pouze na kód. Příklady: Heroku, Google App Engine, Azure App Service.</p>
+                </div>
+
+                <div class="service-card" style="margin-bottom: 20px;">
+                    <h4>SaaS – Software as a Service</h4>
+                    <p>Kompletní aplikace dostupné přes internet, plně spravované poskytovatelem. Uživatel pouze používá aplikaci bez jakékoliv správy infrastruktury nebo softwaru. Příklady: Microsoft 365, Google Workspace, Salesforce, Slack.</p>
+                </div>
+
+                <h3>Moderní trendy</h3>
+                <p><strong>Mikroservisy a kontejnerizace</strong> – architektura založená na malých nezávislých službách (Docker, Kubernetes). <strong>Edge Computing</strong> – přesun výpočtů blíže ke zdroji dat pro snížení latence. <strong>Zero Trust Architecture</strong> – bezpečnostní model "nikdy nedůvěřuj, vždy ověřuj" pro každý přístup. <strong>Serverless Computing</strong> – funkce spouštěné jako reakce na události bez správy serverů (AWS Lambda).</p>
+            </div>
+        </div>
+
+        <!-- Slide 15: Závěr -->
+        <div class="slide">
+            <h2 class="slide-title">Závěr a shrnutí</h2>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    <h3>Klíčové poznatky</h3>
+                    <p>Síťové služby tvoří páteř moderní digitální komunikace a obchodní infrastruktury. Od základních služeb jako DNS a DHCP, které umožňují fungování internetu, přes aplikační služby (HTTP, Email, FTP), hlasovou komunikaci (VoIP) až po správu a monitorování sítí (SNMP) a bezpečnostní mechanismy (VPN, Firewall).</p>
+                </div>
+
+                <h3>Hierarchie závislostí</h3>
+                <p>Všechny síťové služby fungují v aplikační vrstvě TCP/IP modelu a spoléhají na nižší vrstvy – transportní protokoly TCP a UDP zajišťují spolehlivý nebo rychlý přenos dat, síťový protokol IP zajišťuje směrování paketů mezi sítěmi. Vrstvený model umožňuje nezávislý vývoj a modularitu síťových technologií.</p>
+
+                <h3>Význam pro praxi</h3>
+                <p>Znalost síťových služeb je fundamentální pro IT profesionály. Správný návrh a implementace služeb přímo ovlivňuje výkon, bezpečnost, dostupnost a náklady celé IT infrastruktury. V kontextu AI a velkých dat se stává klíčová rychlá a spolehlivá komunikace mezi distribuovanými systémy. Moderní podniky jsou zcela závislé na dostupnosti těchto služeb – výpadek DNS, emailu nebo VoIP může znamenat zastavení byznysu.</p>
+
+                <h3>Budoucnost síťových služeb</h3>
+                <p>Evoluce směřuje od monolitických aplikací k mikroservisní architektuře, od on-premise k cloudu, od perimetrové bezpečnosti k Zero Trust modelu. Očekává se další integrace umělé inteligence do síťových služeb pro automatickou optimalizaci, predikci problémů a autonomní správu. Kvantová kryptografie přinese revoluci v zabezpečení komunikace. 5G a 6G sítě umožní nové typy služeb s ultranízkou latencí pro IoT, autonomní vozidla a rozšířenou realitu.</p>
+
+                <div class="author-info" style="margin-top: 50px;">
+                    <p><strong>Děkuji za pozornost</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-button" id="prevBtn" onclick="changeSlide(-1)">← Předchozí</button>
+            <span class="slide-counter">
+                <span id="currentSlide">1</span> / <span id="totalSlides">15</span>
+            </span>
+            <button class="nav-button" id="nextBtn" onclick="changeSlide(1)">Další →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(n) {
+            if (n > totalSlides) { n = totalSlides; }
+            if (n < 1) { n = 1; }
+            
+            currentSlide = n;
+            
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[currentSlide - 1].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = currentSlide;
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+
+        showSlide(1);
+    </script>
+</body>
+</html>
