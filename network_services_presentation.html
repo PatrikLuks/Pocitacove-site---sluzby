@@ -75,11 +75,6 @@
             animation: shimmer 3s linear infinite;
         }
 
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-
         .slide {
             display: none;
             padding: 60px 80px;
@@ -87,7 +82,7 @@
             max-height: 80vh;
             overflow-y: auto;
             animation: elegant-fade 0.35s ease-out;
-            background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+            background: linear-gradient(180deg, #fafbfc 0%, #ffffff 100%);
         }
 
         .slide.active {
@@ -107,18 +102,19 @@
 
         .slide-title {
             font-family: 'Playfair Display', Georgia, serif;
-            font-size: 2.6em;
+            font-size: 2.8em;
             font-weight: 700;
-            color: #1a1a2e;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid transparent;
-            background: linear-gradient(90deg, #6a5acd 0%, #9370db 100%);
+            color: #0f0f1e;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid rgba(106, 90, 205, 0.2);
+            background: linear-gradient(90deg, #1a1a2e 0%, #6a5acd 50%, #1a1a2e 100%);
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             position: relative;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.8px;
+            text-shadow: 0 0 30px rgba(106, 90, 205, 0.1);
         }
 
         .slide-title::after {
@@ -126,28 +122,29 @@
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 80px;
-            height: 3px;
-            background: linear-gradient(90deg, #6a5acd, #9370db);
-            border-radius: 3px;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, #6a5acd 0%, #9370db 50%, transparent 100%);
         }
 
         .slide-content {
-            font-size: 1.02em;
-            line-height: 1.75;
+            font-size: 1.04em;
+            line-height: 1.85;
             color: #2c3e50;
             font-weight: 400;
+            letter-spacing: 0.2px;
         }
 
         .slide-content h3 {
             font-family: 'Playfair Display', serif;
             color: #1a1a2e;
-            font-size: 1.5em;
-            font-weight: 600;
-            margin-top: 28px;
-            margin-bottom: 16px;
+            font-size: 1.6em;
+            font-weight: 700;
+            margin-top: 32px;
+            margin-bottom: 20px;
             position: relative;
-            padding-left: 20px;
+            padding-left: 24px;
+            letter-spacing: -0.3px;
         }
 
         .slide-content h3::before {
@@ -157,8 +154,8 @@
             top: 50%;
             transform: translateY(-50%);
             width: 4px;
-            height: 24px;
-            background: linear-gradient(180deg, #6a5acd, #9370db);
+            height: 28px;
+            background: linear-gradient(180deg, #6a5acd 0%, #9370db 100%);
             border-radius: 2px;
         }
 
@@ -172,14 +169,15 @@
         }
 
         .highlight-box {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-left: 4px solid #6a5acd;
-            padding: 24px 28px;
-            margin: 25px 0;
-            border-radius: 0;
-            box-shadow: 0 4px 16px rgba(106, 90, 205, 0.08);
+            background: linear-gradient(135deg, #f5f3ff 0%, #faf8ff 100%);
+            border-left: 5px solid #6a5acd;
+            padding: 28px 32px;
+            margin: 28px 0;
+            border-radius: 3px;
+            box-shadow: 0 8px 32px rgba(106, 90, 205, 0.12);
             position: relative;
             overflow: hidden;
+            border-top: 1px solid rgba(106, 90, 205, 0.15);
         }
 
         .highlight-box::before {
@@ -187,18 +185,41 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(180deg, #6a5acd 0%, #9370db 100%);
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(106, 90, 205, 0.3) 0%, rgba(147, 112, 219, 0.3) 50%, transparent 100%);
+        }
+
+        .highlight-box::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(147, 112, 219, 0.05) 0%, transparent 70%);
         }
 
         .security-box {
-            background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+            background: linear-gradient(135deg, rgba(197, 48, 48, 0.03) 0%, rgba(220, 51, 51, 0.03) 100%);
             border-left: 4px solid #c53030;
-            padding: 20px 24px;
-            margin: 20px 0;
-            border-radius: 0;
+            padding: 24px 28px;
+            margin: 24px 0;
+            border-radius: 2px;
             box-shadow: 0 4px 16px rgba(197, 48, 48, 0.08);
+            border: 1px solid rgba(197, 48, 48, 0.15);
+            border-left: 4px solid #c53030;
+            position: relative;
+        }
+
+        .security-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(197, 48, 48, 0.3) 0%, transparent 100%);
         }
 
         .service-grid {
@@ -209,14 +230,15 @@
         }
 
         .service-card {
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-            padding: 24px;
-            border-radius: 0;
-            border-left: 3px solid #6a5acd;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
+            padding: 28px;
+            border-radius: 2px;
+            border-left: 4px solid #6a5acd;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+            box-shadow: 0 4px 20px rgba(106, 90, 205, 0.08), 0 0 1px rgba(0, 0, 0, 0.05);
             position: relative;
             overflow: hidden;
+            border-top: 1px solid rgba(106, 90, 205, 0.1);
         }
 
         .service-card::before {
@@ -224,21 +246,30 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(106, 90, 205, 0.03) 0%, transparent 100%);
-            opacity: 0;
-            transition: opacity 0.3s;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(106, 90, 205, 0.4) 0%, transparent 100%);
+        }
+
+        .service-card::after {
+            content: '';
+            position: absolute;
+            top: -100%;
+            right: -100%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(147, 112, 219, 0.08) 0%, transparent 70%);
+            transition: top 0.6s, right 0.6s;
         }
 
         .service-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 28px rgba(106, 90, 205, 0.15);
-            border-left-width: 4px;
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(106, 90, 205, 0.2), 0 0 1px rgba(0, 0, 0, 0.1);
         }
 
-        .service-card:hover::before {
-            opacity: 1;
+        .service-card:hover::after {
+            top: 20%;
+            right: 20%;
         }
 
         .service-card h4 {
@@ -258,24 +289,40 @@
         }
 
         .nav-button {
-            background: linear-gradient(135deg, #6a5acd 0%, #9370db 100%);
+            background: linear-gradient(135deg, #6a5acd 0%, #7e6bc9 50%, #9370db 100%);
             color: white;
-            border: none;
-            padding: 14px 36px;
-            border-radius: 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 15px 40px;
+            border-radius: 2px;
             cursor: pointer;
-            font-size: 0.95em;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.9em;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             font-weight: 600;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.6px;
             text-transform: uppercase;
-            font-size: 0.85em;
-            box-shadow: 0 4px 12px rgba(106, 90, 205, 0.3);
+            box-shadow: 0 4px 16px rgba(106, 90, 205, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+            transition: left 0.5s;
+        }
+
+        .nav-button:hover::before {
+            left: 100%;
         }
 
         .nav-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(106, 90, 205, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 28px rgba(106, 90, 205, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
         }
 
         .nav-button:active {
@@ -283,10 +330,10 @@
         }
 
         .nav-button:disabled {
-            background: linear-gradient(135deg, #adb5bd 0%, #ced4da 100%);
+            background: linear-gradient(135deg, #cbd5e0 0%, #d6dce4 100%);
             cursor: not-allowed;
             transform: none;
-            box-shadow: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .slide-counter {
@@ -352,38 +399,45 @@
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
-            margin-top: 20px;
-            font-size: 0.93em;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-            border-radius: 0;
+            margin-top: 24px;
+            font-size: 0.94em;
+            box-shadow: 0 6px 24px rgba(106, 90, 205, 0.1);
+            border-radius: 2px;
             overflow: hidden;
+            background: white;
         }
 
         th, td {
-            padding: 14px 16px;
+            padding: 16px 18px;
             text-align: left;
             border-bottom: 1px solid #e9ecef;
         }
 
         th {
-            background: linear-gradient(135deg, #6a5acd 0%, #9370db 100%);
+            background: linear-gradient(135deg, #6a5acd 0%, #7e6bc9 50%, #9370db 100%);
             color: white;
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
-            font-size: 0.85em;
-            letter-spacing: 0.5px;
+            font-size: 0.82em;
+            letter-spacing: 0.7px;
+            padding: 18px 18px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         tr {
-            transition: background 0.2s;
+            transition: background-color 0.2s ease;
         }
 
         tr:hover {
-            background: #f8f9fa;
+            background: linear-gradient(90deg, rgba(106, 90, 205, 0.03) 0%, transparent 100%);
         }
 
         tr:last-child td {
             border-bottom: none;
+        }
+
+        tbody tr:nth-child(even) {
+            background: rgba(106, 90, 205, 0.02);
         }
 
         .protocol-box {
@@ -498,41 +552,65 @@
 
         .port-badge {
             display: inline-block;
-            background: linear-gradient(135deg, #6a5acd 0%, #9370db 100%);
+            background: linear-gradient(135deg, #6a5acd 0%, #7e6bc9 100%);
             color: white;
-            padding: 5px 14px;
-            border-radius: 2px;
-            font-size: 0.82em;
-            font-weight: 600;
-            margin: 0 6px;
-            letter-spacing: 0.3px;
-            box-shadow: 0 2px 6px rgba(106, 90, 205, 0.3);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.81em;
+            font-weight: 700;
+            margin: 0 6px 0 0;
+            letter-spacing: 0.4px;
+            box-shadow: 0 3px 12px rgba(106, 90, 205, 0.35);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .security-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #c53030 0%, #e53e3e 100%);
-            color: white;
-            padding: 5px 14px;
-            border-radius: 2px;
-            font-size: 0.82em;
-            font-weight: 600;
-            margin: 0 6px;
-            letter-spacing: 0.3px;
-            box-shadow: 0 2px 6px rgba(197, 48, 48, 0.3);
+        .port-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 18px rgba(106, 90, 205, 0.45);
         }
 
         .success-badge {
             display: inline-block;
             background: linear-gradient(135deg, #38a169 0%, #48bb78 100%);
             color: white;
-            padding: 5px 14px;
-            border-radius: 2px;
-            font-size: 0.82em;
-            font-weight: 600;
-            margin: 0 6px;
-            letter-spacing: 0.3px;
-            box-shadow: 0 2px 6px rgba(72, 187, 120, 0.3);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.81em;
+            font-weight: 700;
+            margin: 0 6px 0 0;
+            letter-spacing: 0.4px;
+            box-shadow: 0 3px 12px rgba(72, 187, 120, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .success-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 18px rgba(72, 187, 120, 0.45);
+        }
+
+        .security-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #c53030 0%, #e53e3e 100%);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.81em;
+            font-weight: 700;
+            margin: 0 6px 0 0;
+            letter-spacing: 0.4px;
+            box-shadow: 0 3px 12px rgba(197, 48, 48, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .security-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 18px rgba(197, 48, 48, 0.45);
         }
 
         .dns-hierarchy {
@@ -917,12 +995,44 @@
         .help-content {
             background: white;
             padding: 40px;
-            border-radius: 8px;
+            border-radius: 4px;
             max-width: 600px;
-            box-shadow: 0 10px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.25);
             max-height: 80vh;
             overflow-y: auto;
             animation: slide-up 0.3s ease-out;
+            border: 1px solid rgba(106, 90, 205, 0.1);
+            position: relative;
+        }
+
+        .help-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .close-modal-btn {
+            background: none;
+            border: none;
+            font-size: 1.6em;
+            cursor: pointer;
+            color: #6a5acd;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            padding: 0;
+        }
+
+        .close-modal-btn:hover {
+            background: rgba(106, 90, 205, 0.1);
+            transform: rotate(90deg);
         }
 
         @keyframes slide-up {
@@ -1048,31 +1158,30 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: linear-gradient(135deg, #6a5acd 0%, #9370db 100%);
+            background: linear-gradient(135deg, #6a5acd 0%, #7e6bc9 100%);
             color: white;
-            padding: 12px 16px;
-            border-radius: 4px;
-            font-size: 0.85em;
+            padding: 13px 18px;
+            border-radius: 3px;
+            font-size: 0.88em;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(106, 90, 205, 0.3);
-            transition: all 0.3s;
+            box-shadow: 0 6px 24px rgba(106, 90, 205, 0.35);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             z-index: 1000;
-            animation: pulse-hint 2s infinite;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: float-hint 3s ease-in-out infinite;
         }
 
         .help-hint:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(106, 90, 205, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 36px rgba(106, 90, 205, 0.45);
             animation: none;
         }
 
-        @keyframes pulse-hint {
-            0%, 100% { 
-                box-shadow: 0 4px 12px rgba(106, 90, 205, 0.3);
-            }
-            50% { 
-                box-shadow: 0 4px 20px rgba(106, 90, 205, 0.5);
-            }
+        @keyframes float-hint {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
         }
 
         @media (max-width: 768px) {
@@ -1393,8 +1502,150 @@
             </div>
         </div>
 
-        <!-- Slide 6: HTTP/HTTPS -->
-        <div class="slide" role="region" aria-label="Snímek 6: HTTP/HTTPS - páteř World Wide Web">
+        <!-- Slide 6: IP Protokol -->
+        <div class="slide" role="region" aria-label="Snímek 6: IP Protokol - Síťová vrstva">
+            <h2 class="slide-title">IP Protokol – Páteř Internetu</h2>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    <p><strong>Internet Protocol (IP):</strong> L3 protokol zodpovědný za routing paketů mezi sítěmi. Bez IP by žádné mezisíťové komunikace. RFC 791 (IPv4), RFC 2460 (IPv6). <strong>Kritická funkce:</strong> Adresování + Routing</p>
+                </div>
+
+                <h3>IPv4 vs IPv6 – moderní migrace</h3>
+                <div class="comparison-grid">
+                    <div class="comparison-card legacy">
+                        <h4>IPv4 (1981)</h4>
+                        <p><span class="port-badge">32-bit adresy</span> Formát: 192.168.1.1</p>
+                        <p><strong>Problém:</strong> Pouze 4.3 miliardy adres – vyčerpáno (IANA 2011)</p>
+                        <p><strong>Řešení:</strong> NAT (Network Address Translation) – sdílení jedné IP mezi více zařízení</p>
+                        <p><strong>Status:</strong> Stále dominantní, ale vytlačován IPv6</p>
+                    </div>
+                    <div class="comparison-card winner">
+                        <h4>IPv6 (1998)</h4>
+                        <p><span class="success-badge">128-bit adresy</span> Formát: 2001:0db8::ff00:42:8329</p>
+                        <p><strong>Výhoda:</strong> 340 undecilionů adres – bude stačit na věky</p>
+                        <p><strong>Vylepšení:</strong> Bez NAT, lepší routing, IPsec built-in, better security</p>
+                        <p><strong>Trend:</strong> Povinný pro nové aplikace (5G, IoT, cloud)</p>
+                    </div>
+                </div>
+
+                <h3>Subnetting – rozdělení sítě</h3>
+                <table>
+                    <tr>
+                        <th>Koncept</th>
+                        <th>Příklad</th>
+                        <th>Popis</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Třída A</strong></td>
+                        <td>10.0.0.0/8</td>
+                        <td>16 milionů hostů – enterprise sítě</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Třída B</strong></td>
+                        <td>172.16.0.0/12</td>
+                        <td>65 tisíc hostů – střední firmy</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Třída C</strong></td>
+                        <td>192.168.0.0/16</td>
+                        <td>254 hostů – malé sítě, home office</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CIDR Notation</strong></td>
+                        <td>192.168.1.0/24</td>
+                        <td>Moderní /XX zápis – přesnější segmentace</td>
+                    </tr>
+                </table>
+
+                <div class="protocol-box">
+                    <p><strong>TTL (Time To Live):</strong> Počitadlo skokům – v každém routeru se -1, při 0 paket zahyne (zabraňuje nekonečným smyčkám)</p>
+                    <p><strong>Fragmentace:</strong> Pokud je paket větší než MTU (Maximum Transmission Unit), rozdělí se (obvykle 1500 bytů na Ethernetu)</p>
+                    <p><strong>NAT (Network Address Translation):</strong> Přepisování zdrojové/cílové IP v headeru – překladatel mezi privátní a veřejnou sítí</p>
+                </div>
+
+                <div class="trend-box">
+                    <strong>🚀 IPv6 adoption:</strong> Světová penetrace IPv6 je ~35% (2024). Dominují: Google, Netflix, Facebook. Veřejná IPv4 adresa stojí $40+ za kus. Enterprise migrace začala 2020-2025.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Routing -->
+        <div class="slide" role="region" aria-label="Snímek 7: Routing - Směrování v sítích">
+            <h2 class="slide-title">Routing – Směrování paketů skrz Internet</h2>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    <p><strong>Routing:</strong> Proces rozhodování, kudy poslat paket podle cílové IP adresy. Bez routingu by sítě zůstaly izolované. Internet = tisíce autonomních systémů (AS) vzájemně propojených.</p>
+                </div>
+
+                <h3>Routingové protokoly – hierarchická klasifikace</h3>
+                <div class="service-grid">
+                    <div class="service-card">
+                        <h4>IGP – Interior Gateway Protocols</h4>
+                        <p><strong>Scope:</strong> Uvnitř jednoho AS (enterprise sítě, datacenter)</p>
+                        <p><strong>Protokoly:</strong> RIP (zastaralý), OSPF (Open Shortest Path First, moderní), IS-IS (telekom standard)</p>
+                        <p><strong>Metrika:</strong> Hop count, interface cost, bandwidth</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>EGP – Exterior Gateway Protocols</h4>
+                        <p><strong>Scope:</strong> Mezi AS (internetoví operátoři)</p>
+                        <p><strong>Protokol:</strong> BGP (Border Gateway Protocol) – standard internetu</p>
+                        <p><strong>Metrika:</strong> AS path, local preference, politics (network policy)</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>Dynamic vs Static</h4>
+                        <p><strong>Dynamic:</strong> OSPF/BGP – automatické adaptace na síťové změny</p>
+                        <p><strong>Static:</strong> Manuální nastavení – malé sítě, výkon</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>Distance Vector vs Link State</h4>
+                        <p><strong>Dist. Vec (RIP):</strong> "Pověz mi co vidíš" – simple, ale pomalé</p>
+                        <p><strong>Link State (OSPF):</strong> "Vím topologii" – komplexní, konverguje rychle</p>
+                    </div>
+                </div>
+
+                <h3>OSPF - Most Enterprise Standard</h3>
+                <table>
+                    <tr>
+                        <th>Aspekt</th>
+                        <th>Popis</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Algoritmus</strong></td>
+                        <td>Dijkstra (SPF – Shortest Path First) – optimální cesty</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Konvergence</strong></td>
+                        <td>~2 sekundy (velice rychlé při výpadcích)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hierarchie</strong></td>
+                        <td>Areas – scalability (Backbone area 0, regular areas)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Use case</strong></td>
+                        <td>Korporátní sítě, datacentra – de facto standard</td>
+                    </tr>
+                </table>
+
+                <h3>BGP - Internet Backbone</h3>
+                <div class="protocol-box">
+                    <p><strong>BGP (Border Gateway Protocol):</strong> Protokol kterým internetoví operátoři (ISP, cloud providers) vyměňují informace o routách. AS Path – sekvence AS čísel až do cíle. Politika: "Kterým AS chci/nechci procházet"</p>
+                    <p><strong>AS čísla:</strong> Unique identifikátor (16-bit nebo 32-bit). Vystavuje IANA. Příklad: AS15169 (Google), AS8452 (Vodafone CZ)</p>
+                    <p><strong>BGP Security – RPKI:</strong> X.509 certifikáty k routám – zabraňuje BGP hijacking útokům</p>
+                </div>
+
+                <div class="security-box">
+                    <strong>⚠️ Bezpečnostní rizika:</strong> BGP hijacking (nesprávné trasy), route leakage, DDoS zaměřené na routery. <strong>Obrana:</strong> RPKI (Route Origin Authorization), prefix filtering, monitoring.
+                </div>
+
+                <div class="trend-box">
+                    <strong>🚀 Moderní trendy:</strong> Segment Routing (SR) – jednodušší kontrola tras. Segment Routing over IPv6 (SRv6) – native IPv6 integration. AI-driven routing – prediktivní optimalizace.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: HTTP/HTTPS -->
+        <div class="slide" role="region" aria-label="Snímek 8: HTTP/HTTPS - páteř World Wide Web">
             <h2 class="slide-title">HTTP/HTTPS – Páteř World Wide Web</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -1469,8 +1720,8 @@
             </div>
         </div>
 
-        <!-- Slide 7: FTP vs SFTP -->
-        <div class="slide" role="region" aria-label="Snímek 7: Přenos souborů - FTP vs SFTP">
+        <!-- Slide 9: FTP vs SFTP -->
+        <div class="slide" role="region" aria-label="Snímek 9: Přenos souborů - FTP vs SFTP">
             <h2 class="slide-title">Přenos souborů: FTP vs SFTP</h2>
             <div class="slide-content">
                 <h3>Komparace protokolů</h3>
@@ -1530,7 +1781,7 @@
         </div>
 
         <!-- Slide 7.5: SSH a Telnet -->
-        <div class="slide" role="region" aria-label="Snímek 8: SSH vs Telnet - vzdálený přístup">
+        <div class="slide" role="region" aria-label="Snímek 10: SSH vs Telnet - vzdálený přístup">
             <h2 class="slide-title">SSH vs Telnet – Vzdálený přístup</h2>
             <div class="slide-content">
                 <h3>Komparace protokolů</h3>
@@ -1589,7 +1840,7 @@
         </div>
 
         <!-- Slide 8: Emailové protokoly -->
-        <div class="slide" role="region" aria-label="Snímek 9: E-mailová infrastruktura - SMTP, POP3, IMAP">
+        <div class="slide" role="region" aria-label="Snímek 11: E-mailová infrastruktura - SMTP, POP3, IMAP">
             <h2 class="slide-title">E-mailová infrastruktura: SMTP, POP3, IMAP</h2>
             <div class="slide-content">
                 <h3>SMTP – Simple Mail Transfer Protocol</h3>
@@ -1649,7 +1900,7 @@
         </div>
 
         <!-- Slide 8: Instant Messaging -->
-        <div class="slide" role="region" aria-label="Snímek 10: Instant Messaging - okamžitá komunikace">
+        <div class="slide" role="region" aria-label="Snímek 12: Instant Messaging - okamžitá komunikace">
             <h2 class="slide-title">Instant Messaging – Okamžitá komunikace</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -1683,7 +1934,7 @@
         </div>
 
         <!-- Slide 9: VoIP -->
-        <div class="slide" role="region" aria-label="Snímek 11: VoIP - Voice over Internet Protocol">
+        <div class="slide" role="region" aria-label="Snímek 13: VoIP - Voice over Internet Protocol">
             <h2 class="slide-title">VoIP – Voice over Internet Protocol</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -1755,7 +2006,7 @@
         </div>
 
         <!-- Slide 10: SNMP -->
-        <div class="slide" role="region" aria-label="Snímek 12: SNMP - monitoring a správa sítě">
+        <div class="slide" role="region" aria-label="Snímek 14: SNMP - monitoring a správa sítě">
             <h2 class="slide-title">SNMP – Monitoring a správa sítě</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -1825,7 +2076,7 @@
         </div>
 
         <!-- Slide 11.5: NTP -->
-        <div class="slide" role="region" aria-label="Snímek 13: NTP - Network Time Protocol">
+        <div class="slide" role="region" aria-label="Snímek 15: NTP - Network Time Protocol">
             <h2 class="slide-title">NTP – Network Time Protocol</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -1883,7 +2134,7 @@
         </div>
 
         <!-- Slide 12: VPN -->
-        <div class="slide" role="region" aria-label="Snímek 14: VPN - Virtual Private Network">
+        <div class="slide" role="region" aria-label="Snímek 16: VPN - Virtual Private Network">
             <h2 class="slide-title">VPN – Virtual Private Network</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -1963,7 +2214,7 @@
         </div>
 
         <!-- Slide 15: RADIUS/AAA -->
-        <div class="slide" role="region" aria-label="Snímek 15: RADIUS - Remote Authentication">
+        <div class="slide" role="region" aria-label="Snímek 17: RADIUS - Remote Authentication">
             <h2 class="slide-title">RADIUS – Remote Authentication Dial-In User Service</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -2021,7 +2272,7 @@
         </div>
 
         <!-- Slide 16: ICMP/Diagnostika -->
-        <div class="slide" role="region" aria-label="Snímek 16: ICMP - Network diagnostika">
+        <div class="slide" role="region" aria-label="Snímek 18: ICMP - Network diagnostika">
             <h2 class="slide-title">ICMP – Síťová diagnostika</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -2079,7 +2330,7 @@
         </div>
 
         <!-- Slide 13: Proxy, Firewall a síťová bezpečnost -->
-        <div class="slide" role="region" aria-label="Snímek 17: Síťová bezpečnost - Proxy a Firewall">
+        <div class="slide" role="region" aria-label="Snímek 19: Síťová bezpečnost - Proxy a Firewall">
             <h2 class="slide-title">Síťová bezpečnost – Proxy & Firewall</h2>
             <div class="slide-content">
                 <h3>Proxy servery – přehledy a filtrování</h3>
@@ -2136,7 +2387,7 @@
         </div>
 
         <!-- Slide 13.5: LDAP -->
-        <div class="slide" role="region" aria-label="Snímek 18: LDAP - centrální autentizace">
+        <div class="slide" role="region" aria-label="Snímek 20: LDAP - centrální autentizace">
             <h2 class="slide-title">LDAP – Centrální adresář a autentizace</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -2222,7 +2473,7 @@
         </div>
 
         <!-- Slide 19: Syslog -->
-        <div class="slide" role="region" aria-label="Snímek 19: Syslog - centralizované logování">
+        <div class="slide" role="region" aria-label="Snímek 21: Syslog - centralizované logování">
             <h2 class="slide-title">Syslog – Centralizované logování a monitorování</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -2295,7 +2546,7 @@
         </div>
 
         <!-- Slide 20: Závislosti a interoperabilita -->
-        <div class="slide" role="region" aria-label="Snímek 20: Závislosti mezi síťovými službami">
+        <div class="slide" role="region" aria-label="Snímek 22: Závislosti mezi síťovými službami">
             <h2 class="slide-title">Závislosti mezi síťovými službami</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -2356,7 +2607,7 @@
         </div>
 
         <!-- Slide 14: Cloudové služby a moderní trendy -->
-        <div class="slide" role="region" aria-label="Snímek 21: Cloudové služby a budoucnost">
+        <div class="slide" role="region" aria-label="Snímek 23: Cloudové služby a budoucnost">
             <h2 class="slide-title">Cloudové služby a budoucnost</h2>
             <div class="slide-content">
                 <h3>Cloud computing modely</h3>
@@ -2425,7 +2676,7 @@
         </div>
 
         <!-- Slide 15: Závěr a shrnutí -->
-        <div class="slide" role="region" aria-label="Snímek 22: Závěr - Síťové služby jako základ digitální civilizace">
+        <div class="slide" role="region" aria-label="Snímek 24: Závěr - Síťové služby jako základ digitální civilizace">
             <h2 class="slide-title">Závěr – Síťové služby jako základ digitální civilizace</h2>
             <div class="slide-content">
                 <div class="highlight-box" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;">
