@@ -3,6 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Komplexní analýza síťových služeb v počítačových sítích. Zahrnuje DNS, DHCP, HTTP/HTTPS, FTP, Email, VoIP, VPN a weitere. Maturitní otázka č. 5 - IT obor.">
+    <meta name="keywords" content="síťové služby, DNS, DHCP, HTTP, FTP, VoIP, VPN, firewall, počítačové sítě">
+    <meta name="author" content="Patrik Luks">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Síťové služby v počítačových sítích - Prezentace">
+    <meta property="og:description" content="Komplexní prezentace na téma síťových služeb - DNS, DHCP, HTTP/HTTPS, Email, VoIP, VPN a dalších kritických služeb internetu.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://patrikluks.github.io/network-services/">
     <title>Síťové služby v počítačových sítích</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
@@ -33,6 +41,7 @@
             background: radial-gradient(circle at 20% 50%, rgba(106, 90, 205, 0.05) 0%, transparent 50%),
                         radial-gradient(circle at 80% 80%, rgba(147, 112, 219, 0.05) 0%, transparent 50%);
             animation: subtle-move 20s ease-in-out infinite;
+            will-change: transform;
         }
 
         @keyframes subtle-move {
@@ -67,6 +76,7 @@
                 #6a5acd 100%);
             background-size: 200% 100%;
             animation: shimmer 3s linear infinite;
+            will-change: background-position;
         }
 
         @keyframes shimmer {
@@ -78,7 +88,7 @@
             display: none;
             padding: 60px 80px;
             min-height: 750px;
-            animation: elegant-fade 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: elegant-fade 0.35s ease-out;
             background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
         }
 
@@ -89,11 +99,11 @@
         @keyframes elegant-fade {
             from { 
                 opacity: 0; 
-                transform: translateY(30px) scale(0.98);
+                transform: translateY(15px);
             }
             to { 
                 opacity: 1; 
-                transform: translateY(0) scale(1);
+                transform: translateY(0);
             }
         }
 
@@ -322,7 +332,7 @@
 
         .subtitle {
             font-size: 1.3em;
-            color: #6c757d;
+            color: #4a5568;
             margin-bottom: 50px;
             font-weight: 400;
             letter-spacing: 0.3px;
@@ -331,7 +341,7 @@
         .author-info {
             margin-top: 70px;
             font-size: 1.1em;
-            color: #495057;
+            color: #3d444d;
             font-weight: 400;
             letter-spacing: 0.3px;
         }
@@ -867,12 +877,11 @@
             animation: shimmer-load 2s infinite;
         }
     </style>
-    </style>
 </head>
 <body>
-    <div class="presentation-container">
+    <div class="presentation-container" role="main" aria-label="Prezentace - Síťové služby v počítačových sítích">
         <!-- Slide 1: Titulní strana -->
-        <div class="slide active title-slide">
+        <div class="slide active title-slide" role="region" aria-label="Snímek 1: Titulní strana">
             <h1 class="slide-title">Služby v počítačových sítích</h1>
             <p class="subtitle">Komplexní analýza síťové infrastruktury | Maturitní otázka č. 5</p>
             <div class="author-info">
@@ -1831,12 +1840,12 @@
         </div>
 
         <!-- Navigation -->
-        <div class="navigation">
-            <button class="nav-button" id="prevBtn" onclick="changeSlide(-1)">← Předchozí</button>
-            <span class="slide-counter">
+        <div class="navigation" role="navigation" aria-label="Navigace prezentace">
+            <button class="nav-button" id="prevBtn" onclick="changeSlide(-1)" aria-label="Jít na předchozí snímek">← Předchozí</button>
+            <span class="slide-counter" role="status" aria-label="Počítadlo snímků" aria-live="polite">
                 <span id="currentSlide">1</span> / <span id="totalSlides">15</span>
             </span>
-            <button class="nav-button" id="nextBtn" onclick="changeSlide(1)">Další →</button>
+            <button class="nav-button" id="nextBtn" onclick="changeSlide(1)" aria-label="Jít na další snímek">Další →</button>
         </div>
     </div>
 
