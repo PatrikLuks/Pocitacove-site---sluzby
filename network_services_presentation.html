@@ -962,6 +962,41 @@
             font-family: 'Playfair Display', serif;
         }
 
+        .help-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .close-modal-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: #6a5acd;
+            cursor: pointer;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            border-radius: 4px;
+        }
+
+        .close-modal-btn:hover {
+            background: #f8f9fa;
+            color: #5a4cbd;
+        }
+
+        .help-content h2 {
+            margin: 0;
+            padding: 0;
+        }
+
         .help-section {
             margin-bottom: 20px;
         }
@@ -1022,7 +1057,7 @@
         body.fullscreen-mode {
             margin: 0;
             padding: 0;
-            background: #1a1a2e !important;
+            background: #0f0f1e !important;
         }
 
         .fullscreen-mode .presentation-container {
@@ -1030,15 +1065,34 @@
             border-radius: 0;
             box-shadow: none;
             max-width: 100%;
+            overflow: hidden;
         }
 
         .fullscreen-mode .slide {
             padding: 60px 100px;
-            max-height: 100vh;
+            max-height: calc(100vh - 80px);
+            overflow-y: auto;
         }
 
         .fullscreen-mode .navigation {
             display: flex;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 16px 40px;
+            border-top: 2px solid #6a5acd;
+            gap: 20px;
+        }
+
+        .fullscreen-mode .nav-button {
+            padding: 12px 24px;
+            font-size: 0.9em;
+            background: linear-gradient(135deg, #6a5acd 0%, #9370db 100%);
+        }
+
+        .fullscreen-mode .slide-counter {
+            color: #9370db;
+            font-size: 1.1em;
+            font-weight: 700;
+            letter-spacing: 2px;
         }
 
         .help-hint {
@@ -1054,11 +1108,22 @@
             box-shadow: 0 4px 12px rgba(106, 90, 205, 0.3);
             transition: all 0.3s;
             z-index: 1000;
+            animation: pulse-hint 2s infinite;
         }
 
         .help-hint:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(106, 90, 205, 0.4);
+            animation: none;
+        }
+
+        @keyframes pulse-hint {
+            0%, 100% { 
+                box-shadow: 0 4px 12px rgba(106, 90, 205, 0.3);
+            }
+            50% { 
+                box-shadow: 0 4px 20px rgba(106, 90, 205, 0.5);
+            }
         }
 
         @media (max-width: 768px) {
@@ -1076,6 +1141,43 @@
                 bottom: 10px;
                 right: 10px;
                 font-size: 0.75em;
+            }
+
+            .slide-counter {
+                font-size: 1em !important;
+            }
+
+            .navigation {
+                padding: 12px 16px !important;
+            }
+        }
+
+        /* Keyboard feedback */
+        .keyboard-feedback {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(26, 26, 46, 0.95);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: 600;
+            pointer-events: none;
+            z-index: 3000;
+            animation: fade-in-out 0.8s ease-out;
+            border: 2px solid #6a5acd;
+        }
+
+        @keyframes fade-in-out {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(1.1);
             }
         }
     </style>
@@ -1972,7 +2074,7 @@
         </div>
 
         <!-- Slide 15: Závěr a shrnutí -->
-        <div class="slide" role="region" aria-label="Snímek 16: Závěr - Síťové služby jako základ digitální civilizace">
+        <div class="slide" role="region" aria-label="Snímek 15: Závěr - Síťové služby jako základ digitální civilizace">
             <h2 class="slide-title">Závěr – Síťové služby jako základ digitální civilizace</h2>
             <div class="slide-content">
                 <div class="highlight-box" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;">
@@ -2060,7 +2162,10 @@
     <!-- Help Modal -->
     <div class="help-modal" id="helpModal">
         <div class="help-content">
-            <h2>Klávesové zkratky</h2>
+            <div class="help-header">
+                <h2>Klávesové zkratky</h2>
+                <button class="close-modal-btn" onclick="toggleHelp()" aria-label="Zavřít nápovědu">×</button>
+            </div>
             
             <div class="help-section">
                 <h3>Navigace</h3>
@@ -2070,7 +2175,7 @@
                 </div>
                 <div class="help-item">
                     <div class="help-key">Home</div>
-                    <div class="help-description">Prvnı́ snímek</div>
+                    <div class="help-description">První snímek</div>
                 </div>
                 <div class="help-item">
                     <div class="help-key">End</div>
@@ -2156,6 +2261,22 @@
 
         function changeSlide(direction) {
             showSlide(currentSlide + direction);
+            showKeyboardFeedback(direction > 0 ? '▶ Další' : '◀ Předchozí');
+        }
+
+        function showKeyboardFeedback(text) {
+            // Odstraň starý feedback element
+            const oldFeedback = document.querySelector('.keyboard-feedback');
+            if (oldFeedback) oldFeedback.remove();
+
+            // Vytvoř nový feedback
+            const feedback = document.createElement('div');
+            feedback.className = 'keyboard-feedback';
+            feedback.textContent = text;
+            document.body.appendChild(feedback);
+
+            // Odstraň po animaci
+            setTimeout(() => feedback.remove(), 800);
         }
 
         function toggleFullscreen() {
@@ -2206,12 +2327,14 @@
             // ? pro otevření help
             if (e.key === '?') {
                 toggleHelp();
+                showKeyboardFeedback('❓ Nápověda');
                 return;
             }
 
             // F pro fullscreen
             if (e.key === 'f' || e.key === 'F') {
                 toggleFullscreen();
+                showKeyboardFeedback(isFullscreen ? '🖥 Fullscreen' : '↙ Normální');
                 return;
             }
 
@@ -2223,6 +2346,7 @@
                     const slideNum = parseInt(inputBuffer);
                     if (slideNum >= 1 && slideNum <= totalSlides) {
                         showSlide(slideNum);
+                        showKeyboardFeedback(`📄 Slide ${slideNum}`);
                     }
                     inputBuffer = '';
                 }, 500);
@@ -2230,12 +2354,26 @@
             }
 
             // Klávesové zkratky pro navigaci
-            if (e.key === 'ArrowLeft') changeSlide(-1);
-            if (e.key === 'ArrowRight') changeSlide(1);
-            if (e.key === 'Home') showSlide(1);
-            if (e.key === 'End') showSlide(totalSlides);
-            if (e.key === 'PageDown') changeSlide(1);
-            if (e.key === 'PageUp') changeSlide(-1);
+            if (e.key === 'ArrowLeft') {
+                changeSlide(-1);
+            }
+            if (e.key === 'ArrowRight') {
+                changeSlide(1);
+            }
+            if (e.key === 'Home') {
+                showSlide(1);
+                showKeyboardFeedback('⏮ Počátek');
+            }
+            if (e.key === 'End') {
+                showSlide(totalSlides);
+                showKeyboardFeedback('⏭ Konec');
+            }
+            if (e.key === 'PageDown') {
+                changeSlide(1);
+            }
+            if (e.key === 'PageUp') {
+                changeSlide(-1);
+            }
         });
 
         // Close help modal when clicking outside
