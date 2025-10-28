@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#6a5acd">
     <meta name="description" content="Komplexní analýza síťových služeb v počítačových sítích. Zahrnuje DNS, DHCP, HTTP/HTTPS, FTP, Email, VoIP, VPN a dalších. Maturitní otázka č. 5 - IT obor.">
     <meta name="keywords" content="síťové služby, DNS, DHCP, HTTP, FTP, VoIP, VPN, firewall, počítačové sítě">
     <meta name="author" content="Patrik Luks">
@@ -683,7 +684,24 @@
             }
 
             .navigation {
-                padding: 20px 30px;
+                padding: 16px 20px;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .nav-button {
+                padding: 10px 16px;
+                font-size: 0.75em;
+                flex: 1;
+                min-width: 80px;
+            }
+
+            .slide-counter {
+                width: 100%;
+                order: 3;
+                text-align: center;
+                font-size: 0.9em;
+                margin-top: 8px;
             }
 
             .flow-diagram {
@@ -890,6 +908,175 @@
             background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
             background-size: 1000px 100%;
             animation: shimmer-load 2s infinite;
+        }
+
+        /* Help dialog styles */
+        .help-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            animation: fade-in 0.2s ease-out;
+        }
+
+        .help-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .help-content {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            max-width: 600px;
+            box-shadow: 0 10px 60px rgba(0, 0, 0, 0.3);
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slide-up 0.3s ease-out;
+        }
+
+        @keyframes slide-up {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .help-content h2 {
+            color: #1a1a2e;
+            margin-bottom: 20px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .help-section {
+            margin-bottom: 20px;
+        }
+
+        .help-section h3 {
+            color: #6a5acd;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .help-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border-left: 3px solid #6a5acd;
+        }
+
+        .help-key {
+            background: linear-gradient(135deg, #6a5acd 0%, #9370db 100%);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 3px;
+            font-weight: 600;
+            font-size: 0.85em;
+            min-width: 70px;
+            text-align: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .help-description {
+            color: #2c3e50;
+            flex-grow: 1;
+        }
+
+        .close-help {
+            background: linear-gradient(135deg, #6a5acd 0%, #9370db 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 20px;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .close-help:hover {
+            box-shadow: 0 4px 12px rgba(106, 90, 205, 0.3);
+        }
+
+        /* Fullscreen mode styles */
+        body.fullscreen-mode {
+            margin: 0;
+            padding: 0;
+            background: #1a1a2e !important;
+        }
+
+        .fullscreen-mode .presentation-container {
+            max-height: 100vh;
+            border-radius: 0;
+            box-shadow: none;
+            max-width: 100%;
+        }
+
+        .fullscreen-mode .slide {
+            padding: 60px 100px;
+            max-height: 100vh;
+        }
+
+        .fullscreen-mode .navigation {
+            display: flex;
+        }
+
+        .help-hint {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #6a5acd 0%, #9370db 100%);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(106, 90, 205, 0.3);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .help-hint:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(106, 90, 205, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .help-content {
+                margin: 20px;
+                max-height: 90vh;
+                padding: 30px 20px;
+            }
+
+            .fullscreen-mode .slide {
+                padding: 40px 30px;
+            }
+
+            .help-hint {
+                bottom: 10px;
+                right: 10px;
+                font-size: 0.75em;
+            }
         }
     </style>
 </head>
@@ -1785,7 +1972,7 @@
         </div>
 
         <!-- Slide 15: Závěr a shrnutí -->
-        <div class="slide">
+        <div class="slide" role="region" aria-label="Snímek 16: Závěr - Síťové služby jako základ digitální civilizace">
             <h2 class="slide-title">Závěr – Síťové služby jako základ digitální civilizace</h2>
             <div class="slide-content">
                 <div class="highlight-box" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;">
@@ -1870,12 +2057,77 @@
         </div>
     </div>
 
+    <!-- Help Modal -->
+    <div class="help-modal" id="helpModal">
+        <div class="help-content">
+            <h2>Klávesové zkratky</h2>
+            
+            <div class="help-section">
+                <h3>Navigace</h3>
+                <div class="help-item">
+                    <div class="help-key">← / →</div>
+                    <div class="help-description">Předchozí / Další snímek</div>
+                </div>
+                <div class="help-item">
+                    <div class="help-key">Home</div>
+                    <div class="help-description">Prvnı́ snímek</div>
+                </div>
+                <div class="help-item">
+                    <div class="help-key">End</div>
+                    <div class="help-description">Poslední snímek</div>
+                </div>
+                <div class="help-item">
+                    <div class="help-key">PageUp/PageDown</div>
+                    <div class="help-description">Předchozí / Další snímek</div>
+                </div>
+            </div>
+
+            <div class="help-section">
+                <h3>Přímý přístup</h3>
+                <div class="help-item">
+                    <div class="help-key">0-9</div>
+                    <div class="help-description">Zadejte číslo snímku a stiskněte (např. 5 = Slide 5). Čekej 500ms.</div>
+                </div>
+            </div>
+
+            <div class="help-section">
+                <h3>Mód</h3>
+                <div class="help-item">
+                    <div class="help-key">F</div>
+                    <div class="help-description">Fullscreen / Normální režim</div>
+                </div>
+                <div class="help-item">
+                    <div class="help-key">?</div>
+                    <div class="help-description">Zobrazit tuto nápovědu</div>
+                </div>
+            </div>
+
+            <div class="help-section">
+                <h3>Ostatní</h3>
+                <div class="help-item">
+                    <div class="help-key">Swipe</div>
+                    <div class="help-description">Gesto na mobilních zařízeních (vlevo/vpravo)</div>
+                </div>
+            </div>
+
+            <button class="close-help" onclick="toggleHelp()">Zavřít (ESC)</button>
+        </div>
+    </div>
+
+    <!-- Help Hint -->
+    <div class="help-hint" id="helpHint" onclick="toggleHelp()" title="Stiskni ? pro nápovědu">
+        <strong>?</strong> Nápověda
+    </div>
+
     <script>
         let currentSlide = 1;
         const slides = document.querySelectorAll('.slide');
         const totalSlides = slides.length;
         let inputBuffer = '';
         let inputTimeout;
+        let isFullscreen = false;
+
+        const STORAGE_KEY = 'presentation_last_slide';
 
         document.getElementById('totalSlides').textContent = totalSlides;
 
@@ -1891,16 +2143,78 @@
             // Scroll slide na začátek
             slides[currentSlide - 1].scrollTop = 0;
             
+            // Ulož pozici do localStorage
+            localStorage.setItem(STORAGE_KEY, currentSlide);
+            
             document.getElementById('currentSlide').textContent = currentSlide;
             document.getElementById('prevBtn').disabled = currentSlide === 1;
             document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+
+            // Focus management - nastav focus na slide
+            slides[currentSlide - 1].focus();
         }
 
         function changeSlide(direction) {
             showSlide(currentSlide + direction);
         }
 
+        function toggleFullscreen() {
+            isFullscreen = !isFullscreen;
+            document.body.classList.toggle('fullscreen-mode', isFullscreen);
+            
+            // Adjust presentation container
+            const container = document.querySelector('.presentation-container');
+            if (isFullscreen) {
+                container.style.margin = '0';
+                container.style.padding = '0';
+            } else {
+                container.style.margin = '';
+                container.style.padding = '';
+            }
+        }
+
+        function toggleHelp() {
+            const modal = document.getElementById('helpModal');
+            modal.classList.toggle('active');
+        }
+
+        // Restore last slide from localStorage
+        function restoreLastSlide() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                const slideNum = parseInt(saved);
+                if (slideNum >= 1 && slideNum <= totalSlides) {
+                    showSlide(slideNum);
+                    return;
+                }
+            }
+            showSlide(1);
+        }
+
+        // Close help modal with ESC
         document.addEventListener('keydown', (e) => {
+            const helpModal = document.getElementById('helpModal');
+            
+            // ESC pro zavření help
+            if (e.key === 'Escape') {
+                if (helpModal.classList.contains('active')) {
+                    toggleHelp();
+                }
+                return;
+            }
+
+            // ? pro otevření help
+            if (e.key === '?') {
+                toggleHelp();
+                return;
+            }
+
+            // F pro fullscreen
+            if (e.key === 'f' || e.key === 'F') {
+                toggleFullscreen();
+                return;
+            }
+
             // Numerické klávesy pro přímý skok (0-9)
             if (e.key >= '0' && e.key <= '9') {
                 inputBuffer += e.key;
@@ -1915,13 +2229,21 @@
                 return;
             }
 
-            // Klávesové zkratky
+            // Klávesové zkratky pro navigaci
             if (e.key === 'ArrowLeft') changeSlide(-1);
             if (e.key === 'ArrowRight') changeSlide(1);
             if (e.key === 'Home') showSlide(1);
             if (e.key === 'End') showSlide(totalSlides);
             if (e.key === 'PageDown') changeSlide(1);
             if (e.key === 'PageUp') changeSlide(-1);
+        });
+
+        // Close help modal when clicking outside
+        document.addEventListener('click', (e) => {
+            const modal = document.getElementById('helpModal');
+            if (e.target === modal) {
+                toggleHelp();
+            }
         });
 
         // Touch support for mobile
@@ -1942,7 +2264,8 @@
             if (touchEndX > touchStartX + 50) changeSlide(-1);
         }
 
-        showSlide(1);
+        // Initialize - load saved slide
+        restoreLastSlide();
     </script>
 </body>
 </html>
