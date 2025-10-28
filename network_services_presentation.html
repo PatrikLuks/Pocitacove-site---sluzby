@@ -1311,6 +1311,16 @@
                         <td>Bezpečnost: SPF, DKIM, DMARC</td>
                         <td>v=spf1 include:_spf.google.com ~all</td>
                     </tr>
+                    <tr>
+                        <td><strong>NS</strong></td>
+                        <td>Autoritativní nameserver domény</td>
+                        <td>ns1.example.com, ns2.example.com</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SOA</strong></td>
+                        <td>Start of Authority – metadata zóny</td>
+                        <td>Serial, refresh, retry, expire, TTL</td>
+                    </tr>
                 </table>
 
                 <div class="security-box">
@@ -1519,8 +1529,67 @@
             </div>
         </div>
 
-        <!-- Slide 7: Emailové protokoly -->
-        <div class="slide" role="region" aria-label="Snímek 8: E-mailová infrastruktura - SMTP, POP3, IMAP">
+        <!-- Slide 7.5: SSH a Telnet -->
+        <div class="slide" role="region" aria-label="Snímek 7.5: SSH vs Telnet - vzdálený přístup">
+            <h2 class="slide-title">SSH vs Telnet – Vzdálený přístup</h2>
+            <div class="slide-content">
+                <h3>Komparace protokolů</h3>
+                <div class="comparison-grid">
+                    <div class="comparison-card legacy">
+                        <h4>❌ Telnet (zastaralý)</h4>
+                        <p><span class="port-badge">Port 23 TCP</span> Nešifrovaná terminálová komunikace. Jméno i heslo v plain textu.</p>
+                        <p><strong>Rizika:</strong> Packet sniffing, credential interception, session hijacking</p>
+                    </div>
+                    <div class="comparison-card winner">
+                        <h4>✅ SSH (Secure Shell)</h4>
+                        <p><span class="success-badge">Port 22 TCP</span> Plné šifrování (AES-256), autentizace klíči/heslem, X11/port forwarding</p>
+                        <p><strong>Standard:</strong> Povinný pro enterprise, Linux, cloud (AWS, Azure)</p>
+                    </div>
+                </div>
+
+                <h3>SSH autentizace – dvě metody</h3>
+                <table>
+                    <tr>
+                        <th>Metoda</th>
+                        <th>Bezpečnost</th>
+                        <th>Use Case</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Password auth</strong></td>
+                        <td>⭐⭐☆ Dictionary attacks</td>
+                        <td>Test servery</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Public-key (RSA/ED25519)</strong></td>
+                        <td>⭐⭐⭐⭐⭐ Nejbezpečnější</td>
+                        <td>Production, CI/CD, automation</td>
+                    </tr>
+                </table>
+
+                <h3>SSH Features – více než jen terminal</h3>
+                <div class="service-grid" style="grid-template-columns: repeat(2, 1fr);">
+                    <div class="service-card">
+                        <h4>🔐 Port Forwarding</h4>
+                        <p><code>ssh -L 8080:db:5432</code> – tunel na DB</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>📁 SFTP/SCP</h4>
+                        <p>Bezpečný přenos přes SSH</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>🖥️ X11 Forwarding</h4>
+                        <p>Remote GUI lokálně</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>🔄 Agent Forwarding</h4>
+                        <p>Bezpečný multi-hop</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Emailové protokoly -->
+        <div class="slide" role="region" aria-label="Snímek 9: E-mailová infrastruktura - SMTP, POP3, IMAP">
             <h2 class="slide-title">E-mailová infrastruktura: SMTP, POP3, IMAP</h2>
             <div class="slide-content">
                 <h3>SMTP – Simple Mail Transfer Protocol</h3>
@@ -1580,7 +1649,7 @@
         </div>
 
         <!-- Slide 8: Instant Messaging -->
-        <div class="slide" role="region" aria-label="Snímek 9: Instant Messaging - okamžitá komunikace">
+        <div class="slide" role="region" aria-label="Snímek 10: Instant Messaging - okamžitá komunikace">
             <h2 class="slide-title">Instant Messaging – Okamžitá komunikace</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -1614,7 +1683,7 @@
         </div>
 
         <!-- Slide 9: VoIP -->
-        <div class="slide" role="region" aria-label="Snímek 10: VoIP - Voice over Internet Protocol">
+        <div class="slide" role="region" aria-label="Snímek 11: VoIP - Voice over Internet Protocol">
             <h2 class="slide-title">VoIP – Voice over Internet Protocol</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -1686,7 +1755,7 @@
         </div>
 
         <!-- Slide 10: SNMP -->
-        <div class="slide" role="region" aria-label="Snímek 11: SNMP - monitoring a správa sítě">
+        <div class="slide" role="region" aria-label="Snímek 12: SNMP - monitoring a správa sítě">
             <h2 class="slide-title">SNMP – Monitoring a správa sítě</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -1755,8 +1824,66 @@
             </div>
         </div>
 
-        <!-- Slide 11: VPN -->
-        <div class="slide" role="region" aria-label="Snímek 12: VPN - Virtual Private Network">
+        <!-- Slide 11.5: NTP -->
+        <div class="slide" role="region" aria-label="Snímek 11.5: NTP - Network Time Protocol">
+            <h2 class="slide-title">NTP – Network Time Protocol</h2>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    <p><strong>Fundamentální služba:</strong> Synchronizace systémových hodin v sítích. <span class="port-badge">Port 123 UDP</span> Kritická pro bezpečnost (SSL certifikáty), monitoring (log timestamps), finance (transakce), Kerberos autentizace.</p>
+                </div>
+
+                <h3>Proč je NTP kritická?</h3>
+                <div class="service-grid" style="grid-template-columns: 1fr 1fr;">
+                    <div class="service-card" style="border-left-color: #e53e3e; background: #fff5f5;">
+                        <h4 style="color: #e53e3e;">🔓 Bez NTP</h4>
+                        <p>SSL certifikáty se zdají expirované, Kerberos tickety invalní, logy nemají koherentní časy, trading systémy selhávají</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>✅ S NTP</h4>
+                        <p>Všichni v síti mají stejný čas s přesností ±1ms. Bezpečné ověřování, korektní logování, compliance auditů.</p>
+                    </div>
+                </div>
+
+                <h3>NTP vrstvení (Stratum) – hierarchie</h3>
+                <table>
+                    <tr>
+                        <th>Stratum</th>
+                        <th>Popis</th>
+                        <th>Příklad</th>
+                    </tr>
+                    <tr>
+                        <td><strong>0</strong></td>
+                        <td>Atomové hodiny, GPS, rádiové signály</td>
+                        <td>Cesium hodiny, GPS satelity</td>
+                    </tr>
+                    <tr>
+                        <td><strong>1</strong></td>
+                        <td>Stratum 0 přímo připojené</td>
+                        <td>Národní observatoře, telecom operátoři</td>
+                    </tr>
+                    <tr>
+                        <td><strong>2-3</strong></td>
+                        <td>Synchronizují se ze Stratum 1 serverů</td>
+                        <td>Podnikové NTP servery v datacentrech</td>
+                    </tr>
+                    <tr>
+                        <td><strong>4-15</strong></td>
+                        <td>Klientské zařízení (PC, server, Switch)</td>
+                        <td>Linux box, Windows počítač</td>
+                    </tr>
+                </table>
+
+                <h3>NTP vs SNTP vs PTP</h3>
+                <div class="protocol-box">
+                    <p><strong>NTP (Network Time Protocol):</strong> Full protocol, ±1ms přesnost, komplexní algoritmy (falseticker detection), RFC 5905</p>
+                    <p><strong>SNTP (Simple NTP):</strong> Lightweight klient, ±100ms přesnost, pro jednoduché aplikace (NTP klient na Linuxu)</p>
+                    <p><strong>PTP (Precision Time Protocol):</strong> ±1µs přesnost, pro finance/telekom, vyžaduje HW podporu (IEEE 1588)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: VPN -->
+        <div class="slide" role="region" aria-label="Snímek 14: VPN - Virtual Private Network">
             <h2 class="slide-title">VPN – Virtual Private Network</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -1835,8 +1962,66 @@
             </div>
         </div>
 
-        <!-- Slide 12: Proxy, Firewall a síťová bezpečnost -->
-        <div class="slide" role="region" aria-label="Snímek 13: Síťová bezpečnost - Proxy a Firewall">
+        <!-- Slide 12.5: ICMP/Diagnostika -->
+        <div class="slide" role="region" aria-label="Snímek 12.5: ICMP - Network diagnostika">
+            <h2 class="slide-title">ICMP – Síťová diagnostika</h2>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    <p><strong>Internet Control Message Protocol:</strong> L3 protokol pro diagnostiku a reporting chyb. <strong>Není spojovaný</strong>, nejsou data, jen kontrolní zprávy. Kritický pro troubleshooting sítě.</p>
+                </div>
+
+                <h3>ICMP typy zpráv – praktický obsah</h3>
+                <div class="service-grid" style="grid-template-columns: 1fr 1fr;">
+                    <div class="service-card">
+                        <h4>📡 Echo Request/Reply (Ping)</h4>
+                        <p><code>ping 8.8.8.8</code> – ověří dosažitelnost, RTT latence. <span class="port-badge">Type 8/0</span></p>
+                    </div>
+                    <div class="service-card">
+                        <h4>🗺️ Time Exceeded (Traceroute)</h4>
+                        <p><code>traceroute 8.8.8.8</code> – mapuje cestu přes routery. <span class="port-badge">Type 11</span></p>
+                    </div>
+                    <div class="service-card">
+                        <h4>❌ Destination Unreachable</h4>
+                        <p>Host unreachable, port unreachable, network unreachable. <span class="port-badge">Type 3</span></p>
+                    </div>
+                    <div class="service-card">
+                        <h4>⏱️ Redirect</h4>
+                        <p>Router říká klientu "pošli to jinam". <span class="port-badge">Type 5</span></p>
+                    </div>
+                </div>
+
+                <h3>Diagnostické nástroje postavené na ICMP</h3>
+                <table>
+                    <tr>
+                        <th>Nástroj</th>
+                        <th>Příkaz</th>
+                        <th>Zjišťuje</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Ping</strong></td>
+                        <td><code>ping host</code></td>
+                        <td>Dosažitelnost, RTT (round-trip time), packet loss</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Traceroute</strong></td>
+                        <td><code>traceroute host</code></td>
+                        <td>Cestu paketů, latenci na každém hop, kde selhání</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MTU Path Discovery</strong></td>
+                        <td><code>ping -M do -s 1472 host</code></td>
+                        <td>Maximální velikost paketu bez fragmentace</td>
+                    </tr>
+                </table>
+
+                <div class="protocol-box">
+                    <strong>ICMP filtrování:</strong> Firewall sAdministrator někdy blokuje ICMP "z bezpečnostních důvodů", ale to **brání diagnostice**. Best practice: Povolit ICMP pro troubleshooting, blokovat jenom agresivní skenování. ICMP sám není bezpečnostní hrozba.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Proxy, Firewall a síťová bezpečnost -->
+        <div class="slide" role="region" aria-label="Snímek 15: Síťová bezpečnost - Proxy a Firewall">
             <h2 class="slide-title">Síťová bezpečnost – Proxy & Firewall</h2>
             <div class="slide-content">
                 <h3>Proxy servery – přehledy a filtrování</h3>
@@ -1892,8 +2077,68 @@
             </div>
         </div>
 
-        <!-- Slide 13: Závislosti a interoperabilita -->
-        <div class="slide" role="region" aria-label="Snímek 14: Závislosti mezi síťovými službami">
+        <!-- Slide 13.5: LDAP -->
+        <div class="slide" role="region" aria-label="Snímek 13.5: LDAP - centrální autentizace">
+            <h2 class="slide-title">LDAP – Centrální adresář a autentizace</h2>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    <p><strong>Lightweight Directory Access Protocol:</strong> Centralizovaná databáze uživatelů, skupin, oprávnění. <span class="port-badge">Port 389 TCP/UDP</span> (LDAPS 636 šifrovaně). Páteř podnikové autentizace.</p>
+                </div>
+
+                <h3>LDAP vs lokální uživatelé</h3>
+                <div class="comparison-grid">
+                    <div class="comparison-card legacy">
+                        <h4>❌ Lokální (/etc/passwd)</h4>
+                        <p>Každý server má svou databázi. Single sign-on nemožný. Správa na 100 serverech = chaos</p>
+                    </div>
+                    <div class="comparison-card winner">
+                        <h4>✅ LDAP centrální</h4>
+                        <p>Jeden LDAP server, všechny zařízení se autentizují. Single sign-on, jednotná správa, audity</p>
+                    </div>
+                </div>
+
+                <h3>LDAP hierarchie – stromová struktura</h3>
+                <div class="protocol-box">
+                    <code>dn: uid=jsmith,ou=People,dc=example,dc=com</code><br>
+                    <p><strong>DN (Distinguished Name):</strong> Unikátní identifikátor uživatele</p>
+                    <p><strong>uid=jsmith:</strong> Jedinečné jméno</p>
+                    <p><strong>ou=People:</strong> Organizational Unit (oddělení)</p>
+                    <p><strong>dc=example,dc=com:</strong> Domain Components (doména)</p>
+                </div>
+
+                <h3>LDAP operace a use cases</h3>
+                <table>
+                    <tr>
+                        <th>Operace</th>
+                        <th>Use Case</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Bind (autentizace)</strong></td>
+                        <td>Login na PC, server, VPN – ověří heslo</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Search</strong></td>
+                        <td>Aplikace zjišťuje skupiny uživatele pro autorizaci</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Add/Modify/Delete</strong></td>
+                        <td>Administrátor spravuje uživatele</td>
+                    </tr>
+                </table>
+
+                <h3>LDAP implementace – Microsoft Active Directory</h3>
+                <div class="service-grid" style="grid-template-columns: 1fr;">
+                    <div class="service-card">
+                        <h4>🔵 Active Directory (AD)</h4>
+                        <p>Microsoft implementace LDAP. Součást Windows Server. Obsahuje: uživatele, počítače, skupiny, GPO (Group Policy), DNS, Kerberos autentizaci</p>
+                        <p><strong>Typická architektura:</strong> 2-3 Domain Controllers pro redundanci, všechny počítače/servery připojeny k doméně</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Závislosti a interoperabilita -->
+        <div class="slide" role="region" aria-label="Snímek 16: Závislosti mezi síťovými službami">
             <h2 class="slide-title">Závislosti mezi síťovými službami</h2>
             <div class="slide-content">
                 <div class="highlight-box">
@@ -1954,7 +2199,7 @@
         </div>
 
         <!-- Slide 14: Cloudové služby a moderní trendy -->
-        <div class="slide" role="region" aria-label="Snímek 15: Cloudové služby a budoucnost">
+        <div class="slide" role="region" aria-label="Snímek 17: Cloudové služby a budoucnost">
             <h2 class="slide-title">Cloudové služby a budoucnost</h2>
             <div class="slide-content">
                 <h3>Cloud computing modely</h3>
@@ -2023,7 +2268,7 @@
         </div>
 
         <!-- Slide 15: Závěr a shrnutí -->
-        <div class="slide" role="region" aria-label="Snímek 15: Závěr - Síťové služby jako základ digitální civilizace">
+        <div class="slide" role="region" aria-label="Snímek 18: Závěr - Síťové služby jako základ digitální civilizace">
             <h2 class="slide-title">Závěr – Síťové služby jako základ digitální civilizace</h2>
             <div class="slide-content">
                 <div class="highlight-box" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;">
@@ -2102,7 +2347,7 @@
         <div class="navigation" role="navigation" aria-label="Navigace prezentace">
             <button class="nav-button" id="prevBtn" onclick="changeSlide(-1)" aria-label="Jít na předchozí snímek">← Předchozí</button>
             <span class="slide-counter" role="status" aria-label="Počítadlo snímků" aria-live="polite">
-                <span id="currentSlide">1</span> / <span id="totalSlides">15</span>
+                <span id="currentSlide">1</span> / <span id="totalSlides">20</span>
             </span>
             <button class="nav-button" id="nextBtn" onclick="changeSlide(1)" aria-label="Jít na další snímek">Další →</button>
         </div>
