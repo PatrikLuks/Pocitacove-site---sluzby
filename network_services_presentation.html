@@ -1,0 +1,1894 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Síťové služby v počítačových sítích</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 20% 50%, rgba(106, 90, 205, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(147, 112, 219, 0.05) 0%, transparent 50%);
+            animation: subtle-move 20s ease-in-out infinite;
+        }
+
+        @keyframes subtle-move {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-50px, -50px); }
+        }
+
+        .presentation-container {
+            max-width: 1300px;
+            width: 100%;
+            background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
+            border-radius: 0;
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.5),
+                        0 0 0 1px rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+
+        .presentation-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, 
+                #6a5acd 0%, 
+                #9370db 25%, 
+                #ba55d3 50%, 
+                #9370db 75%, 
+                #6a5acd 100%);
+            background-size: 200% 100%;
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .slide {
+            display: none;
+            padding: 60px 80px;
+            min-height: 750px;
+            animation: elegant-fade 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes elegant-fade {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px) scale(0.98);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .slide-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2.6em;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid transparent;
+            background: linear-gradient(90deg, #6a5acd 0%, #9370db 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            letter-spacing: -0.5px;
+        }
+
+        .slide-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #6a5acd, #9370db);
+            border-radius: 3px;
+        }
+
+        .slide-content {
+            font-size: 1.02em;
+            line-height: 1.75;
+            color: #2c3e50;
+            font-weight: 400;
+        }
+
+        .slide-content h3 {
+            font-family: 'Playfair Display', serif;
+            color: #1a1a2e;
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-top: 28px;
+            margin-bottom: 16px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .slide-content h3::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(180deg, #6a5acd, #9370db);
+            border-radius: 2px;
+        }
+
+        .slide-content h4 {
+            color: #34495e;
+            font-size: 1.08em;
+            margin-top: 16px;
+            margin-bottom: 10px;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-left: 4px solid #6a5acd;
+            padding: 24px 28px;
+            margin: 25px 0;
+            border-radius: 0;
+            box-shadow: 0 4px 16px rgba(106, 90, 205, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .highlight-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #6a5acd 0%, #9370db 100%);
+        }
+
+        .security-box {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+            border-left: 4px solid #c53030;
+            padding: 20px 24px;
+            margin: 20px 0;
+            border-radius: 0;
+            box-shadow: 0 4px 16px rgba(197, 48, 48, 0.08);
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            padding: 24px;
+            border-radius: 0;
+            border-left: 3px solid #6a5acd;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(106, 90, 205, 0.03) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(106, 90, 205, 0.15);
+            border-left-width: 4px;
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+
+        .service-card h4 {
+            color: #6a5acd;
+            margin-bottom: 12px;
+            margin-top: 0;
+            font-weight: 600;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 80px;
+            background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+            border-top: 1px solid #dee2e6;
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, #6a5acd 0%, #9370db 100%);
+            color: white;
+            border: none;
+            padding: 14px 36px;
+            border-radius: 0;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-size: 0.85em;
+            box-shadow: 0 4px 12px rgba(106, 90, 205, 0.3);
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(106, 90, 205, 0.4);
+        }
+
+        .nav-button:active {
+            transform: translateY(0);
+        }
+
+        .nav-button:disabled {
+            background: linear-gradient(135deg, #adb5bd 0%, #ced4da 100%);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .slide-counter {
+            color: #6a5acd;
+            font-weight: 600;
+            font-size: 1.05em;
+            letter-spacing: 1px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .title-slide {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            position: relative;
+        }
+
+        .title-slide::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(106, 90, 205, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .title-slide .slide-title {
+            font-size: 3.8em;
+            border: none;
+            margin-bottom: 24px;
+            -webkit-text-fill-color: #1a1a2e;
+            background: none;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #6c757d;
+            margin-bottom: 50px;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+        }
+
+        .author-info {
+            margin-top: 70px;
+            font-size: 1.1em;
+            color: #495057;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+        }
+
+        .author-info p {
+            margin: 8px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 20px;
+            font-size: 0.93em;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            border-radius: 0;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        th {
+            background: linear-gradient(135deg, #6a5acd 0%, #9370db 100%);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85em;
+            letter-spacing: 0.5px;
+        }
+
+        tr {
+            transition: background 0.2s;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .protocol-box {
+            background: linear-gradient(135deg, rgba(106, 90, 205, 0.03) 0%, rgba(147, 112, 219, 0.03) 100%);
+            padding: 20px 24px;
+            border-radius: 0;
+            margin: 20px 0;
+            border: 1px solid rgba(106, 90, 205, 0.15);
+            border-left: 3px solid #6a5acd;
+        }
+
+        .diagram {
+            background: white;
+            padding: 28px;
+            border-radius: 0;
+            margin: 25px 0;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .layer-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .layer {
+            padding: 18px;
+            border-radius: 0;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 0.3px;
+        }
+
+        .layer:hover {
+            transform: translateX(8px);
+            box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .layer-7 { background: linear-gradient(135deg, #6a5acd 0%, #9370db 100%); color: white; }
+        .layer-4 { background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; }
+        .layer-3 { background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%); color: white; }
+        .layer-2 { background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%); color: white; }
+
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 25px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 0;
+            border: 1px solid #dee2e6;
+        }
+
+        .flow-step {
+            flex: 1;
+            text-align: center;
+            padding: 14px;
+            background: white;
+            border-radius: 0;
+            border: 2px solid #6a5acd;
+            font-weight: 600;
+            color: #6a5acd;
+            transition: all 0.3s;
+            letter-spacing: 0.3px;
+        }
+
+        .flow-step:hover {
+            background: #6a5acd;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .flow-arrow {
+            font-size: 1.4em;
+            color: #6a5acd;
+            margin: 0 12px;
+            font-weight: 300;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 25px;
+        }
+
+        .comparison-card {
+            padding: 24px;
+            border-radius: 0;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .comparison-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        .comparison-card.winner {
+            border-color: #48bb78;
+            background: linear-gradient(135deg, #f0fff4 0%, #e6f9ee 100%);
+        }
+
+        .comparison-card.legacy {
+            border-color: #c53030;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+        }
+
+        .port-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #6a5acd 0%, #9370db 100%);
+            color: white;
+            padding: 5px 14px;
+            border-radius: 2px;
+            font-size: 0.82em;
+            font-weight: 600;
+            margin: 0 6px;
+            letter-spacing: 0.3px;
+            box-shadow: 0 2px 6px rgba(106, 90, 205, 0.3);
+        }
+
+        .security-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #c53030 0%, #e53e3e 100%);
+            color: white;
+            padding: 5px 14px;
+            border-radius: 2px;
+            font-size: 0.82em;
+            font-weight: 600;
+            margin: 0 6px;
+            letter-spacing: 0.3px;
+            box-shadow: 0 2px 6px rgba(197, 48, 48, 0.3);
+        }
+
+        .success-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #38a169 0%, #48bb78 100%);
+            color: white;
+            padding: 5px 14px;
+            border-radius: 2px;
+            font-size: 0.82em;
+            font-weight: 600;
+            margin: 0 6px;
+            letter-spacing: 0.3px;
+            box-shadow: 0 2px 6px rgba(72, 187, 120, 0.3);
+        }
+
+        .dns-hierarchy {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 25px 0;
+        }
+
+        .dns-level {
+            padding: 18px;
+            border-radius: 0;
+            border-left: 4px solid #6a5acd;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s;
+        }
+
+        .dns-level:hover {
+            transform: translateX(8px);
+            box-shadow: 0 4px 16px rgba(106, 90, 205, 0.15);
+        }
+
+        .dependency-map {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 28px;
+            border-radius: 0;
+            margin: 25px 0;
+            border: 1px solid #dee2e6;
+        }
+
+        .dependency-item {
+            padding: 16px;
+            margin: 10px 0;
+            background: white;
+            border-radius: 0;
+            border-left: 3px solid #6a5acd;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s;
+        }
+
+        .dependency-item:hover {
+            transform: translateX(8px);
+            box-shadow: 0 4px 16px rgba(106, 90, 205, 0.12);
+        }
+
+        .icon {
+            font-size: 1.3em;
+            margin-right: 10px;
+        }
+
+        .trend-box {
+            background: linear-gradient(135deg, #e6fffa 0%, #d4f4ed 100%);
+            border-left: 4px solid #319795;
+            padding: 20px 24px;
+            margin: 20px 0;
+            border-radius: 0;
+            box-shadow: 0 2px 8px rgba(49, 151, 149, 0.08);
+        }
+
+        /* Premium hover effects */
+        .service-card strong, .protocol-box strong, .highlight-box strong {
+            color: #1a1a2e;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 0.5em;
+        }
+
+        /* Refined typography */
+        .slide-content p {
+            line-height: 1.8;
+        }
+
+        /* Enhanced table styling */
+        tbody tr {
+            background: white;
+        }
+
+        tbody tr:nth-child(even) {
+            background: linear-gradient(135deg, #fafbfc 0%, #ffffff 100%);
+        }
+
+        /* Elegant scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #6a5acd 0%, #9370db 100%);
+            border-radius: 0;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #5a4cbd 0%, #8360cb 100%);
+        }
+
+        /* Special styling for final slide */
+        .slide:last-of-type .highlight-box {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: white;
+            border: none;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .slide:last-of-type .highlight-box h3 {
+            color: white;
+        }
+
+        .slide:last-of-type .highlight-box::before {
+            background: linear-gradient(180deg, #6a5acd 0%, #9370db 100%);
+        }
+
+        /* Accent line for elegance */
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 80px;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, #6a5acd, transparent);
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 40px 30px;
+            }
+
+            .slide-title {
+                font-size: 2em;
+            }
+
+            .service-grid, .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navigation {
+                padding: 20px 30px;
+            }
+
+            .flow-diagram {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+
+        /* Print optimization */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .presentation-container {
+                box-shadow: none;
+                max-width: 100%;
+            }
+
+            .navigation {
+                display: none;
+            }
+
+            .slide {
+                page-break-after: always;
+                display: block !important;
+                min-height: auto;
+            }
+        }
+
+        /* Accessibility improvements */
+        .nav-button:focus,
+        .flow-step:focus,
+        .service-card:focus {
+            outline: 3px solid #6a5acd;
+            outline-offset: 2px;
+        }
+
+        /* Animation for attention */
+        @keyframes pulse-subtle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .port-badge, .security-badge, .success-badge {
+            animation: none;
+        }
+
+        /* Enhanced code-like elements */
+        code, .code-inline {
+            background: #f8f9fa;
+            padding: 2px 8px;
+            border-radius: 2px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #6a5acd;
+            border: 1px solid #e9ecef;
+        }
+
+        /* Luxury quotation marks for key concepts */
+        .highlight-box strong::before {
+            content: '';
+            margin-right: 4px;
+        }
+
+        /* Premium shadow on hover for interactive elements */
+        .layer:hover,
+        .flow-step:hover,
+        .dns-level:hover,
+        .dependency-item:hover {
+            box-shadow: -6px 0 24px rgba(106, 90, 205, 0.15);
+        }
+
+        /* Refined gradient backgrounds for specific cards */
+        .comparison-card.winner h4 {
+            color: #2d7a52;
+        }
+
+        .comparison-card.legacy h4 {
+            color: #b91c1c;
+        }
+
+        /* Elegant separator */
+        .slide-content > *:not(:last-child) {
+            margin-bottom: 0;
+        }
+
+        /* Status indicators */
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-active {
+            background: #48bb78;
+            box-shadow: 0 0 8px rgba(72, 187, 120, 0.5);
+        }
+
+        .status-deprecated {
+            background: #f56565;
+            box-shadow: 0 0 8px rgba(245, 101, 101, 0.5);
+        }
+
+        .status-legacy {
+            background: #ed8936;
+            box-shadow: 0 0 8px rgba(237, 137, 54, 0.5);
+        }
+
+        /* Enhanced emphasis */
+        strong {
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+
+        em {
+            font-style: italic;
+            color: #6a5acd;
+        }
+
+        /* Refined list styling */
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li::before {
+            content: '▸';
+            color: #6a5acd;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* Premium divider */
+        hr {
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #6a5acd, transparent);
+            margin: 30px 0;
+        }
+
+        /* Sophisticated number badges for ordered content */
+        .numbered-item {
+            display: flex;
+            align-items: flex-start;
+            margin: 15px 0;
+        }
+
+        .number-badge {
+            min-width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #6a5acd, #9370db);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 15px;
+            font-size: 0.9em;
+        }
+
+        /* Final polish - subtle texture overlay */
+        .presentation-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(90deg, transparent 99%, rgba(106, 90, 205, 0.02) 100%),
+                linear-gradient(0deg, transparent 99%, rgba(106, 90, 205, 0.02) 100%);
+            background-size: 40px 40px;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        /* Elegant loading state */
+        @keyframes shimmer-load {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        .loading-shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 1000px 100%;
+            animation: shimmer-load 2s infinite;
+        }
+    </style>
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Titulní strana -->
+        <div class="slide active title-slide">
+            <h1 class="slide-title">Služby v počítačových sítích</h1>
+            <p class="subtitle">Komplexní analýza síťové infrastruktury | Maturitní otázka č. 5</p>
+            <div class="author-info">
+                <p><strong>Autor:</strong> Patrik Luks</p>
+                <p><strong>Obor:</strong> Informační technologie</p>
+                <p><strong>Školní rok:</strong> 2025/2026</p>
+            </div>
+        </div>
+
+        <!-- Slide 2: Základy a architektura -->
+        <div class="slide">
+            <h2 class="slide-title">Architektura síťových služeb</h2>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    <p><strong>Definice:</strong> Síťové služby jsou funkce a protokoly běžící v aplikační vrstvě síťové architektury, které zajišťují komunikaci, přenos dat a správu síťových prostředků mezi zařízeními.</p>
+                </div>
+
+                <h3>TCP/IP model – vrstvená architektura</h3>
+                <div class="diagram">
+                    <div class="layer-stack">
+                        <div class="layer layer-7">
+                            <div class="icon">🌐</div>
+                            <strong>Aplikační vrstva</strong> – HTTP, DNS, FTP, SMTP, IMAP, VoIP, SNMP
+                        </div>
+                        <div class="layer layer-4">
+                            <div class="icon">🔄</div>
+                            <strong>Transportní vrstva</strong> – TCP (spolehlivý), UDP (rychlý)
+                        </div>
+                        <div class="layer layer-3">
+                            <div class="icon">📍</div>
+                            <strong>Síťová vrstva</strong> – IP (směrování paketů)
+                        </div>
+                        <div class="layer layer-2">
+                            <div class="icon">🔌</div>
+                            <strong>Vrstva síťového rozhraní</strong> – Ethernet, Wi-Fi
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Klient-Server model</h3>
+                <div class="service-grid">
+                    <div class="service-card">
+                        <h4>🖥️ Server</h4>
+                        <p>Poskytuje službu, naslouchá na portu, zpracovává požadavky, odesílá odpovědi. Běží trvale (daemon/service).</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>💻 Klient</h4>
+                        <p>Iniciuje komunikaci, odesílá požadavky, zpracovává odpovědi. Běží na vyžádání uživatele.</p>
+                    </div>
+                </div>
+
+                <p style="margin-top: 20px;"><strong>Výhoda:</strong> Centralizace, škálovatelnost, jednoduchá správa, bezpečnost. Jeden server obsluhuje tisíce klientů současně.</p>
+            </div>
+        </div>
+
+        <!-- Slide 3: DNS -->
+        <div class="slide">
+            <h2 class="slide-title">DNS – Domain Name System</h2>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    <p><strong>Funkce:</strong> "Telefonní seznam internetu" – hierarchický distribuovaný systém pro překlad doménových jmen na IP adresy. <span class="port-badge">Port 53 UDP/TCP</span></p>
+                </div>
+
+                <h3>Hierarchie DNS dotazu</h3>
+                <div class="flow-diagram">
+                    <div class="flow-step">Klient</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">Resolver</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">Root</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">TLD</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">Autoritativní</div>
+                </div>
+
+                <div class="dns-hierarchy">
+                    <div class="dns-level">
+                        <strong>Root servery (.)</strong> – 13 logických serverů znající TLD servery
+                    </div>
+                    <div class="dns-level">
+                        <strong>TLD servery (.com, .cz, .org)</strong> – spravují domény nejvyšší úrovně
+                    </div>
+                    <div class="dns-level">
+                        <strong>Autoritativní servery</strong> – konečná odpověď pro konkrétní doménu (example.com)
+                    </div>
+                </div>
+
+                <h3>Typy DNS záznamů</h3>
+                <table>
+                    <tr>
+                        <th>Typ</th>
+                        <th>Účel</th>
+                        <th>Příklad</th>
+                    </tr>
+                    <tr>
+                        <td><strong>A / AAAA</strong></td>
+                        <td>IPv4 / IPv6 adresa</td>
+                        <td>example.com → 93.184.216.34</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CNAME</strong></td>
+                        <td>Alias pro jiné jméno</td>
+                        <td>www.example.com → example.com</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MX</strong></td>
+                        <td>Mail server pro doménu</td>
+                        <td>mail.example.com (priorita 10)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PTR</strong></td>
+                        <td>Reverzní překlad IP→jméno</td>
+                        <td>93.184.216.34 → example.com</td>
+                    </tr>
+                    <tr>
+                        <td><strong>TXT</strong></td>
+                        <td>Textové info, SPF, DKIM</td>
+                        <td>Verifikace, antispam záznamy</td>
+                    </tr>
+                </table>
+
+                <div class="security-box">
+                    <strong>⚠️ Bezpečnostní rizika:</strong> DNS Spoofing (cache poisoning), DDoS útoky na DNS servery, DNS tunneling pro exfiltraci dat. <strong>Obrana:</strong> DNSSEC (kryptografická ochrana), redundantní servery, rate limiting.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: DHCP -->
+        <div class="slide">
+            <h2 class="slide-title">DHCP – Dynamic Host Configuration Protocol</h2>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    <p><strong>Účel:</strong> Automatická konfigurace síťových parametrů. <span class="port-badge">Port 67/68 UDP</span> Server přiděluje IP, masku, bránu, DNS bez manuální konfigurace.</p>
+                </div>
+
+                <h3>DHCP proces – DORA (Discover, Offer, Request, Acknowledge)</h3>
+                <div class="diagram">
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+                        <div style="background: #e6fffa; padding: 15px; border-radius: 8px; text-align: center; border: 2px solid #38b2ac;">
+                            <div style="font-size: 2em;">📡</div>
+                            <strong>1. DISCOVER</strong>
+                            <p style="font-size: 0.9em; margin-top: 5px;">Klient broadcast: "Hledám DHCP server"</p>
+                        </div>
+                        <div style="background: #fef5e7; padding: 15px; border-radius: 8px; text-align: center; border: 2px solid #f39c12;">
+                            <div style="font-size: 2em;">💼</div>
+                            <strong>2. OFFER</strong>
+                            <p style="font-size: 0.9em; margin-top: 5px;">Server: "Nabízím IP 192.168.1.50"</p>
+                        </div>
+                        <div style="background: #ebf5fb; padding: 15px; border-radius: 8px; text-align: center; border: 2px solid #3498db;">
+                            <div style="font-size: 2em;">✋</div>
+                            <strong>3. REQUEST</strong>
+                            <p style="font-size: 0.9em; margin-top: 5px;">Klient: "Chci tuto IP adresu"</p>
+                        </div>
+                        <div style="background: #d5f4e6; padding: 15px; border-radius: 8px; text-align: center; border: 2px solid #27ae60;">
+                            <div style="font-size: 2em;">✅</div>
+                            <strong>4. ACK</strong>
+                            <p style="font-size: 0.9em; margin-top: 5px;">Server: "Potvrzuji, lease 24h"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Poskytované parametry</h3>
+                <div class="service-grid">
+                    <div class="service-card">
+                        <h4>IP adresa + maska</h4>
+                        <p>192.168.1.50 / 255.255.255.0 (lease time: typicky 24 hodin)</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>Výchozí brána</h4>
+                        <p>192.168.1.1 (router pro komunikaci mimo LAN)</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>DNS servery</h4>
+                        <p>8.8.8.8, 1.1.1.1 (pro překlad jmen)</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>Další parametry</h4>
+                        <p>NTP server, doménové jméno, WINS server</p>
+                    </div>
+                </div>
+
+                <div class="protocol-box">
+                    <strong>Typy přidělení:</strong> <strong>Dynamické</strong> – dočasné z poolu. <strong>Rezervované</strong> – pevná IP podle MAC adresy (pro servery, tiskárny). <strong>Statické</strong> – manuální konfigurace mimo DHCP.
+                </div>
+
+                <div class="security-box">
+                    <strong>⚠️ Bezpečnostní rizika:</strong> DHCP Starvation (vyčerpání poolu), Rogue DHCP server (útočník nabízí falešné parametry). <strong>Obrana:</strong> DHCP Snooping, Port Security, 802.1X autentizace.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: HTTP/HTTPS -->
+        <div class="slide">
+            <h2 class="slide-title">HTTP/HTTPS – Páteř World Wide Web</h2>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    <p><strong>HTTP</strong> <span class="port-badge">Port 80</span> – textový protokol požadavek-odpověď, bezstavový. <strong>HTTPS</strong> <span class="success-badge">Port 443</span> – šifrovaný pomocí TLS/SSL.</p>
+                </div>
+
+                <h3>HTTP metody a stavové kódy</h3>
+                <table>
+                    <tr>
+                        <th>Metoda/Kód</th>
+                        <th>Popis</th>
+                        <th>Použití</th>
+                    </tr>
+                    <tr>
+                        <td><strong>GET</strong></td>
+                        <td>Získání zdroje</td>
+                        <td>Načtení webové stránky, API dotaz</td>
+                    </tr>
+                    <tr>
+                        <td><strong>POST</strong></td>
+                        <td>Odeslání dat</td>
+                        <td>Odeslání formuláře, vytvoření záznamu</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PUT / DELETE</strong></td>
+                        <td>Aktualizace / Smazání</td>
+                        <td>RESTful API operace</td>
+                    </tr>
+                    <tr>
+                        <td><strong>200 OK</strong></td>
+                        <td>Úspěch</td>
+                        <td>Požadavek zpracován správně</td>
+                    </tr>
+                    <tr>
+                        <td><strong>404 Not Found</strong></td>
+                        <td>Zdroj neexistuje</td>
+                        <td>Chybná URL nebo smazaný obsah</td>
+                    </tr>
+                    <tr>
+                        <td><strong>500 Internal Error</strong></td>
+                        <td>Chyba serveru</td>
+                        <td>Problém na straně serveru</td>
+                    </tr>
+                </table>
+
+                <h3>HTTP vs HTTPS – kritické rozdíly</h3>
+                <div class="comparison-grid">
+                    <div class="comparison-card legacy">
+                        <h4>❌ HTTP (nešifrovaný)</h4>
+                        <p><strong>Rizika:</strong> Data v plain textu, Man-in-the-Middle útoky, session hijacking, credential theft</p>
+                        <p><strong>Použití:</strong> Pouze pro nekritický statický obsah</p>
+                    </div>
+                    <div class="comparison-card winner">
+                        <h4>✅ HTTPS (TLS/SSL)</h4>
+                        <p><strong>Ochrana:</strong> Šifrování dat (AES-256), autentizace serveru (certifikáty), integrita dat (hash)</p>
+                        <p><strong>Použití:</strong> Standard pro všechny moderní weby, povinné pro platby/přihlášení</p>
+                    </div>
+                </div>
+
+                <div class="protocol-box">
+                    <strong>TLS Handshake:</strong> Klient → Server Hello → Výměna certifikátu → Generování session key → Šifrovaná komunikace. Latence ~100ms navíc, ale kritická pro bezpečnost.
+                </div>
+
+                <div class="trend-box">
+                    <strong>🚀 Moderní evoluce:</strong> HTTP/2 (multiplexing, server push), HTTP/3 (QUIC protokol nad UDP), Progressive Web Apps, WebSockets pro real-time komunikaci.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: FTP vs SFTP -->
+        <div class="slide">
+            <h2 class="slide-title">Přenos souborů: FTP vs SFTP</h2>
+            <div class="slide-content">
+                <h3>Komparace protokolů</h3>
+                <div class="comparison-grid">
+                    <div class="comparison-card legacy">
+                        <h4>❌ FTP (File Transfer Protocol)</h4>
+                        <p><span class="port-badge">Port 21 (control)</span> <span class="port-badge">Port 20 (data)</span></p>
+                        <p><strong>Problém:</strong> Data a hesla v plain textu, komplexní NAT traversal (aktivní/pasivní režim), dvě spojení</p>
+                        <p><strong>Status:</strong> Zastaralý, bezpečnostní riziko, deprecated v moderních prostředích</p>
+                    </div>
+                    <div class="comparison-card winner">
+                        <h4>✅ SFTP (SSH File Transfer Protocol)</h4>
+                        <p><span class="success-badge">Port 22 (SSH)</span></p>
+                        <p><strong>Výhody:</strong> Plné šifrování, autentizace klíči nebo heslem, jedno TCP spojení, firewall-friendly</p>
+                        <p><strong>Status:</strong> Moderní standard, povinné pro produkční prostředí</p>
+                    </div>
+                </div>
+
+                <h3>Další alternativy</h3>
+                <table>
+                    <tr>
+                        <th>Protokol</th>
+                        <th>Port</th>
+                        <th>Zabezpečení</th>
+                        <th>Use Case</th>
+                    </tr>
+                    <tr>
+                        <td><strong>FTPS</strong></td>
+                        <td>990 (implicit TLS)</td>
+                        <td>TLS/SSL šifrování</td>
+                        <td>Legacy systémy vyžadující FTP s bezpečností</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SCP</strong></td>
+                        <td>22 (SSH)</td>
+                        <td>SSH šifrování</td>
+                        <td>Jednoduché kopírování souborů, rychlé</td>
+                    </tr>
+                    <tr>
+                        <td><strong>WebDAV</strong></td>
+                        <td>80/443 (HTTP/S)</td>
+                        <td>HTTPS šifrování</td>
+                        <td>Správa souborů přes webové rozhraní</td>
+                    </tr>
+                    <tr>
+                        <td><strong>rsync</strong></td>
+                        <td>873 nebo 22</td>
+                        <td>SSH možné</td>
+                        <td>Efektivní synchronizace (pouze rozdíly)</td>
+                    </tr>
+                </table>
+
+                <div class="highlight-box">
+                    <strong>📊 Praktické využití:</strong> Webhostingové společnosti standardně nabízejí SFTP pro nahrávání webů. Enterprise backup řešení používají SFTP pro automatizované zálohy. Vývojáři deployují aplikace přes SFTP/SCP do produkčních prostředí.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Emailové protokoly -->
+        <div class="slide">
+            <h2 class="slide-title">E-mailová infrastruktura: SMTP, POP3, IMAP</h2>
+            <div class="slide-content">
+                <h3>SMTP – Simple Mail Transfer Protocol</h3>
+                <div class="protocol-box">
+                    <p><span class="port-badge">Port 25</span> server-server | <span class="port-badge">Port 587</span> klient-server (STARTTLS) | <span class="port-badge">Port 465</span> SMTPS (SSL)</p>
+                    <p><strong>Funkce:</strong> Odesílání a přenos emailů mezi servery. Klient → SMTP server odesílatele → SMTP server příjemce → Schránka příjemce</p>
+                </div>
+
+                <h3>POP3 vs IMAP – kritická komparace</h3>
+                <div class="comparison-grid">
+                    <div class="comparison-card legacy">
+                        <h4>POP3 (Post Office Protocol v3)</h4>
+                        <p><span class="port-badge">Port 110</span> | <span class="success-badge">Port 995 SSL</span></p>
+                        <p><strong>Princip:</strong> Stažení emailů → smazání ze serveru → offline práce</p>
+                        <p><strong>Výhody:</strong> Jednoduchý, nezávislý na připojení, data lokálně</p>
+                        <p><strong>Nevýhody:</strong> Žádná synchronizace, přístup jen z jednoho zařízení, ztráta dat při selhání disku</p>
+                        <p><strong>Use case:</strong> Jedno zařízení, omezené úložiště na serveru</p>
+                    </div>
+                    <div class="comparison-card winner">
+                        <h4>IMAP (Internet Message Access Protocol)</h4>
+                        <p><span class="port-badge">Port 143</span> | <span class="success-badge">Port 993 SSL</span></p>
+                        <p><strong>Princip:</strong> Práce s emaily přímo na serveru, plná synchronizace mezi zařízeními</p>
+                        <p><strong>Výhody:</strong> Multi-device access, složky na serveru, selective download, trvalá dostupnost</p>
+                        <p><strong>Nevýhody:</strong> Vyžaduje stabilní připojení, omezeno kapacitou serveru</p>
+                        <p><strong>Use case:</strong> Moderní standard – mobilní zařízení, PC, tablet se stejným stavem schránky</p>
+                    </div>
+                </div>
+
+                <h3>Typický email flow</h3>
+                <div class="flow-diagram" style="flex-wrap: wrap;">
+                    <div class="flow-step">Napsat email</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">SMTP send</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">Server A</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">DNS MX</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">Server B</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">IMAP/POP3</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">Přijmout</div>
+                </div>
+
+                <div class="security-box">
+                    <strong>⚠️ Bezpečnostní výzvy:</strong> Spam (SPF, DKIM, DMARC záznamy v DNS), Phishing útoky, Email spoofing. <strong>Moderní ochrana:</strong> TLS šifrování přenosu, S/MIME nebo PGP pro end-to-end šifrování obsahu, AI-based spam filtering.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: VoIP -->
+        <div class="slide">
+            <h2 class="slide-title">VoIP – Voice over Internet Protocol</h2>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    <p><strong>Revoluce v telefonii:</strong> Přenos hlasu přes IP sítě místo tradičních telefonních linek (PSTN). Digitalizace → pakety → přenos → dekódování.</p>
+                </div>
+
+                <h3>VoIP protokoly a architektura</h3>
+                <div class="service-grid">
+                    <div class="service-card">
+                        <h4>SIP (Session Initiation Protocol)</h4>
+                        <p><span class="port-badge">Port 5060</span> Signalizace – navázání, modifikace, ukončení hovoru. Nejrozšířenější standard.</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>RTP (Real-time Transport Protocol)</h4>
+                        <p><span class="port-badge">UDP dynamické</span> Přenos audio/video streamu v reálném čase s minimální latencí.</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>Audio kodeky</h4>
+                        <p><strong>G.711:</strong> 64 kbps nekomprimovaný | <strong>G.729:</strong> 8 kbps komprimovaný | <strong>Opus:</strong> moderní adaptivní</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>H.323</h4>
+                        <p>Starší komplexní standard, legacy systémy. Nahrazován SIP.</p>
+                    </div>
+                </div>
+
+                <h3>QoS (Quality of Service) – kritické pro VoIP</h3>
+                <div class="protocol-box">
+                    <p><strong>Latence:</strong> Max 150ms (ideálně < 100ms) pro přijatelnou kvalitu hovoru</p>
+                    <p><strong>Jitter:</strong> Variace latency, řeší se jitter bufferem</p>
+                    <p><strong>Packet loss:</strong> Max 1% ztráty paketů pro srozumitelný hovor</p>
+                    <p><strong>Bandwidth:</strong> G.711 ~85 kbps, G.729 ~30 kbps per hovor (obousměrně)</p>
+                    <p><strong>Prioritizace:</strong> VoIP pakety označeny DSCP/CoS pro přednost v síti</p>
+                </div>
+
+                <h3>Výhody a business impact</h3>
+                <table>
+                    <tr>
+                        <th>Aspekt</th>
+                        <th>Tradiční telefonie</th>
+                        <th>VoIP</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Náklady</strong></td>
+                        <td>Vysoké (dálkové hovory)</td>
+                        <td>Minimální (jen internet)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Infrastruktura</strong></td>
+                        <td>Separátní telefon. síť</td>
+                        <td>Jednotná datová síť</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Funkce</strong></td>
+                        <td>Základní volání</td>
+                        <td>Video, konference, integrace s CRM</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Škálovatelnost</strong></td>
+                        <td>Fyzické linky, HW ústředna</td>
+                        <td>Softwarový PBX, cloud škálování</td>
+                    </tr>
+                </table>
+
+                <div class="trend-box">
+                    <strong>🚀 Moderní aplikace:</strong> Microsoft Teams, Zoom, Cisco Webex (unified communications). Podnikové IP PBX systémy. 5G umožňuje mobilní VoIP s garantovanou latencí. Integration s AI (transkripce, analýza sentimentu).
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: SNMP -->
+        <div class="slide">
+            <h2 class="slide-title">SNMP – Monitoring a správa sítě</h2>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    <p><strong>Simple Network Management Protocol:</strong> Protokol pro centralizovaný dohled a správu síťových zařízení (routery, switche, servery, tiskárny, UPS).</p>
+                </div>
+
+                <h3>Architektura SNMP</h3>
+                <div class="service-grid">
+                    <div class="service-card">
+                        <h4>NMS (Network Management Station)</h4>
+                        <p>Manager – centrální monitorovací systém (Zabbix, Nagios, PRTG). Odesílá dotazy, sbírá data, vyhodnocuje alerty.</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>SNMP Agent</h4>
+                        <p>Software na spravovaném zařízení. Sbírá metriky, odpovídá na dotazy, odesílá TRAP notifikace při událostech.</p>
+                    </div>
+                </div>
+
+                <h3>SNMP operace</h3>
+                <div class="protocol-box">
+                    <p><span class="port-badge">Port 161 UDP</span> – Manager → Agent dotazy (Get, GetNext, GetBulk, Set)</p>
+                    <p><span class="port-badge">Port 162 UDP</span> – Agent → Manager notifikace (TRAP, Inform)</p>
+                    <p><strong>Polling:</strong> Manager periodicky dotazuje agenty (typicky každých 1-5 minut)</p>
+                    <p><strong>Traps:</strong> Agent proaktivně odesílá kritické události (výpadek, překročení prahové hodnoty)</p>
+                </div>
+
+                <h3>MIB (Management Information Base)</h3>
+                <div class="highlight-box">
+                    <p>Strukturovaná hierarchická databáze objektů (OID – Object Identifier). Standardizuje, jaké metriky lze získat:</p>
+                    <p><strong>Systémové:</strong> CPU load, RAM usage, disk space, teplota, napájení</p>
+                    <p><strong>Síťové:</strong> Interface status (up/down), bandwidth utilization, packet count, error rate</p>
+                    <p><strong>Aplikační:</strong> Služby běžící na serveru, database connections, web server requests</p>
+                </div>
+
+                <h3>SNMP verze a bezpečnost</h3>
+                <table>
+                    <tr>
+                        <th>Verze</th>
+                        <th>Autentizace</th>
+                        <th>Šifrování</th>
+                        <th>Status</th>
+                    </tr>
+                    <tr>
+                        <td><strong>SNMPv1</strong></td>
+                        <td>Community string (plain text)</td>
+                        <td>❌ Ne</td>
+                        <td>Zastaralý, bezpečnostní riziko</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SNMPv2c</strong></td>
+                        <td>Community string</td>
+                        <td>❌ Ne</td>
+                        <td>Vylepšené operace, stále nezabezpečený</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SNMPv3</strong></td>
+                        <td>✅ Username/password (SHA/MD5)</td>
+                        <td>✅ AES/DES</td>
+                        <td>Moderní standard, produkční prostředí</td>
+                    </tr>
+                </table>
+
+                <div class="trend-box">
+                    <strong>📊 Enterprise monitoring:</strong> SNMP umožňuje spravovat sítě s tisíci zařízení z jednoho dashboardu. Real-time grafy, prediktivní analýza, automatické alerty (SMS/email při výpadku). Integrace s ticketing systémy pro automatické vytváření incidents.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: VPN -->
+        <div class="slide">
+            <h2 class="slide-title">VPN – Virtual Private Network</h2>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    <p><strong>Funkce:</strong> Vytvoření šifrovaného tunelu přes veřejnou síť (internet) pro bezpečnou komunikaci jako v privátní síti. Encryption + Authentication + Tunneling.</p>
+                </div>
+
+                <h3>Typy VPN podle use case</h3>
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <h4>🏢 Site-to-Site VPN</h4>
+                        <p><strong>Účel:</strong> Propojení dvou fyzických lokalit (kanceláře, datacentra) přes internet jako jedna logická síť</p>
+                        <p><strong>Implementace:</strong> VPN gateway na obou stranách, IPsec tunnel, transparentní pro koncové uživatele</p>
+                        <p><strong>Use case:</strong> Pobočky firmy sdílí stejné zdroje (file servery, databáze) bez pronajatých linek</p>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>👤 Remote Access VPN</h4>
+                        <p><strong>Účel:</strong> Připojení jednotlivých uživatelů do firemní sítě z libovolného místa (home office, cestování)</p>
+                        <p><strong>Implementace:</strong> VPN klient na zařízení uživatele, VPN server v corporate síti</p>
+                        <p><strong>Use case:</strong> Zaměstnanci pracující z domova bezpečně přistupují k interním aplikacím a datům</p>
+                    </div>
+                </div>
+
+                <h3>VPN protokoly – technické srovnání</h3>
+                <table>
+                    <tr>
+                        <th>Protokol</th>
+                        <th>Vrstva</th>
+                        <th>Šifrování</th>
+                        <th>Rychlost</th>
+                        <th>Use Case</th>
+                    </tr>
+                    <tr>
+                        <td><strong>IPsec</strong></td>
+                        <td>L3 (síťová)</td>
+                        <td>AES-256, 3DES</td>
+                        <td>Vysoká (HW akcelerace)</td>
+                        <td>Site-to-Site, enterprise standard</td>
+                    </tr>
+                    <tr>
+                        <td><strong>OpenVPN</strong></td>
+                        <td>L4 (transportní)</td>
+                        <td>AES-256, RSA</td>
+                        <td>Střední</td>
+                        <td>Flexibilní, firewall-friendly, open-source</td>
+                    </tr>
+                    <tr>
+                        <td><strong>WireGuard</strong></td>
+                        <td>L3 (síťová)</td>
+                        <td>ChaCha20, Curve25519</td>
+                        <td>Velmi vysoká</td>
+                        <td>Moderní, minimální kód (4000 LOC), rychlý</td>
+                    </tr>
+                    <tr>
+                        <td><strong>L2TP/IPsec</strong></td>
+                        <td>L2 (datalink)</td>
+                        <td>IPsec</td>
+                        <td>Střední</td>
+                        <td>Remote access, nativní podpora v OS</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SSL/TLS VPN</strong></td>
+                        <td>L7 (aplikační)</td>
+                        <td>TLS 1.3</td>
+                        <td>Střední</td>
+                        <td>Webový přístup bez klienta (browser-based)</td>
+                    </tr>
+                </table>
+
+                <div class="security-box">
+                    <strong>⚠️ Bezpečnostní aspekty:</strong> VPN chrání před Man-in-the-Middle, odposlech ve veřejné Wi-Fi, DNS leaky. <strong>Limity:</strong> VPN poskytovatel vidí veškerý provoz, potenciální bottleneck, některé protokoly zranitelné vůči quantum computing (post-quantum kryptografie v přípravě).
+                </div>
+
+                <div class="protocol-box">
+                    <strong>Performance trade-off:</strong> Šifrování přidává latenci (5-20ms) a snižuje throughput (10-30% overhead). Důležité pro VoIP a real-time aplikace – nutná kvalitní infrastruktura.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Proxy a Load Balancing -->
+        <div class="slide">
+            <h2 class="slide-title">Proxy servery a Load Balancing</h2>
+            <div class="slide-content">
+                <h3>Typologie proxy serverů</h3>
+                <div class="service-grid">
+                    <div class="service-card">
+                        <h4>Forward Proxy</h4>
+                        <p><strong>Zastupuje:</strong> Klienty</p>
+                        <p><strong>Funkce:</strong> Kontrola přístupu k internetu, content filtering (blokace stránek), caching pro úsporu bandwidth, anonymizace IP adres uživatelů</p>
+                        <p><strong>Use case:</strong> Korporátní sítě, školy – kontrola a optimalizace přístupu zaměstnanců/studentů na internet</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>Reverse Proxy</h4>
+                        <p><strong>Zastupuje:</strong> Servery</p>
+                        <p><strong>Funkce:</strong> Load balancing, SSL termination (dešifrování na proxy), caching statického obsahu, ochrana před DDoS, skrytí reálných serverů</p>
+                        <p><strong>Use case:</strong> Webové aplikace, API gateway, CDN edge servery</p>
+                    </div>
+                </div>
+
+                <h3>Load Balancing algoritmy</h3>
+                <div class="protocol-box">
+                    <p><strong>Round Robin:</strong> Rotace mezi servery (server1 → server2 → server3 → server1...)</p>
+                    <p><strong>Least Connections:</strong> Požadavek na server s nejméně aktivními spojeními</p>
+                    <p><strong>IP Hash:</strong> Konzistentní směrování podle IP adresy klienta (stejný klient → stejný server)</p>
+                    <p><strong>Weighted Distribution:</strong> Přidělení podle kapacity serveru (výkonnější server dostane více požadavků)</p>
+                    <p><strong>Least Response Time:</strong> Server s nejrychlejší odezvou dostane požadavek</p>
+                </div>
+
+                <h3>Praktické implementace</h3>
+                <table>
+                    <tr>
+                        <th>Technologie</th>
+                        <th>Typ</th>
+                        <th>Charakteristika</th>
+                        <th>Použití</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Nginx</strong></td>
+                        <td>Reverse proxy</td>
+                        <td>Vysoký výkon, malá paměťová stopa</td>
+                        <td>Webové servery, API gateway, static content</td>
+                    </tr>
+                    <tr>
+                        <td><strong>HAProxy</strong></td>
+                        <td>Load balancer</td>
+                        <td>Enterprise funkce, TCP/HTTP L4/L7</td>
+                        <td>Kritické aplikace, high availability setup</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Squid</strong></td>
+                        <td>Forward proxy</td>
+                        <td>Caching, access control</td>
+                        <td>Korporátní sítě, ISP caching</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cloudflare</strong></td>
+                        <td>Cloud CDN/proxy</td>
+                        <td>Global edge network, DDoS ochrana</td>
+                        <td>Globální weby, ochrana proti útokům</td>
+                    </tr>
+                </table>
+
+                <div class="highlight-box">
+                    <strong>💡 SSL Termination:</strong> Reverse proxy dešifruje HTTPS provoz a komunikuje s backend servery přes HTTP. Výhoda: backend servery nejsou zatíženy šifrováním, centralizovaná správa certifikátů. Nevýhoda: interní síť musí být důvěryhodná.
+                </div>
+
+                <div class="trend-box">
+                    <strong>🚀 Moderní evoluce:</strong> Service Mesh (Istio, Linkerd) pro mikroservisy – každý service má vlastní proxy (sidecar pattern). API Gateway jako single entry point pro všechny mikroservisy. Edge computing – load balancing na geograficky distribuovaných edge serverech.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Firewall -->
+        <div class="slide">
+            <h2 class="slide-title">Firewall – Síťová bezpečnost</h2>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    <p><strong>Definice:</strong> Bezpečnostní systém monitorující a řídící síťový provoz na základě předem definovaných pravidel. Bariéra mezi důvěryhodnou interní sítí a nedůvěryhodným externím prostředím.</p>
+                </div>
+
+                <h3>Evoluce firewall technologií</h3>
+                <div class="diagram">
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                        <div style="background: #fef5e7; padding: 18px; border-radius: 8px; border-left: 4px solid #f39c12;">
+                            <h4 style="color: #f39c12; margin-top: 0;">1. generace: Packet Filtering</h4>
+                            <p><strong>Kontrola:</strong> IP adresy, porty, protokol (TCP/UDP)</p>
+                            <p><strong>Vrstva:</strong> L3/L4 (síťová/transportní)</p>
+                            <p><strong>Limit:</strong> Bez kontextu, může propustit škodlivý obsah v povoleném spojení</p>
+                        </div>
+                        <div style="background: #ebf5fb; padding: 18px; border-radius: 8px; border-left: 4px solid #3498db;">
+                            <h4 style="color: #3498db; margin-top: 0;">2. generace: Stateful Inspection</h4>
+                            <p><strong>Kontrola:</strong> Stav spojení (connection tracking)</p>
+                            <p><strong>Vrstva:</strong> L3/L4 + stav</p>
+                            <p><strong>Výhoda:</strong> Rozumí kontextu komunikace, bezpečnější než packet filtering</p>
+                        </div>
+                        <div style="background: #d5f4e6; padding: 18px; border-radius: 8px; border-left: 4px solid #27ae60;">
+                            <h4 style="color: #27ae60; margin-top: 0;">3. generace: Application Layer</h4>
+                            <p><strong>Kontrola:</strong> Obsah aplikačních dat (DPI - Deep Packet Inspection)</p>
+                            <p><strong>Vrstva:</strong> L7 (aplikační)</p>
+                            <p><strong>Výhoda:</strong> Detekce malwaru v přenosech, kontrola HTTP hlaviček, SQL injection prevence</p>
+                        </div>
+                        <div style="background: #e8daef; padding: 18px; border-radius: 8px; border-left: 4px solid #8e44ad;">
+                            <h4 style="color: #8e44ad; margin-top: 0;">4. generace: Next-Gen Firewall (NGFW)</h4>
+                            <p><strong>Funkce:</strong> Vše výše + IPS, antimalware, aplikační kontrola, user identity, threat intelligence</p>
+                            <p><strong>Technologie:</strong> ML/AI pro detekci anomálií, sandboxing pro analýzu neznámých souborů</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Implementační modely</h3>
+                <table>
+                    <tr>
+                        <th>Model</th>
+                        <th>Umístění</th>
+                        <th>Ochrana</th>
+                        <th>Use Case</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Host-based</strong></td>
+                        <td>Na koncovém zařízení</td>
+                        <td>Jednotlivý PC/server</td>
+                        <td>Windows Defender, iptables/nftables v Linux</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Network-based</strong></td>
+                        <td>Perimetr sítě</td>
+                        <td>Celá síť</td>
+                        <td>Firewall na routeru, dedicated appliance (Cisco ASA, Palo Alto)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cloud FWaaS</strong></td>
+                        <td>Cloud infrastruktura</td>
+                        <td>Cloudové zdroje</td>
+                        <td>AWS Security Groups, Azure Firewall, Cloudflare WAF</td>
+                    </tr>
+                </table>
+
+                <h3>DMZ (Demilitarized Zone) architektura</h3>
+                <div class="protocol-box">
+                    <p><strong>Koncept:</strong> Izolovaný síťový segment mezi interní sítí a internetem</p>
+                    <p><strong>Umístění:</strong> Veřejně přístupné servery (web, email, DNS) v DMZ</p>
+                    <p><strong>Ochrana:</strong> Firewall#1 (internet ↔ DMZ) + Firewall#2 (DMZ ↔ internal network)</p>
+                    <p><strong>Benefit:</strong> Pokud je DMZ server kompromitován, útočník nemá přímý přístup do interní sítě</p>
+                    <p><strong>Pravidla:</strong> Internet → DMZ (povoleno pro služby), DMZ → Internal (striktně omezeno), Internal → DMZ (admin přístup)</p>
+                </div>
+
+                <div class="security-box">
+                    <strong>⚠️ Zero Trust model:</strong> Moderní přístup – "nikdy nedůvěřuj, vždy ověřuj". Tradiční perimetrová ochrana selhává při cloud a remote work. Zero Trust vyžaduje ověření každého přístupu bez ohledu na lokaci (micro-segmentation, identity-based access).
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Závislosti a interoperabilita -->
+        <div class="slide">
+            <h2 class="slide-title">Závislosti mezi síťovými službami</h2>
+            <div class="slide-content">
+                <div class="highlight-box">
+                    <p><strong>Kritická realita:</strong> Síťové služby nejsou izolované – tvoří komplexní ekosystém s hierarchickými závislostmi. Výpadek jedné služby má kaskádový efekt na ostatní.</p>
+                </div>
+
+                <h3>Dependency map – co závisí na čem</h3>
+                <div class="dependency-map">
+                    <div class="dependency-item">
+                        <strong>🌐 DNS – Master dependency</strong>
+                        <p>Téměř všechny služby vyžadují DNS pro překlad jmen. DNS failure = většina internetu nefunguje (email, web, VoIP, API calls). Často označován jako "single point of failure".</p>
+                    </div>
+                    <div class="dependency-item">
+                        <strong>📧 Email → DNS (MX záznamy)</strong>
+                        <p>SMTP server musí zjistit přes DNS, na který mail server odeslat zprávu. Bez funkčního DNS nelze doručit email.</p>
+                    </div>
+                    <div class="dependency-item">
+                        <strong>🌍 HTTP/HTTPS → DNS + TCP/IP</strong>
+                        <p>Webový prohlížeč nejprve řeší DNS dotaz (www.example.com → IP), poté naváže TCP spojení, u HTTPS proběhne TLS handshake.</p>
+                    </div>
+                    <div class="dependency-item">
+                        <strong>☎️ VoIP → DNS + QoS + Síťová kapacita</strong>
+                        <p>SIP servery se objevují přes DNS SRV záznamy. VoIP vyžaduje garantovanou latenci a bandwidth – závislý na síťové infrastruktuře.</p>
+                    </div>
+                    <div class="dependency-item">
+                        <strong>💾 SFTP/FTP → DNS + Autentizace</strong>
+                        <p>Klient musí přeložit hostname serveru, poté naváže spojení a autentizuje se (username/password nebo SSH klíče).</p>
+                    </div>
+                    <div class="dependency-item">
+                        <strong>🔒 VPN → DNS + Routing</strong>
+                        <p>VPN klient musí najít VPN gateway (DNS), po navázání tunelu veškerý provoz prochází přes VPN včetně DNS dotazů (DNS přes VPN zabraňuje DNS leak).</p>
+                    </div>
+                </div>
+
+                <h3>Kritické scénáře selhání</h3>
+                <div class="service-grid">
+                    <div class="service-card" style="border-left-color: #f56565; background: #fff5f5;">
+                        <h4 style="color: #f56565;">DNS výpadek</h4>
+                        <p><strong>Impact:</strong> Kaskádové selhání – web browsing selhává, email se nedoručuje, VoIP hovory se nespojují, API calls failují</p>
+                        <p><strong>Mitigace:</strong> Redundantní DNS servery (primary + secondary), caching, /etc/hosts fallback</p>
+                    </div>
+                    <div class="service-card" style="border-left-color: #ed8936; background: #fffaf0;">
+                        <h4 style="color: #ed8936;">DHCP výpadek</h4>
+                        <p><strong>Impact:</strong> Nová zařízení nemohou získat IP konfiguraci, existující spojení fungují do vypršení lease</p>
+                        <p><strong>Mitigace:</strong> DHCP failover (redundantní servery), dlouhé lease times, statické IP pro kritické systémy</p>
+                    </div>
+                </div>
+
+                <h3>Monitoring best practices</h3>
+                <div class="protocol-box">
+                    <p><strong>Proaktivní monitoring:</strong> SNMP pro sledování vytížení a stavu všech síťových prvků</p>
+                    <p><strong>Synthetic monitoring:</strong> Automatické testy (DNS lookups, HTTP requests, ping) z různých lokací</p>
+                    <p><strong>Alerting:</strong> Notifikace při překročení thresholdů (latence > 100ms pro VoIP, packet loss > 1%)</p>
+                    <p><strong>Log aggregation:</strong> Centralizované logy ze všech služeb (syslog, ELK stack) pro korelaci problémů</p>
+                    <p><strong>SLA tracking:</strong> Měření dostupnosti služeb – 99.9% = 8.7h downtime/rok, 99.99% = 52 min/rok</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Cloudové služby a moderní trendy -->
+        <div class="slide">
+            <h2 class="slide-title">Cloudové služby a budoucnost</h2>
+            <div class="slide-content">
+                <h3>Cloud computing modely</h3>
+                <div class="diagram">
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                        <div style="background: linear-gradient(135deg, #e8f4f8 0%, #b8dce8 100%); padding: 18px; border-radius: 10px; border: 2px solid #3498db;">
+                            <h4 style="color: #3498db; margin-top: 0;">IaaS</h4>
+                            <p><strong>Infrastructure as a Service</strong></p>
+                            <p style="font-size: 0.9em; margin-top: 10px;">Virtualizovaná infrastruktura: servery, storage, síť</p>
+                            <p style="font-size: 0.85em; margin-top: 8px;"><strong>Kontrola:</strong> OS, middleware, aplikace</p>
+                            <p style="font-size: 0.85em;"><strong>Příklady:</strong> AWS EC2, Azure VMs, Google Compute Engine</p>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #d5f4e6 0%, #a8e6cf 100%); padding: 18px; border-radius: 10px; border: 2px solid #27ae60;">
+                            <h4 style="color: #27ae60; margin-top: 0;">PaaS</h4>
+                            <p><strong>Platform as a Service</strong></p>
+                            <p style="font-size: 0.9em; margin-top: 10px;">Platforma pro vývoj a deploy bez správy infrastruktury</p>
+                            <p style="font-size: 0.85em; margin-top: 8px;"><strong>Kontrola:</strong> Pouze aplikace a data</p>
+                            <p style="font-size: 0.85em;"><strong>Příklady:</strong> Heroku, Google App Engine, Azure App Service</p>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #e8daef 0%, #d7bde2 100%); padding: 18px; border-radius: 10px; border: 2px solid #8e44ad;">
+                            <h4 style="color: #8e44ad; margin-top: 0;">SaaS</h4>
+                            <p><strong>Software as a Service</strong></p>
+                            <p style="font-size: 0.9em; margin-top: 10px;">Kompletní aplikace přístupné přes internet</p>
+                            <p style="font-size: 0.85em; margin-top: 8px;"><strong>Kontrola:</strong> Pouze uživatelská data a nastavení</p>
+                            <p style="font-size: 0.85em;"><strong>Příklady:</strong> Microsoft 365, Google Workspace, Salesforce, Slack</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Moderní architektonické trendy</h3>
+                <div class="service-grid">
+                    <div class="service-card">
+                        <h4>Mikroservisy + Kontejnerizace</h4>
+                        <p>Monolitické aplikace → malé nezávislé služby komunikující přes API. Docker/Kubernetes pro orchestraci tisíců kontejnerů.</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>Serverless Computing</h4>
+                        <p>Function as a Service – kód běží jako reakce na události bez správy serverů. AWS Lambda, Azure Functions. Pay per execution.</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>Edge Computing</h4>
+                        <p>Výpočty blíže ke zdroji dat (IoT, sensors). Snižuje latenci a bandwidth. Kritické pro AI inference, autonomous vehicles.</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>Service Mesh</h4>
+                        <p>Infrastrukturní vrstva pro řízení komunikace mezi mikroservisy (Istio, Linkerd). Automatický load balancing, retry, circuit breaking.</p>
+                    </div>
+                </div>
+
+                <h3>Zero Trust Architecture</h3>
+                <div class="highlight-box">
+                    <p><strong>Paradigma shift:</strong> Tradiční perimetrová ochrana (castle-and-moat) → Zero Trust model</p>
+                    <p><strong>Princip:</strong> "Nikdy nedůvěřuj, vždy ověřuj" – každý přístup vyžaduje autentizaci a autorizaci bez ohledu na lokaci</p>
+                    <p><strong>Implementace:</strong> Micro-segmentation, identity-based access (ne IP-based), continuous verification, least privilege</p>
+                    <p><strong>Důvod:</strong> Cloud, remote work, BYOD eliminují pevný perimetr. Insider threats stejně nebezpečné jako externí.</p>
+                </div>
+
+                <h3>Budoucnost síťových služeb</h3>
+                <div class="trend-box">
+                    <p><strong>🤖 AI Integration:</strong> Automatická optimalizace síťového provozu, prediktivní údržba (ML modely detekují výpadky dříve než nastanou), AI-driven security (behavioral analysis pro detekci anomálií)</p>
+                    <p><strong>🔐 Post-Quantum Cryptography:</strong> Kvantové počítače ohrozí současné šifrování (RSA, ECC). NIST standardizuje post-quantum algoritmy odolné vůči quantum attacks. Migrace začne 2025-2030.</p>
+                    <p><strong>📡 5G/6G:</strong> Ultranízká latence (< 1ms), massive IoT connectivity (miliony zařízení/km²), network slicing (virtuální sítě s garantovanou QoS pro různé use cases)</p>
+                    <p><strong>🌐 IPv6 adoption:</strong> Vyčerpání IPv4 adres → masivní migrace na IPv6 (128-bit adresy, end-to-end connectivity, eliminace NAT)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Závěr a shrnutí -->
+        <div class="slide">
+            <h2 class="slide-title">Závěr – Síťové služby jako základ digitální civilizace</h2>
+            <div class="slide-content">
+                <div class="highlight-box" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;">
+                    <h3 style="color: white; margin-top: 0;">Klíčová zjištění</h3>
+                    <p>Síťové služby nejsou izolované technologie – tvoří komplexní, hierarchicky strukturovaný ekosystém, na kterém závisí globální digitální ekonomie. Od základních služeb (DNS, DHCP) přes aplikační protokoly (HTTP, Email, FTP) až po pokročilé systémy (VoIP, VPN, SNMP) – každá vrstva staví na předchozí a vytváří synergii celého systému.</p>
+                </div>
+
+                <h3>Stratifikace síťových služeb</h3>
+                <div class="service-grid">
+                    <div class="service-card">
+                        <h4>Foundational (L1)</h4>
+                        <p><strong>DNS, DHCP:</strong> Bez těchto služeb internet nefunguje. Single point of failure pro většinu vyšších služeb.</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>Application (L2)</h4>
+                        <p><strong>HTTP, Email, FTP:</strong> Přímá hodnota pro koncové uživatele. Závisí na L1 službách.</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>Advanced (L3)</h4>
+                        <p><strong>VoIP, VPN:</strong> Komplexní služby vyžadující QoS, bezpečnost, stabilní infrastrukturu.</p>
+                    </div>
+                    <div class="service-card">
+                        <h4>Management (L4)</h4>
+                        <p><strong>SNMP, Firewall:</strong> Meta-služby spravující a zabezpečující všechny ostatní služby.</p>
+                    </div>
+                </div>
+
+                <h3>Business a technologický impact</h3>
+                <div class="protocol-box">
+                    <p><strong>Ekonomický význam:</strong> Globální digitální ekonomie (>$15 trillion) zcela závisí na dostupnosti těchto služeb. Hodinový výpadek velkého cloudu = stovky milionů USD ztráty.</p>
+                    <p><strong>Společenský význam:</strong> Remote work, online vzdělávání, telemedicína – všechno postaveno na síťových službách. COVID-19 demonstroval kritickou závislost společnosti na robustní síťové infrastruktuře.</p>
+                    <p><strong>Bezpečnostní dimenze:</strong> Kritická infrastruktura (energetika, finance, zdravotnictví) ovládaná přes síťové služby. Kybernetické útoky na síťové služby = potenciál pro národní bezpečnostní krize.</p>
+                </div>
+
+                <h3>Kompetence pro budoucnost</h3>
+                <table>
+                    <tr>
+                        <th>Oblast</th>
+                        <th>Současnost</th>
+                        <th>Budoucnost (2030+)</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Protokoly</strong></td>
+                        <td>TCP/IP, HTTP/2, TLS 1.3</td>
+                        <td>HTTP/3 (QUIC), post-quantum TLS, IPv6 everywhere</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Architektura</strong></td>
+                        <td>Mikroservisy, kontejnery</td>
+                        <td>Serverless dominance, edge-native apps</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bezpečnost</strong></td>
+                        <td>Zero Trust začínající</td>
+                        <td>Zero Trust standard, AI threat detection</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Management</strong></td>
+                        <td>SNMP, manuální config</td>
+                        <td>Autonomous networks (self-healing, AI-driven)</td>
+                    </tr>
+                </table>
+
+                <div class="highlight-box">
+                    <p><strong>💡 Závěrečná myšlenka:</strong> Pochopení síťových služeb není jen technická kompetence – je to fundament pro navigaci digitálního světa. Každý podnikatel, developer, IT profesionál musí chápat tyto základní stavební bloky, protože každá digitální inovace (AI aplikace, blockchain, IoT) závisí na robustní síťové infrastruktuře. Kdo ovládá síťové služby, ovládá infrastrukturu budoucnosti.</p>
+                </div>
+
+                <div class="author-info" style="margin-top: 40px; text-align: center;">
+                    <p style="font-size: 1.3em;"><strong>Děkuji za pozornost</strong></p>
+                    <p style="margin-top: 15px; color: #667eea;">Patrik Luks | Informační technologie | 2025/2026</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-button" id="prevBtn" onclick="changeSlide(-1)">← Předchozí</button>
+            <span class="slide-counter">
+                <span id="currentSlide">1</span> / <span id="totalSlides">15</span>
+            </span>
+            <button class="nav-button" id="nextBtn" onclick="changeSlide(1)">Další →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(n) {
+            if (n > totalSlides) { n = totalSlides; }
+            if (n < 1) { n = 1; }
+            
+            currentSlide = n;
+            
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[currentSlide - 1].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = currentSlide;
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+
+        // Touch support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        document.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+        
+        document.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+        
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) changeSlide(1);
+            if (touchEndX > touchStartX + 50) changeSlide(-1);
+        }
+
+        showSlide(1);
+    </script>
+</body>
+</html>
